@@ -76,6 +76,7 @@
         flex-wrap: wrap;
         gap: 20px;
         border: 2px solid rgba(44, 90, 160, 0.2);
+        position: relative;
     }
     
     .summary-item {
@@ -104,6 +105,89 @@
     .summary-label {
         font-size: 1.1rem;
         color: #555;
+    }
+    
+    /* عنصر تحديد التاريخ - مخفي في البداية */
+    .date-selector {
+        display: none;
+        text-align: center;
+        padding: 15px;
+        border-radius: 10px;
+        background: linear-gradient(to right, rgba(44, 90, 160, 0.1), rgba(74, 138, 244, 0.1));
+        border: 2px solid rgba(44, 90, 160, 0.3);
+        margin-bottom: 20px;
+        animation: fadeIn 0.5s ease;
+    }
+    
+    .date-selector.active {
+        display: block;
+    }
+    
+    .date-selector-title {
+        color: var(--primary-color);
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .date-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .date-input {
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-family: 'Tajawal', sans-serif;
+        text-align: center;
+        min-width: 200px;
+        transition: border-color 0.3s;
+    }
+    
+    .date-input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+    }
+    
+    .date-btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 700;
+        font-family: 'Tajawal', sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(to right, var(--primary-color), #4a8af4);
+        color: white;
+    }
+    
+    .date-btn:hover {
+        background: linear-gradient(to right, #1e3f7a, #2c5aa0);
+        transform: translateY(-2px);
+    }
+    
+    .selected-date-display {
+        background: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        border: 2px solid var(--present-color);
+        margin-top: 15px;
+        display: inline-block;
+        font-weight: 700;
+        color: #333;
     }
     
     table {
@@ -324,7 +408,7 @@
         font-weight: 600;
     }
     
-    /* تصميم قسم كلمة المرور الجديد */
+    /* تصميم قسم كلمة المرور */
     .admin-panel {
         max-height: 0;
         overflow: hidden;
@@ -492,6 +576,14 @@
             max-width: 100%;
             min-width: auto;
         }
+        
+        .date-controls {
+            flex-direction: column;
+        }
+        
+        .date-input {
+            min-width: 100%;
+        }
     }
     
     @media (max-width: 480px) {
@@ -510,7 +602,12 @@
         }
     }
     
-    /* أنيميشن للأيقونات */
+    /* أنيميشن */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
         10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
@@ -552,6 +649,25 @@
 
 <div class="container" id="captureArea">
     <h2><i class="fas fa-users" style="margin-left: 15px;"></i> سجل حضور الطلاب - النظام الذكي</h2>
+    
+    <!-- عنصر تحديد التاريخ - مخفي في البداية -->
+    <div class="date-selector" id="dateSelector">
+        <div class="date-selector-title">
+            <i class="fas fa-calendar-alt"></i> تحديد تاريخ الحضور
+        </div>
+        <div class="date-controls">
+            <input type="date" class="date-input" id="attendanceDate" value="">
+            <button class="date-btn" onclick="setCustomDate()">
+                <i class="fas fa-check"></i> تطبيق التاريخ
+            </button>
+            <button class="date-btn" onclick="resetToToday()" style="background: linear-gradient(to right, #757575, #9e9e9e);">
+                <i class="fas fa-redo"></i> الرجوع لليوم
+            </button>
+        </div>
+        <div class="selected-date-display" id="selectedDateDisplay">
+            <i class="far fa-calendar-check"></i> تاريخ الحضور: <span id="currentDateDisplay">اليوم</span>
+        </div>
+    </div>
     
     <div class="summary-box">
         <div class="summary-item">
@@ -679,7 +795,7 @@
         </button>
     </div>
     
-    <!-- قسم الإدارة الجديد - يظهر/يخفي داخل الصفحة -->
+    <!-- قسم الإدارة -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-panel-content">
             <div class="admin-title">
@@ -723,6 +839,56 @@ for (let i = 1; i <= totalStudents; i++) {
 // متغير للتحقق من صلاحية الدخول
 let isAdminAuthenticated = false;
 
+// متغير لتخزين تاريخ الحضور المحدد
+let selectedAttendanceDate = null;
+
+// تهيئة حقل التاريخ بالقيمة الحالية
+function initializeDateField() {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    document.getElementById('attendanceDate').value = formattedDate;
+    updateDateDisplay();
+}
+
+// تحديث عرض التاريخ المحدد
+function updateDateDisplay() {
+    const dateInput = document.getElementById('attendanceDate').value;
+    const dateDisplay = document.getElementById('currentDateDisplay');
+    
+    if (!dateInput) {
+        dateDisplay.textContent = 'اليوم';
+        selectedAttendanceDate = null;
+        return;
+    }
+    
+    const date = new Date(dateInput);
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = date.toLocaleDateString('ar-SA', options);
+    dateDisplay.textContent = formattedDate;
+    selectedAttendanceDate = dateInput;
+}
+
+// تعيين تاريخ مخصص
+function setCustomDate() {
+    const dateInput = document.getElementById('attendanceDate').value;
+    if (!dateInput) {
+        showNotification('الرجاء اختيار تاريخ صحيح', 'absent');
+        return;
+    }
+    
+    updateDateDisplay();
+    showNotification(`تم تعيين تاريخ الحضور إلى ${document.getElementById('currentDateDisplay').textContent}`, 'present');
+}
+
+// الرجوع إلى تاريخ اليوم
+function resetToToday() {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    document.getElementById('attendanceDate').value = formattedDate;
+    updateDateDisplay();
+    showNotification('تم الرجوع إلى تاريخ اليوم', 'present');
+}
+
 // فتح/إغلاق لوحة الإدارة
 function toggleAdminPanel() {
     const adminPanel = document.getElementById('adminPanel');
@@ -749,12 +915,14 @@ function checkPassword() {
     const password = document.getElementById('passwordInput').value;
     const errorElement = document.getElementById('passwordError');
     const adminPanel = document.getElementById('adminPanel');
+    const dateSelector = document.getElementById('dateSelector');
     
     // كلمة المرور الصحيحة: Jassar1436
     if (password === 'Jassar1436') {
         // تم التحقق بنجاح
         isAdminAuthenticated = true;
         document.getElementById('randomBtn').style.display = 'flex';
+        dateSelector.classList.add('active');
         
         // إغلاق لوحة الإدارة
         adminPanel.classList.remove('active');
@@ -762,11 +930,14 @@ function checkPassword() {
         document.querySelector('.admin-btn').style.background = 'linear-gradient(to right, #5d4037, #795548)';
         
         // إظهار رسالة نجاح
-        showNotification('تم التحقق من الهوية بنجاح! زر "تبديل عشوائي" متاح الآن.', 'present');
+        showNotification('تم التحقق من الهوية بنجاح! خيارات الإدارة متاحة الآن.', 'present');
         
         // مسح حقل كلمة المرور
         document.getElementById('passwordInput').value = '';
         errorElement.style.display = 'none';
+        
+        // تهيئة حقل التاريخ
+        initializeDateField();
     } else {
         // كلمة مرور خاطئة
         errorElement.style.display = 'block';
@@ -1004,9 +1175,16 @@ style.textContent = `
 document.head.appendChild(style);
 
 // تحديث الإحصائيات عند تحميل الصفحة
-window.addEventListener('load', updateStatistics);
+window.addEventListener('load', () => {
+    updateStatistics();
+    // تهيئة حقل التاريخ إذا كان المستخدم قد سجل الدخول مسبقًا
+    if (isAdminAuthenticated) {
+        document.getElementById('dateSelector').classList.add('active');
+        initializeDateField();
+    }
+});
 
-// دالة تصدير PDF - محفوظة كما هي بدون تغيير
+// دالة تصدير PDF - معدلة لتضمين التاريخ المحدد
 async function exportPDF() {
     const { jsPDF } = window.jspdf;
     
@@ -1016,10 +1194,22 @@ async function exportPDF() {
     exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التصدير...';
     exportBtn.disabled = true;
     
-    // إضافة تاريخ التصدير
+    // إضافة تاريخ التصدير والتاريخ المحدد
     const dateElement = document.createElement('div');
+    
+    // تحضير نص التاريخ
+    let dateText = '';
+    if (selectedAttendanceDate) {
+        const date = new Date(selectedAttendanceDate);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = date.toLocaleDateString('ar-SA', options);
+        dateText = `تاريخ الحضور: ${formattedDate}`;
+    } else {
+        dateText = `تاريخ الحضور: اليوم (${new Date().toLocaleDateString('ar-SA')})`;
+    }
+    
     dateElement.style.cssText = 'text-align: left; margin-bottom: 20px; color: #666; font-size: 1rem; padding: 10px 15px; background: #f8f9fa; border-radius: 8px; border-right: 4px solid #2c5aa0;';
-    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 8px;"></i> تاريخ التصدير: ${new Date().toLocaleDateString('ar-SA')} - <i class="far fa-clock" style="margin-left: 8px;"></i> الوقت: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
+    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 8px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 8px;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
     
     const captureArea = document.getElementById('captureArea');
     const originalContent = captureArea.innerHTML;
@@ -1060,7 +1250,17 @@ async function exportPDF() {
         pdf.addImage(imgData, "PNG", 0, 0, width, height);
     }
     
-    pdf.save(`سجل-الحضور-${new Date().toISOString().slice(0,10)}.pdf`);
+    // إعداد اسم الملف بناءً على التاريخ المحدد
+    let fileName = 'سجل-الحضور';
+    if (selectedAttendanceDate) {
+        const date = new Date(selectedAttendanceDate);
+        const dateStr = date.toISOString().slice(0, 10);
+        fileName = `سجل-الحضور-${dateStr}`;
+    } else {
+        fileName = `سجل-الحضور-${new Date().toISOString().slice(0,10)}`;
+    }
+    
+    pdf.save(`${fileName}.pdf`);
     
     // إعادة زر التصدير إلى وضعه الأصلي
     exportBtn.innerHTML = originalText;
