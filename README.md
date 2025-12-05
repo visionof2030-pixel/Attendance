@@ -66,6 +66,46 @@
         border-radius: 4px;
     }
     
+    .summary-box {
+        background: linear-gradient(to right, rgba(44, 90, 160, 0.1), rgba(74, 138, 244, 0.1));
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+        border: 2px solid rgba(44, 90, 160, 0.2);
+    }
+    
+    .summary-item {
+        text-align: center;
+        padding: 15px;
+        border-radius: 10px;
+        min-width: 150px;
+        background: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .summary-count {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    
+    .present-count {
+        color: var(--present-color);
+    }
+    
+    .absent-count {
+        color: var(--absent-color);
+    }
+    
+    .summary-label {
+        font-size: 1.1rem;
+        color: #555;
+    }
+    
     table {
         width: 100%;
         border-collapse: separate;
@@ -167,7 +207,7 @@
         display: flex;
         justify-content: center;
         gap: 15px;
-        margin-top: 20px;
+        margin-top: 25px;
         flex-wrap: wrap;
     }
     
@@ -276,6 +316,15 @@
             font-size: 1.8rem;
         }
         
+        .summary-item {
+            min-width: 120px;
+            padding: 12px;
+        }
+        
+        .summary-count {
+            font-size: 2rem;
+        }
+        
         .status-icon {
             font-size: 2.5rem;
             width: 70px;
@@ -327,19 +376,58 @@
     .status-icon.pulse {
         animation: pulse 0.5s ease;
     }
+    
+    /* شارة الحالة الجديدة */
+    .status-badge {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-right: 10px;
+    }
+    
+    .badge-present {
+        background-color: rgba(46, 125, 50, 0.15);
+        color: var(--present-color);
+    }
+    
+    .badge-absent {
+        background-color: rgba(198, 40, 40, 0.15);
+        color: var(--absent-color);
+    }
 </style>
 </head>
 <body>
 
 <div class="container" id="captureArea">
-    <h2><i class="fas fa-users" style="margin-left: 15px;"></i> سجل حضور الطلاب - نظام الأيقونات</h2>
+    <h2><i class="fas fa-users" style="margin-left: 15px;"></i> سجل حضور الطلاب - النظام الذكي</h2>
+    
+    <div class="summary-box">
+        <div class="summary-item">
+            <div class="summary-count present-count" id="present-count">8</div>
+            <div class="summary-label">طالب حاضر</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-count absent-count" id="absent-count">0</div>
+            <div class="summary-label">طالب غائب</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-count" style="color: #2c5aa0;" id="total-count">8</div>
+            <div class="summary-label">إجمالي الطلاب</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-count" style="color: #f57c00;" id="attendance-rate">100%</div>
+            <div class="summary-label">نسبة الحضور</div>
+        </div>
+    </div>
 
     <table>
         <thead>
             <tr>
                 <th width="15%">الرقم</th>
                 <th width="45%">اسم الطالب</th>
-                <th width="40%">الحضور</th>
+                <th width="40%">الحضور <span class="status-badge badge-present" id="status-summary">الكل حاضرين</span></th>
             </tr>
         </thead>
         <tbody>
@@ -377,10 +465,10 @@
                 <td>4</td>
                 <td class="student-name">يوسف خالد</td>
                 <td class="attendance-cell">
-                    <div class="status-icon absent-icon" onclick="toggleStatus(4)" id="status-4">
-                        <i class="fas fa-times"></i>
+                    <div class="status-icon present-icon" onclick="toggleStatus(4)" id="status-4">
+                        <i class="fas fa-check"></i>
                     </div>
-                    <span class="status-label absent-label" id="label-4">غائب</span>
+                    <span class="status-label present-label" id="label-4">حاضر</span>
                 </td>
             </tr>
             <tr>
@@ -397,10 +485,30 @@
                 <td>6</td>
                 <td class="student-name">فارس علي</td>
                 <td class="attendance-cell">
-                    <div class="status-icon absent-icon" onclick="toggleStatus(6)" id="status-6">
-                        <i class="fas fa-times"></i>
+                    <div class="status-icon present-icon" onclick="toggleStatus(6)" id="status-6">
+                        <i class="fas fa-check"></i>
                     </div>
-                    <span class="status-label absent-label" id="label-6">غائب</span>
+                    <span class="status-label present-label" id="label-6">حاضر</span>
+                </td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td class="student-name">ليلى حسن</td>
+                <td class="attendance-cell">
+                    <div class="status-icon present-icon" onclick="toggleStatus(7)" id="status-7">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="status-label present-label" id="label-7">حاضر</span>
+                </td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td class="student-name">محمد علي</td>
+                <td class="attendance-cell">
+                    <div class="status-icon present-icon" onclick="toggleStatus(8)" id="status-8">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="status-label present-label" id="label-8">حاضر</span>
                 </td>
             </tr>
         </tbody>
@@ -413,10 +521,13 @@
         <button class="status-btn absent-btn" onclick="setAllAbsent()">
             <i class="fas fa-user-slash"></i> تعيين الكل غائب
         </button>
+        <button class="status-btn" onclick="toggleRandom()" style="background: linear-gradient(to right, #f57c00, #ff9800); color: white;">
+            <i class="fas fa-random"></i> تبديل عشوائي
+        </button>
     </div>
     
     <div class="footer-note">
-        <i class="fas fa-info-circle" style="margin-left: 10px;"></i> انقر على أيقونة الحضور أو الغياب لتغيير حالة الطالب. يتم حفظ حالة الحضور فقط خلال هذه الجلسة. لاحتفاظ دائم، يرجى تصدير الملف كـ PDF.
+        <i class="fas fa-info-circle" style="margin-left: 10px;"></i> النظام يعمل افتراضيًا على أن جميع الطلاب حاضرين. انقر على أيقونة أي طالب للتبديل بين الحضور والغياب. يتم تحديث الإحصائيات تلقائيًا.
     </div>
 </div>
 
@@ -427,15 +538,53 @@
 </div>
 
 <script>
-// تخزين حالة الطلاب
-let studentsStatus = {
-    1: 'present',
-    2: 'present',
-    3: 'present',
-    4: 'absent',
-    5: 'present',
-    6: 'absent'
-};
+// تخزين حالة الطلاب - جميعهم حاضرين افتراضيًا
+let studentsStatus = {};
+const totalStudents = 8;
+
+// تهيئة جميع الطلاب كحاضرين
+for (let i = 1; i <= totalStudents; i++) {
+    studentsStatus[i] = 'present';
+}
+
+// تحديث الإحصائيات
+function updateStatistics() {
+    let presentCount = 0;
+    let absentCount = 0;
+    
+    // حساب عدد الحاضرين والغائبين
+    for (let i = 1; i <= totalStudents; i++) {
+        if (studentsStatus[i] === 'present') {
+            presentCount++;
+        } else {
+            absentCount++;
+        }
+    }
+    
+    // تحديث أرقام الإحصائيات
+    document.getElementById('present-count').textContent = presentCount;
+    document.getElementById('absent-count').textContent = absentCount;
+    document.getElementById('total-count').textContent = totalStudents;
+    
+    // حساب نسبة الحضور
+    const attendanceRate = Math.round((presentCount / totalStudents) * 100);
+    document.getElementById('attendance-rate').textContent = `${attendanceRate}%`;
+    
+    // تحديث شارة حالة المجموعة
+    const statusSummary = document.getElementById('status-summary');
+    if (absentCount === 0) {
+        statusSummary.className = 'status-badge badge-present';
+        statusSummary.textContent = 'الكل حاضرين';
+    } else if (presentCount === 0) {
+        statusSummary.className = 'status-badge badge-absent';
+        statusSummary.textContent = 'الكل غائبين';
+    } else {
+        statusSummary.className = 'status-badge';
+        statusSummary.style.backgroundColor = 'rgba(44, 90, 160, 0.15)';
+        statusSummary.style.color = '#2c5aa0';
+        statusSummary.textContent = `${presentCount} حاضر - ${absentCount} غائب`;
+    }
+}
 
 // تبديل حالة الطالب بين حاضر وغائب
 function toggleStatus(studentId) {
@@ -456,9 +605,6 @@ function toggleStatus(studentId) {
         statusIcon.innerHTML = '<i class="fas fa-times"></i>';
         statusLabel.className = 'status-label absent-label';
         statusLabel.textContent = 'غائب';
-        
-        // إشعار بصري
-        showNotification(`تم تغيير حالة الطالب ${studentId} إلى غائب`, 'absent');
     } else {
         // تغيير إلى حاضر
         studentsStatus[studentId] = 'present';
@@ -466,15 +612,19 @@ function toggleStatus(studentId) {
         statusIcon.innerHTML = '<i class="fas fa-check"></i>';
         statusLabel.className = 'status-label present-label';
         statusLabel.textContent = 'حاضر';
-        
-        // إشعار بصري
-        showNotification(`تم تغيير حالة الطالب ${studentId} إلى حاضر`, 'present');
     }
+    
+    // تحديث الإحصائيات
+    updateStatistics();
+    
+    // إشعار بصري
+    const studentName = document.querySelector(`tr:nth-child(${studentId}) .student-name`).textContent;
+    showNotification(`تم تغيير حالة ${studentName}`, studentsStatus[studentId]);
 }
 
 // تعيين جميع الطلاب كحاضرين
 function setAllPresent() {
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= totalStudents; i++) {
         studentsStatus[i] = 'present';
         const statusIcon = document.getElementById(`status-${i}`);
         const statusLabel = document.getElementById(`label-${i}`);
@@ -490,15 +640,18 @@ function setAllPresent() {
             setTimeout(() => {
                 statusIcon.classList.remove('pulse');
             }, 500);
-        }, i * 100);
+        }, i * 80);
     }
+    
+    // تحديث الإحصائيات
+    updateStatistics();
     
     showNotification('تم تعيين جميع الطلاب كحاضرين', 'present');
 }
 
 // تعيين جميع الطلاب كغائبين
 function setAllAbsent() {
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= totalStudents; i++) {
         studentsStatus[i] = 'absent';
         const statusIcon = document.getElementById(`status-${i}`);
         const statusLabel = document.getElementById(`label-${i}`);
@@ -514,10 +667,28 @@ function setAllAbsent() {
             setTimeout(() => {
                 statusIcon.classList.remove('pulse');
             }, 500);
-        }, i * 100);
+        }, i * 80);
     }
     
+    // تحديث الإحصائيات
+    updateStatistics();
+    
     showNotification('تم تعيين جميع الطلاب كغائبين', 'absent');
+}
+
+// تبديل عشوائي لحالات بعض الطلاب
+function toggleRandom() {
+    // تغيير 3-4 طلاب عشوائيًا
+    const changes = Math.floor(Math.random() * 3) + 2; // بين 2 و 4 تغييرات
+    
+    for (let i = 0; i < changes; i++) {
+        const randomStudent = Math.floor(Math.random() * totalStudents) + 1;
+        setTimeout(() => {
+            toggleStatus(randomStudent);
+        }, i * 300);
+    }
+    
+    showNotification(`تم تبديل حالة ${changes} طلاب عشوائيًا`, 'present');
 }
 
 // إظهار إشعار مؤقت
@@ -583,6 +754,9 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// تحديث الإحصائيات عند تحميل الصفحة
+window.addEventListener('load', updateStatistics);
 
 // دالة تصدير PDF - محفوظة كما هي بدون تغيير
 async function exportPDF() {
