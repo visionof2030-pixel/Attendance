@@ -18,8 +18,10 @@
         --primary-color: #2c5aa0;
         --present-color: #2e7d32;
         --absent-color: #c62828;
+        --neutral-color: #757575;
         --hover-present: #1b5e20;
         --hover-absent: #b71c1c;
+        --hover-neutral: #424242;
         --category-1: #5d4037;
         --category-2: #0277bd;
         --category-3: #6a1b9a;
@@ -27,34 +29,41 @@
         --border-color: #dee2e6;
     }
     
+    * {
+        box-sizing: border-box;
+    }
+    
     body {
         font-family: 'Tajawal', sans-serif;
         background: linear-gradient(135deg, #f6f8fc 0%, #e9f2ff 100%);
         margin: 0;
-        padding: 20px;
+        padding: 10px;
         direction: rtl;
         min-height: 100vh;
+        overflow-x: hidden;
     }
     
     .container {
-        max-width: 1200px;
-        margin: 20px auto;
+        max-width: 100%;
+        margin: 10px auto;
         background: white;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         border: 1px solid var(--border-color);
+        overflow: hidden;
     }
     
     h2 {
         margin-top: 0;
         text-align: center;
         color: var(--primary-color);
-        font-size: 2.2rem;
-        padding-bottom: 20px;
+        font-size: 1.6rem;
+        padding-bottom: 15px;
         border-bottom: 2px solid #f0f0f0;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         position: relative;
+        word-break: break-word;
     }
     
     h2:after {
@@ -63,7 +72,7 @@
         bottom: -2px;
         right: 50%;
         transform: translateX(50%);
-        width: 150px;
+        width: 120px;
         height: 4px;
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         border-radius: 4px;
@@ -71,27 +80,25 @@
     
     .summary-box {
         background: linear-gradient(to right, rgba(44, 90, 160, 0.1), rgba(74, 138, 244, 0.1));
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 25px;
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        gap: 20px;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
         border: 2px solid rgba(44, 90, 160, 0.2);
     }
     
     .summary-item {
         text-align: center;
-        padding: 15px;
-        border-radius: 10px;
-        min-width: 150px;
+        padding: 12px;
+        border-radius: 8px;
         background: white;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     }
     
     .summary-count {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 700;
         margin-bottom: 5px;
     }
@@ -105,28 +112,31 @@
     }
     
     .summary-label {
-        font-size: 1.1rem;
+        font-size: 0.95rem;
         color: #555;
     }
     
-    /* تصميم الجدول الجديد */
-    .table-container {
+    /* تصميم الجدول الجديد - متجاوب تمامًا */
+    .table-wrapper {
+        width: 100%;
         overflow-x: auto;
-        margin-top: 20px;
-        border-radius: 15px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        -webkit-overflow-scrolling: touch;
+        margin-top: 15px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+        border: 1px solid #eee;
     }
     
     table {
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
-        min-width: 1100px;
-        font-size: 1.1rem;
+        min-width: 850px;
+        font-size: 0.95rem;
     }
     
     th, td {
-        padding: 18px 12px;
+        padding: 12px 8px;
         text-align: center;
         border: 1px solid var(--border-color);
     }
@@ -135,8 +145,9 @@
         background: linear-gradient(to right, #2c5aa0, #3a6bc5);
         color: white;
         font-weight: 700;
-        font-size: 1.2rem;
-        letter-spacing: 1px;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
     }
     
     .category-header {
@@ -153,15 +164,17 @@
     
     .sub-header {
         background: rgba(255, 255, 255, 0.15);
-        font-size: 1.05rem;
+        font-size: 0.9rem;
         font-weight: 500;
+        white-space: nowrap;
     }
     
     .student-name {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         font-weight: 600;
         text-align: right;
-        padding-right: 20px;
+        padding-right: 10px;
+        min-width: 120px;
     }
     
     tr:nth-child(even) {
@@ -173,21 +186,22 @@
         transition: background-color 0.3s;
     }
     
-    /* تصميم خلايا التقييم */
+    /* تصميم خلايا التقييم - مصغرة للجوال */
     .evaluation-cell {
         text-align: center;
-        padding: 15px;
+        padding: 8px 5px;
+        min-width: 80px;
     }
     
     .status-icon {
-        font-size: 2.8rem;
+        font-size: 2rem;
         cursor: pointer;
         transition: all 0.3s ease;
         display: inline-block;
-        padding: 8px;
+        padding: 6px;
         border-radius: 50%;
-        width: 70px;
-        height: 70px;
+        width: 55px;
+        height: 55px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -195,14 +209,15 @@
     }
     
     .status-icon:hover {
-        transform: scale(1.15);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        transform: scale(1.1);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
     }
     
+    /* الحالة الحاضرة - حاضر / صح / ممتاز */
     .present-icon {
         color: var(--present-color);
         background-color: rgba(46, 125, 50, 0.1);
-        border: 3px solid rgba(46, 125, 50, 0.3);
+        border: 2px solid rgba(46, 125, 50, 0.3);
     }
     
     .present-icon:hover {
@@ -210,10 +225,11 @@
         border-color: rgba(46, 125, 50, 0.5);
     }
     
+    /* الحالة الغائبة - غائب / خطأ / ضعيف */
     .absent-icon {
         color: var(--absent-color);
         background-color: rgba(198, 40, 40, 0.1);
-        border: 3px solid rgba(198, 40, 40, 0.3);
+        border: 2px solid rgba(198, 40, 40, 0.3);
     }
     
     .absent-icon:hover {
@@ -221,11 +237,24 @@
         border-color: rgba(198, 40, 40, 0.5);
     }
     
+    /* الحالة المحايدة - رمادية (للتقييمات التي ليست صح ولا خطأ) */
+    .neutral-icon {
+        color: var(--neutral-color);
+        background-color: rgba(117, 117, 117, 0.1);
+        border: 2px solid rgba(117, 117, 117, 0.3);
+    }
+    
+    .neutral-icon:hover {
+        background-color: rgba(117, 117, 117, 0.2);
+        border-color: rgba(117, 117, 117, 0.5);
+    }
+    
     .status-label {
         display: block;
-        margin-top: 8px;
+        margin-top: 6px;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
+        min-height: 22px;
     }
     
     .present-label {
@@ -236,70 +265,74 @@
         color: var(--absent-color);
     }
     
-    /* أزرار التحكم */
+    .neutral-label {
+        color: var(--neutral-color);
+    }
+    
+    /* أزرار التحكم - تصميم متجاوب */
     .controls-container {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 15px;
-        margin: 30px 0;
-        justify-content: center;
+        margin: 25px 0;
     }
     
     .category-controls {
         background: white;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         flex: 1;
-        min-width: 300px;
         border: 2px solid rgba(44, 90, 160, 0.1);
     }
     
     .control-title {
         color: var(--primary-color);
-        font-size: 1.4rem;
-        margin-bottom: 15px;
+        font-size: 1.2rem;
+        margin-bottom: 12px;
         text-align: center;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #f0f0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-    
-    .category-buttons {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    .status-btn {
-        padding: 12px 20px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-weight: 700;
-        font-family: 'Tajawal', sans-serif;
-        font-size: 1rem;
-        transition: all 0.3s ease;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f0f0f0;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        min-width: 140px;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        flex-wrap: wrap;
+    }
+    
+    .category-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    
+    .status-btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        font-family: 'Tajawal', sans-serif;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-width: 130px;
+        flex: 1;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
     }
     
     .status-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
     }
     
     .status-btn:active {
         transform: translateY(0);
-        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     }
     
     .present-btn {
@@ -318,6 +351,15 @@
     
     .absent-btn:hover {
         background: linear-gradient(to right, var(--hover-absent), #c62828);
+    }
+    
+    .neutral-btn {
+        background: linear-gradient(to right, var(--neutral-color), #9e9e9e);
+        color: white;
+    }
+    
+    .neutral-btn:hover {
+        background: linear-gradient(to right, var(--hover-neutral), #616161);
     }
     
     .admin-btn {
@@ -368,19 +410,20 @@
     
     .export-container {
         text-align: center;
-        margin-top: 40px;
-        padding-top: 30px;
+        margin-top: 25px;
+        padding-top: 20px;
         border-top: 2px dashed #ddd;
     }
     
     .export {
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         color: white;
-        padding: 18px 35px;
-        font-size: 1.3rem;
-        border-radius: 12px;
-        min-width: 280px;
-        box-shadow: 0 8px 20px rgba(42, 91, 173, 0.3);
+        padding: 16px 25px;
+        font-size: 1.1rem;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 320px;
+        box-shadow: 0 6px 15px rgba(42, 91, 173, 0.25);
         border: none;
         cursor: pointer;
         font-weight: 700;
@@ -389,52 +432,52 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 15px;
+        gap: 10px;
     }
     
     .export:hover {
         background: linear-gradient(to right, #1e3f7a, #2c5aa0);
-        box-shadow: 0 12px 25px rgba(42, 91, 173, 0.4);
-        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(42, 91, 173, 0.35);
+        transform: translateY(-2px);
     }
     
     .footer-note {
         text-align: center;
-        margin-top: 25px;
+        margin-top: 20px;
         color: #666;
-        font-size: 1rem;
-        padding: 15px;
+        font-size: 0.9rem;
+        padding: 12px;
         background-color: #f8f9fa;
-        border-radius: 12px;
-        border-right: 5px solid var(--primary-color);
-        line-height: 1.6;
+        border-radius: 10px;
+        border-right: 4px solid var(--primary-color);
+        line-height: 1.5;
     }
     
     /* تصميم قسم الإدارة */
     .admin-panel {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.8s ease, padding 0.8s ease, margin 0.8s ease;
+        transition: max-height 0.6s ease, padding 0.6s ease, margin 0.6s ease;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 15px;
+        border-radius: 12px;
         margin: 0;
-        padding: 0 20px;
+        padding: 0 15px;
         border: 2px solid transparent;
     }
     
     .admin-panel.active {
         max-height: 1000px;
-        padding: 25px 20px;
-        margin-top: 25px;
+        padding: 20px 15px;
+        margin-top: 20px;
         border-color: rgba(44, 90, 160, 0.3);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     }
     
     .admin-panel-content {
         text-align: center;
         opacity: 0;
-        transform: translateY(-10px);
-        transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s;
+        transform: translateY(-8px);
+        transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
     }
     
     .admin-panel.active .admin-panel-content {
@@ -444,47 +487,44 @@
     
     /* تصميم قسم كلمة المرور */
     .password-section {
-        margin-bottom: 25px;
-        padding-bottom: 25px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
         border-bottom: 2px dashed #ccc;
     }
     
     .admin-title {
         color: #2c5aa0;
-        font-size: 1.5rem;
-        margin-bottom: 20px;
+        font-size: 1.3rem;
+        margin-bottom: 15px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .admin-description {
         color: #666;
-        margin-bottom: 20px;
-        font-size: 1rem;
+        margin-bottom: 15px;
+        font-size: 0.95rem;
     }
     
     .password-container {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 12px;
         margin-bottom: 15px;
     }
     
     .password-input {
-        flex: 1;
-        max-width: 300px;
-        padding: 15px;
+        padding: 12px;
         border: 2px solid #ddd;
-        border-radius: 10px;
-        font-size: 1.1rem;
+        border-radius: 8px;
+        font-size: 1rem;
         font-family: 'Tajawal', sans-serif;
         text-align: center;
+        width: 100%;
         transition: border-color 0.3s;
-        min-width: 200px;
     }
     
     .password-input:focus {
@@ -495,17 +535,19 @@
     .password-buttons {
         display: flex;
         gap: 10px;
+        justify-content: center;
     }
     
     .password-submit, .password-cancel {
-        padding: 12px 25px;
+        padding: 10px 20px;
         border: none;
         border-radius: 8px;
         cursor: pointer;
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 0.95rem;
         transition: all 0.3s ease;
         min-width: 100px;
+        flex: 1;
     }
     
     .password-submit {
@@ -529,14 +571,14 @@
     .password-error {
         color: #c62828;
         margin-top: 10px;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         display: none;
     }
     
-    /* تصميم قسم تحديد التاريخ - داخل الإدارة */
+    /* تصميم قسم تحديد التاريخ */
     .date-section {
         display: none;
-        animation: fadeIn 0.8s ease;
+        animation: fadeIn 0.6s ease;
     }
     
     .date-section.active {
@@ -545,31 +587,29 @@
     
     .date-title {
         color: #2c5aa0;
-        font-size: 1.3rem;
-        margin-bottom: 15px;
+        font-size: 1.2rem;
+        margin-bottom: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
     }
     
     .date-controls {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 12px;
         margin-bottom: 15px;
     }
     
     .date-input {
-        padding: 12px 15px;
+        padding: 12px;
         border: 2px solid #ddd;
-        border-radius: 10px;
-        font-size: 1.1rem;
+        border-radius: 8px;
+        font-size: 1rem;
         font-family: 'Tajawal', sans-serif;
         text-align: center;
-        min-width: 200px;
+        width: 100%;
         transition: border-color 0.3s;
     }
     
@@ -579,13 +619,13 @@
     }
     
     .date-btn {
-        padding: 12px 20px;
+        padding: 12px;
         border: none;
-        border-radius: 10px;
+        border-radius: 8px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 1rem;
+        font-size: 0.95rem;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
@@ -593,6 +633,7 @@
         gap: 8px;
         background: linear-gradient(to right, var(--primary-color), #4a8af4);
         color: white;
+        width: 100%;
     }
     
     .date-btn:hover {
@@ -602,165 +643,31 @@
     
     .selected-date-display {
         background: white;
-        padding: 10px 20px;
-        border-radius: 10px;
+        padding: 10px 15px;
+        border-radius: 8px;
         border: 2px solid var(--present-color);
         margin-top: 15px;
         display: inline-block;
         font-weight: 700;
         color: #333;
+        font-size: 0.95rem;
     }
     
-    /* تصميم متجاوب */
-    @media (max-width: 1200px) {
-        .container {
-            margin: 10px;
-            padding: 20px;
-        }
-        
-        .table-container {
-            border-radius: 10px;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        h2 {
-            font-size: 1.8rem;
-        }
-        
-        .summary-item {
-            min-width: 120px;
-            padding: 12px;
-        }
-        
-        .summary-count {
-            font-size: 2rem;
-        }
-        
-        .status-icon {
-            font-size: 2.2rem;
-            width: 60px;
-            height: 60px;
-        }
-        
-        .status-label {
-            font-size: 1rem;
-        }
-        
-        .export {
-            min-width: 100%;
-            padding: 16px;
-        }
-        
-        .status-btn {
-            min-width: 120px;
-            padding: 10px 15px;
-            font-size: 0.9rem;
-        }
-        
-        .password-container {
-            flex-direction: column;
-        }
-        
-        .password-input {
-            max-width: 100%;
-            min-width: auto;
-        }
-        
-        .date-controls {
-            flex-direction: column;
-        }
-        
-        .date-input {
-            min-width: 100%;
-        }
-        
-        .category-controls {
-            min-width: 100%;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .status-icon {
-            font-size: 1.8rem;
-            width: 50px;
-            height: 50px;
-        }
-        
-        .student-name {
-            font-size: 1.1rem;
-        }
-        
-        th {
-            font-size: 1rem;
-            padding: 12px 8px;
-        }
-        
-        td {
-            padding: 12px 8px;
-        }
-    }
-    
-    /* أنيميشن */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-        20%, 40%, 60%, 80% { transform: translateX(5px); }
-    }
-    
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
-    }
-    
-    .status-icon.pulse {
-        animation: pulse 0.5s ease;
-    }
-    
-    /* شارة الحالة الجديدة */
-    .status-badge {
-        display: inline-block;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: 700;
-        margin-right: 10px;
-    }
-    
-    .badge-present {
-        background-color: rgba(46, 125, 50, 0.15);
-        color: var(--present-color);
-    }
-    
-    .badge-absent {
-        background-color: rgba(198, 40, 40, 0.15);
-        color: var(--absent-color);
-    }
-    
-    /* مصفوفة التقييم */
+    /* مصفوفة التقييم للجوال */
     .evaluation-matrix {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        margin: 25px 0;
-        gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin: 20px 0;
     }
     
     .matrix-item {
-        flex: 1;
-        min-width: 200px;
         background: white;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         text-align: center;
-        border-top: 5px solid;
+        border-top: 4px solid;
     }
     
     .matrix-1 {
@@ -773,33 +680,212 @@
     
     .matrix-3 {
         border-color: var(--category-3);
+        grid-column: span 2;
     }
     
     .matrix-title {
-        font-size: 1.4rem;
+        font-size: 1.1rem;
         font-weight: 700;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         color: #333;
     }
     
     .matrix-count {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 800;
-        margin: 10px 0;
+        margin: 8px 0;
     }
     
     .matrix-percent {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: 700;
         color: #666;
-        margin-top: 10px;
+        margin-top: 8px;
+    }
+    
+    /* أنيميشن */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+        20%, 40%, 60%, 80% { transform: translateX(4px); }
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.08); }
+        100% { transform: scale(1); }
+    }
+    
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateY(-20px); }
+        15% { opacity: 1; transform: translateY(0); }
+        85% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-20px); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+    
+    .status-icon.pulse {
+        animation: pulse 0.4s ease;
+    }
+    
+    /* تصميم متجاوب إضافي */
+    @media (min-width: 480px) {
+        .container {
+            padding: 20px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+        }
+        
+        .summary-box {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+        .evaluation-matrix {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .matrix-3 {
+            grid-column: span 1;
+        }
+        
+        .controls-container {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        
+        .category-controls {
+            min-width: 280px;
+            flex: 1;
+        }
+        
+        .password-container {
+            flex-direction: row;
+        }
+        
+        .password-input {
+            min-width: 200px;
+        }
+        
+        .password-buttons {
+            flex: none;
+        }
+        
+        .date-controls {
+            flex-direction: row;
+        }
+        
+        .date-btn {
+            width: auto;
+            min-width: 150px;
+        }
+        
+        .export {
+            font-size: 1.2rem;
+            padding: 18px 30px;
+        }
+    }
+    
+    @media (min-width: 768px) {
+        .container {
+            padding: 25px;
+            max-width: 95%;
+        }
+        
+        .status-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 2.2rem;
+        }
+        
+        .student-name {
+            font-size: 1.2rem;
+        }
+        
+        .controls-container {
+            gap: 20px;
+        }
+        
+        .category-controls {
+            padding: 20px;
+        }
+        
+        .control-title {
+            font-size: 1.3rem;
+        }
+        
+        .status-btn {
+            min-width: 140px;
+            padding: 12px 18px;
+            font-size: 1rem;
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .container {
+            max-width: 1200px;
+            padding: 30px;
+        }
+        
+        table {
+            min-width: 1000px;
+            font-size: 1rem;
+        }
+        
+        th, td {
+            padding: 15px 10px;
+        }
+        
+        .evaluation-cell {
+            min-width: 90px;
+        }
+        
+        .status-icon {
+            width: 65px;
+            height: 65px;
+            font-size: 2.5rem;
+        }
+        
+        .status-label {
+            font-size: 1rem;
+        }
+    }
+    
+    /* شارة الحالة */
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-right: 8px;
+    }
+    
+    .badge-present {
+        background-color: rgba(46, 125, 50, 0.15);
+        color: var(--present-color);
+    }
+    
+    .badge-absent {
+        background-color: rgba(198, 40, 40, 0.15);
+        color: var(--absent-color);
     }
 </style>
 </head>
 <body>
 
 <div class="container" id="captureArea">
-    <h2><i class="fas fa-chart-bar" style="margin-left: 15px;"></i> سجل التقويم الشامل للطلاب</h2>
+    <h2><i class="fas fa-chart-bar" style="margin-left: 10px;"></i> سجل التقويم الشامل للطلاب</h2>
     
     <div class="summary-box">
         <div class="summary-item">
@@ -823,428 +909,46 @@
     <!-- مصفوفة التقييم -->
     <div class="evaluation-matrix">
         <div class="matrix-item matrix-1">
-            <div class="matrix-title">Performance Tasks</div>
+            <div class="matrix-title">المهام الأدائية</div>
             <div class="matrix-count" id="category1-count">100%</div>
             <div class="matrix-percent" id="category1-percent">(16/16)</div>
-            <div style="font-size: 0.9rem; color: #666;">مهام الطلاب الأدائية</div>
+            <div style="font-size: 0.85rem; color: #666;">Assignments & Projects</div>
         </div>
         <div class="matrix-item matrix-2">
-            <div class="matrix-title">Participation & Interaction</div>
+            <div class="matrix-title">المشاركة والتفاعل</div>
             <div class="matrix-count" id="category2-count">100%</div>
             <div class="matrix-percent" id="category2-percent">(16/16)</div>
-            <div style="font-size: 0.9rem; color: #666;">المشاركة والتفاعل</div>
+            <div style="font-size: 0.85rem; color: #666;">Participation & Interaction</div>
         </div>
         <div class="matrix-item matrix-3">
             <div class="matrix-title">الحضور</div>
             <div class="matrix-count" id="category3-count">100%</div>
             <div class="matrix-percent" id="category3-percent">(8/8)</div>
-            <div style="font-size: 0.9rem; color: #666;">سجل الحضور اليومي</div>
+            <div style="font-size: 0.85rem; color: #666;">سجل الحضور اليومي</div>
         </div>
     </div>
 
     <!-- الجدول المعدل -->
-    <div class="table-container">
+    <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
                     <th rowspan="2" width="8%">الرقم</th>
                     <th rowspan="2" width="25%">اسم الطالب</th>
-                    <th colspan="3" class="category-header">Performance Tasks<br>المهام الأدائية</th>
-                    <th colspan="2" class="category-2-header">Participation & Interaction<br>المشاركة والتفاعل</th>
+                    <th colspan="3" class="category-header">المهام الأدائية</th>
+                    <th colspan="2" class="category-2-header">المشاركة والتفاعل</th>
                     <th rowspan="2" width="12%" class="category-3-header">الحضور</th>
                 </tr>
                 <tr>
-                    <th class="sub-header">Assignments<br>الواجبات</th>
-                    <th class="sub-header">Projects<br>المشاريع</th>
-                    <th class="sub-header">التقييم<br>الإجمالي</th>
-                    <th class="sub-header">Classroom Apps & Activities<br>التطبيقات والأنشطة</th>
-                    <th class="sub-header">Participation<br>المشاركة</th>
+                    <th class="sub-header">الواجبات</th>
+                    <th class="sub-header">المشاريع</th>
+                    <th class="sub-header">التقييم</th>
+                    <th class="sub-header">التطبيقات والأنشطة</th>
+                    <th class="sub-header">المشاركة</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- طالب 1 -->
-                <tr>
-                    <td>1</td>
-                    <td class="student-name">أحمد محمد</td>
-                    
-                    <!-- Performance Tasks -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(1, 'assignments')" id="assignments-1">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-assignments-1">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(1, 'projects')" id="projects-1">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-projects-1">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleCategoryAll(1, 'performance')" id="performance-1">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-performance-1">ممتاز</span>
-                    </td>
-                    
-                    <!-- Participation & Interaction -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(1, 'classroomApps')" id="classroomApps-1">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-classroomApps-1">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(1, 'participation')" id="participation-1">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-participation-1">صح</span>
-                    </td>
-                    
-                    <!-- الحضور -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleAttendance(1)" id="attendance-1">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-attendance-1">حاضر</span>
-                    </td>
-                </tr>
-                
-                <!-- طالب 2 -->
-                <tr>
-                    <td>2</td>
-                    <td class="student-name">جسّار فهد</td>
-                    
-                    <!-- Performance Tasks -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(2, 'assignments')" id="assignments-2">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-assignments-2">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(2, 'projects')" id="projects-2">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-projects-2">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleCategoryAll(2, 'performance')" id="performance-2">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-performance-2">ممتاز</span>
-                    </td>
-                    
-                    <!-- Participation & Interaction -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(2, 'classroomApps')" id="classroomApps-2">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-classroomApps-2">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(2, 'participation')" id="participation-2">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-participation-2">صح</span>
-                    </td>
-                    
-                    <!-- الحضور -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleAttendance(2)" id="attendance-2">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-attendance-2">حاضر</span>
-                    </td>
-                </tr>
-                
-                <!-- طالب 3 -->
-                <tr>
-                    <td>3</td>
-                    <td class="student-name">سارة عبدالله</td>
-                    
-                    <!-- Performance Tasks -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(3, 'assignments')" id="assignments-3">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-assignments-3">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(3, 'projects')" id="projects-3">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-projects-3">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleCategoryAll(3, 'performance')" id="performance-3">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-performance-3">ممتاز</span>
-                    </td>
-                    
-                    <!-- Participation & Interaction -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(3, 'classroomApps')" id="classroomApps-3">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-classroomApps-3">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(3, 'participation')" id="participation-3">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-participation-3">صح</span>
-                    </td>
-                    
-                    <!-- الحضور -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleAttendance(3)" id="attendance-3">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-attendance-3">حاضر</span>
-                    </td>
-                </tr>
-                
-                <!-- طالب 4 -->
-                <tr>
-                    <td>4</td>
-                    <td class="student-name">يوسف خالد</td>
-                    
-                    <!-- Performance Tasks -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(4, 'assignments')" id="assignments-4">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-assignments-4">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(4, 'projects')" id="projects-4">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-projects-4">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleCategoryAll(4, 'performance')" id="performance-4">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-performance-4">ممتاز</span>
-                    </td>
-                    
-                    <!-- Participation & Interaction -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(4, 'classroomApps')" id="classroomApps-4">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-classroomApps-4">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(4, 'participation')" id="participation-4">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-participation-4">صح</span>
-                    </td>
-                    
-                    <!-- الحضور -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleAttendance(4)" id="attendance-4">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-attendance-4">حاضر</span>
-                    </td>
-                </tr>
-                
-                <!-- طالب 5 -->
-                <tr>
-                    <td>5</td>
-                    <td class="student-name">نورة سعيد</td>
-                    
-                    <!-- Performance Tasks -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(5, 'assignments')" id="assignments-5">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-assignments-5">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(5, 'projects')" id="projects-5">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-projects-5">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleCategoryAll(5, 'performance')" id="performance-5">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-performance-5">ممتاز</span>
-                    </td>
-                    
-                    <!-- Participation & Interaction -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(5, 'classroomApps')" id="classroomApps-5">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-classroomApps-5">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(5, 'participation')" id="participation-5">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-participation-5">صح</span>
-                    </td>
-                    
-                    <!-- الحضور -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleAttendance(5)" id="attendance-5">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-attendance-5">حاضر</span>
-                    </td>
-                </tr>
-                
-                <!-- طالب 6 -->
-                <tr>
-                    <td>6</td>
-                    <td class="student-name">فارس علي</td>
-                    
-                    <!-- Performance Tasks -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(6, 'assignments')" id="assignments-6">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-assignments-6">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(6, 'projects')" id="projects-6">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-projects-6">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleCategoryAll(6, 'performance')" id="performance-6">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-performance-6">ممتاز</span>
-                    </td>
-                    
-                    <!-- Participation & Interaction -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(6, 'classroomApps')" id="classroomApps-6">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-classroomApps-6">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(6, 'participation')" id="participation-6">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-participation-6">صح</span>
-                    </td>
-                    
-                    <!-- الحضور -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleAttendance(6)" id="attendance-6">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-attendance-6">حاضر</span>
-                    </td>
-                </tr>
-                
-                <!-- طالب 7 -->
-                <tr>
-                    <td>7</td>
-                    <td class="student-name">ليلى حسن</td>
-                    
-                    <!-- Performance Tasks -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(7, 'assignments')" id="assignments-7">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-assignments-7">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(7, 'projects')" id="projects-7">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-projects-7">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleCategoryAll(7, 'performance')" id="performance-7">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-performance-7">ممتاز</span>
-                    </td>
-                    
-                    <!-- Participation & Interaction -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(7, 'classroomApps')" id="classroomApps-7">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-classroomApps-7">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(7, 'participation')" id="participation-7">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-participation-7">صح</span>
-                    </td>
-                    
-                    <!-- الحضور -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleAttendance(7)" id="attendance-7">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-attendance-7">حاضر</span>
-                    </td>
-                </tr>
-                
-                <!-- طالب 8 -->
-                <tr>
-                    <td>8</td>
-                    <td class="student-name">محمد علي</td>
-                    
-                    <!-- Performance Tasks -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(8, 'assignments')" id="assignments-8">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-assignments-8">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(8, 'projects')" id="projects-8">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-projects-8">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleCategoryAll(8, 'performance')" id="performance-8">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-performance-8">ممتاز</span>
-                    </td>
-                    
-                    <!-- Participation & Interaction -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(8, 'classroomApps')" id="classroomApps-8">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-classroomApps-8">صح</span>
-                    </td>
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleEvaluation(8, 'participation')" id="participation-8">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-participation-8">صح</span>
-                    </td>
-                    
-                    <!-- الحضور -->
-                    <td class="evaluation-cell">
-                        <div class="status-icon present-icon" onclick="toggleAttendance(8)" id="attendance-8">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="status-label present-label" id="label-attendance-8">حاضر</span>
-                    </td>
-                </tr>
+                <!-- سيتم إنشاء الصفوف ديناميكيًا -->
             </tbody>
         </table>
     </div>
@@ -1253,28 +957,34 @@
     <div class="controls-container">
         <div class="category-controls">
             <div class="control-title">
-                <i class="fas fa-tasks"></i> Performance Tasks
+                <i class="fas fa-tasks"></i> المهام الأدائية
             </div>
             <div class="category-buttons">
-                <button class="status-btn category-1-btn" onclick="setAllCategory('performance', 'present')">
-                    <i class="fas fa-check"></i> تعيين الكل "صح"
+                <button class="status-btn present-btn" onclick="setAllCategory('performance', 'present')">
+                    <i class="fas fa-check"></i> الكل "صح"
+                </button>
+                <button class="status-btn neutral-btn" onclick="setAllCategory('performance', 'neutral')">
+                    <i class="fas fa-minus"></i> الكل "محايد"
                 </button>
                 <button class="status-btn absent-btn" onclick="setAllCategory('performance', 'absent')">
-                    <i class="fas fa-times"></i> تعيين الكل "خطأ"
+                    <i class="fas fa-times"></i> الكل "خطأ"
                 </button>
             </div>
         </div>
         
         <div class="category-controls">
             <div class="control-title">
-                <i class="fas fa-comments"></i> Participation & Interaction
+                <i class="fas fa-comments"></i> المشاركة والتفاعل
             </div>
             <div class="category-buttons">
-                <button class="status-btn category-2-btn" onclick="setAllCategory('interaction', 'present')">
-                    <i class="fas fa-check"></i> تعيين الكل "صح"
+                <button class="status-btn present-btn" onclick="setAllCategory('interaction', 'present')">
+                    <i class="fas fa-check"></i> الكل "صح"
+                </button>
+                <button class="status-btn neutral-btn" onclick="setAllCategory('interaction', 'neutral')">
+                    <i class="fas fa-minus"></i> الكل "محايد"
                 </button>
                 <button class="status-btn absent-btn" onclick="setAllCategory('interaction', 'absent')">
-                    <i class="fas fa-times"></i> تعيين الكل "خطأ"
+                    <i class="fas fa-times"></i> الكل "خطأ"
                 </button>
             </div>
         </div>
@@ -1285,16 +995,16 @@
             </div>
             <div class="category-buttons">
                 <button class="status-btn present-btn" onclick="setAllAttendance('present')">
-                    <i class="fas fa-user-check"></i> تعيين الكل حاضر
+                    <i class="fas fa-user-check"></i> الكل حاضر
                 </button>
                 <button class="status-btn absent-btn" onclick="setAllAttendance('absent')">
-                    <i class="fas fa-user-slash"></i> تعيين الكل غائب
+                    <i class="fas fa-user-slash"></i> الكل غائب
                 </button>
                 <button class="status-btn admin-btn" onclick="toggleAdminPanel()">
                     <i class="fas fa-cog"></i> إدارة
                 </button>
                 <button class="status-btn random-btn" id="randomBtn" onclick="toggleRandom()">
-                    <i class="fas fa-random"></i> تبديل عشوائي
+                    <i class="fas fa-random"></i> عشوائي
                 </button>
             </div>
         </div>
@@ -1344,13 +1054,13 @@
     </div>
     
     <div class="footer-note">
-        <i class="fas fa-info-circle" style="margin-left: 10px;"></i> النظام يعمل افتراضيًا على أن جميع التقييمات إيجابية. انقر على أيقونة أي تصنيف للتبديل بين "صح" و "خطأ". يتم تحديث الإحصائيات تلقائيًا.
+        <i class="fas fa-info-circle" style="margin-left: 8px;"></i> انقر على أيقونة أي تقييم للتبديل بين "صح" (أخضر)، "محايد" (رمادي)، "خطأ" (أحمر). الحضور يتبدل بين "حاضر" و"غائب" فقط.
     </div>
 </div>
 
 <div class="export-container">
     <button class="export" onclick="exportPDF()">
-        <i class="fas fa-file-pdf"></i> تصدير سجل التقييم الشامل كملف PDF
+        <i class="fas fa-file-pdf"></i> تصدير سجل التقييم كملف PDF
     </button>
 </div>
 
@@ -1359,15 +1069,140 @@
 let studentsData = {};
 const totalStudents = 8;
 
+// أسماء الطلاب
+const studentNames = [
+    "أحمد محمد",
+    "جسّار فهد", 
+    "سارة عبدالله",
+    "يوسف خالد",
+    "نورة سعيد",
+    "فارس علي",
+    "ليلى حسن",
+    "محمد علي"
+];
+
 // تهيئة جميع التقييمات كإيجابية (صح)
-for (let i = 1; i <= totalStudents; i++) {
-    studentsData[i] = {
-        attendance: 'present',
-        assignments: 'present',
-        projects: 'present',
-        classroomApps: 'present',
-        participation: 'present'
-    };
+function initializeStudentsData() {
+    for (let i = 1; i <= totalStudents; i++) {
+        studentsData[i] = {
+            attendance: 'present',      // حاضر/غائب فقط
+            assignments: 'present',     // صح/محايد/خطأ
+            projects: 'present',        // صح/محايد/خطأ
+            classroomApps: 'present',   // صح/محايد/خطأ
+            participation: 'present'    // صح/محايد/خطأ
+        };
+    }
+}
+
+// إنشاء الجدول ديناميكيًا
+function createTable() {
+    const tbody = document.querySelector('tbody');
+    tbody.innerHTML = '';
+    
+    for (let i = 1; i <= totalStudents; i++) {
+        const student = studentsData[i];
+        const row = document.createElement('tr');
+        
+        // الحصول على أيقونة ونص الحالة
+        const getStatusInfo = (status, type = 'evaluation') => {
+            if (type === 'attendance') {
+                // للحضور: حاضر أو غائب فقط
+                if (status === 'present') {
+                    return { icon: 'fa-check', text: 'حاضر', class: 'present' };
+                } else {
+                    return { icon: 'fa-times', text: 'غائب', class: 'absent' };
+                }
+            } else {
+                // للتقييمات الأخرى: صح/محايد/خطأ
+                if (status === 'present') {
+                    return { icon: 'fa-check', text: 'صح', class: 'present' };
+                } else if (status === 'neutral') {
+                    return { icon: 'fa-minus', text: 'محايد', class: 'neutral' };
+                } else {
+                    return { icon: 'fa-times', text: 'خطأ', class: 'absent' };
+                }
+            }
+        };
+        
+        // الحصول على أيقونة ونص التقييم الإجمالي
+        const getOverallPerformance = () => {
+            const assignments = student.assignments;
+            const projects = student.projects;
+            
+            // إذا كان كلاهما "صح"
+            if (assignments === 'present' && projects === 'present') {
+                return { icon: 'fa-star', text: 'ممتاز', class: 'present' };
+            } 
+            // إذا كان كلاهما "خطأ"
+            else if (assignments === 'absent' && projects === 'absent') {
+                return { icon: 'fa-times', text: 'ضعيف', class: 'absent' };
+            }
+            // إذا كان أحدهما "محايد" أو كلاهما
+            else if (assignments === 'neutral' || projects === 'neutral') {
+                return { icon: 'fa-minus', text: 'متوسط', class: 'neutral' };
+            }
+            // إذا كان مختلط (واحد صح والآخر خطأ)
+            else {
+                return { icon: 'fa-check', text: 'جيد', class: 'present' };
+            }
+        };
+        
+        const attendanceInfo = getStatusInfo(student.attendance, 'attendance');
+        const assignmentsInfo = getStatusInfo(student.assignments);
+        const projectsInfo = getStatusInfo(student.projects);
+        const classroomAppsInfo = getStatusInfo(student.classroomApps);
+        const participationInfo = getStatusInfo(student.participation);
+        const performanceInfo = getOverallPerformance();
+        
+        row.innerHTML = `
+            <td>${i}</td>
+            <td class="student-name">${studentNames[i-1]}</td>
+            
+            <!-- Performance Tasks -->
+            <td class="evaluation-cell">
+                <div class="status-icon ${assignmentsInfo.class}-icon" onclick="toggleEvaluation(${i}, 'assignments')" id="assignments-${i}">
+                    <i class="fas ${assignmentsInfo.icon}"></i>
+                </div>
+                <span class="status-label ${assignmentsInfo.class}-label" id="label-assignments-${i}">${assignmentsInfo.text}</span>
+            </td>
+            <td class="evaluation-cell">
+                <div class="status-icon ${projectsInfo.class}-icon" onclick="toggleEvaluation(${i}, 'projects')" id="projects-${i}">
+                    <i class="fas ${projectsInfo.icon}"></i>
+                </div>
+                <span class="status-label ${projectsInfo.class}-label" id="label-projects-${i}">${projectsInfo.text}</span>
+            </td>
+            <td class="evaluation-cell">
+                <div class="status-icon ${performanceInfo.class}-icon" id="performance-${i}">
+                    <i class="fas ${performanceInfo.icon}"></i>
+                </div>
+                <span class="status-label ${performanceInfo.class}-label" id="label-performance-${i}">${performanceInfo.text}</span>
+            </td>
+            
+            <!-- Participation & Interaction -->
+            <td class="evaluation-cell">
+                <div class="status-icon ${classroomAppsInfo.class}-icon" onclick="toggleEvaluation(${i}, 'classroomApps')" id="classroomApps-${i}">
+                    <i class="fas ${classroomAppsInfo.icon}"></i>
+                </div>
+                <span class="status-label ${classroomAppsInfo.class}-label" id="label-classroomApps-${i}">${classroomAppsInfo.text}</span>
+            </td>
+            <td class="evaluation-cell">
+                <div class="status-icon ${participationInfo.class}-icon" onclick="toggleEvaluation(${i}, 'participation')" id="participation-${i}">
+                    <i class="fas ${participationInfo.icon}"></i>
+                </div>
+                <span class="status-label ${participationInfo.class}-label" id="label-participation-${i}">${participationInfo.text}</span>
+            </td>
+            
+            <!-- الحضور -->
+            <td class="evaluation-cell">
+                <div class="status-icon ${attendanceInfo.class}-icon" onclick="toggleAttendance(${i})" id="attendance-${i}">
+                    <i class="fas ${attendanceInfo.icon}"></i>
+                </div>
+                <span class="status-label ${attendanceInfo.class}-label" id="label-attendance-${i}">${attendanceInfo.text}</span>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    }
 }
 
 // متغير للتحقق من صلاحية الدخول
@@ -1506,128 +1341,145 @@ document.getElementById('passwordInput').addEventListener('keypress', function(e
     }
 });
 
-// تبديل تقييم معين للطالب
+// تبديل تقييم معين للطالب (ثلاثي الحالات: صح ← محايد ← خطأ ← صح)
 function toggleEvaluation(studentId, evaluationType) {
-    const statusIcon = document.getElementById(`${evaluationType}-${studentId}`);
-    const statusLabel = document.getElementById(`label-${evaluationType}-${studentId}`);
+    const student = studentsData[studentId];
+    const currentStatus = student[evaluationType];
     
-    // إضافة تأثير النبض
-    statusIcon.classList.add('pulse');
-    setTimeout(() => {
-        statusIcon.classList.remove('pulse');
-    }, 500);
-    
-    // تبديل الحالة
-    if (studentsData[studentId][evaluationType] === 'present') {
-        // تغيير إلى "خطأ"
-        studentsData[studentId][evaluationType] = 'absent';
-        statusIcon.className = 'status-icon absent-icon';
-        statusIcon.innerHTML = '<i class="fas fa-times"></i>';
-        statusLabel.className = 'status-label absent-label';
-        statusLabel.textContent = 'خطأ';
+    // تحديد الحالة التالية
+    let nextStatus;
+    if (currentStatus === 'present') {
+        nextStatus = 'neutral';
+    } else if (currentStatus === 'neutral') {
+        nextStatus = 'absent';
     } else {
-        // تغيير إلى "صح"
-        studentsData[studentId][evaluationType] = 'present';
-        statusIcon.className = 'status-icon present-icon';
-        statusIcon.innerHTML = '<i class="fas fa-check"></i>';
-        statusLabel.className = 'status-label present-label';
-        statusLabel.textContent = 'صح';
+        nextStatus = 'present';
     }
     
-    // تحديث التقييم الإجمالي للتصنيف
-    updateCategoryEvaluation(studentId);
+    // تحديث البيانات
+    student[evaluationType] = nextStatus;
+    
+    // تحديث الواجهة
+    updateStudentDisplay(studentId);
     
     // تحديث الإحصائيات
     updateStatistics();
     
     // إشعار بصري
-    const studentName = document.querySelector(`tr:nth-child(${studentId}) .student-name`).textContent;
+    const studentName = studentNames[studentId-1];
     const evaluationNames = {
         'assignments': 'الواجبات',
         'projects': 'المشاريع',
         'classroomApps': 'التطبيقات والأنشطة',
         'participation': 'المشاركة'
     };
-    showNotification(`تم تغيير ${evaluationNames[evaluationType]} لـ ${studentName}`, studentsData[studentId][evaluationType]);
+    
+    const statusNames = {
+        'present': 'صح',
+        'neutral': 'محايد', 
+        'absent': 'خطأ'
+    };
+    
+    showNotification(`تم تغيير ${evaluationNames[evaluationType]} لـ ${studentName} إلى "${statusNames[nextStatus]}"`, nextStatus);
 }
 
-// تبديل الحضور للطالب
+// تبديل الحضور للطالب (ثنائي الحالة: حاضر ← غائب ← حاضر)
 function toggleAttendance(studentId) {
-    const statusIcon = document.getElementById(`attendance-${studentId}`);
-    const statusLabel = document.getElementById(`label-attendance-${studentId}`);
-    
-    // إضافة تأثير النبض
-    statusIcon.classList.add('pulse');
-    setTimeout(() => {
-        statusIcon.classList.remove('pulse');
-    }, 500);
+    const student = studentsData[studentId];
     
     // تبديل الحالة
-    if (studentsData[studentId].attendance === 'present') {
-        // تغيير إلى غائب
-        studentsData[studentId].attendance = 'absent';
-        statusIcon.className = 'status-icon absent-icon';
-        statusIcon.innerHTML = '<i class="fas fa-times"></i>';
-        statusLabel.className = 'status-label absent-label';
-        statusLabel.textContent = 'غائب';
+    if (student.attendance === 'present') {
+        student.attendance = 'absent';
     } else {
-        // تغيير إلى حاضر
-        studentsData[studentId].attendance = 'present';
-        statusIcon.className = 'status-icon present-icon';
-        statusIcon.innerHTML = '<i class="fas fa-check"></i>';
-        statusLabel.className = 'status-label present-label';
-        statusLabel.textContent = 'حاضر';
+        student.attendance = 'present';
     }
+    
+    // تحديث الواجهة
+    updateStudentDisplay(studentId);
     
     // تحديث الإحصائيات
     updateStatistics();
     
     // إشعار بصري
-    const studentName = document.querySelector(`tr:nth-child(${studentId}) .student-name`).textContent;
-    showNotification(`تم تغيير حالة حضور ${studentName}`, studentsData[studentId].attendance);
+    const studentName = studentNames[studentId-1];
+    const statusText = student.attendance === 'present' ? 'حاضر' : 'غائب';
+    showNotification(`تم تغيير حالة حضور ${studentName} إلى "${statusText}"`, student.attendance);
 }
 
-// تحديث التقييم الإجمالي للتصنيف
-function updateCategoryEvaluation(studentId) {
-    const performanceIcon = document.getElementById(`performance-${studentId}`);
-    const performanceLabel = document.getElementById(`label-performance-${studentId}`);
+// تحديث عرض الطالب في الجدول
+function updateStudentDisplay(studentId) {
+    const student = studentsData[studentId];
     
-    // حساب تقييم Performance Tasks
-    const assignmentsStatus = studentsData[studentId].assignments;
-    const projectsStatus = studentsData[studentId].projects;
+    // الحصول على أيقونة ونص الحالة
+    const getStatusInfo = (status, type = 'evaluation') => {
+        if (type === 'attendance') {
+            // للحضور: حاضر أو غائب فقط
+            if (status === 'present') {
+                return { icon: 'fa-check', text: 'حاضر', class: 'present' };
+            } else {
+                return { icon: 'fa-times', text: 'غائب', class: 'absent' };
+            }
+        } else {
+            // للتقييمات الأخرى: صح/محايد/خطأ
+            if (status === 'present') {
+                return { icon: 'fa-check', text: 'صح', class: 'present' };
+            } else if (status === 'neutral') {
+                return { icon: 'fa-minus', text: 'محايد', class: 'neutral' };
+            } else {
+                return { icon: 'fa-times', text: 'خطأ', class: 'absent' };
+            }
+        }
+    };
     
-    // إذا كان كلاهما "صح"
-    if (assignmentsStatus === 'present' && projectsStatus === 'present') {
-        performanceIcon.className = 'status-icon present-icon';
-        performanceIcon.innerHTML = '<i class="fas fa-star"></i>';
-        performanceLabel.className = 'status-label present-label';
-        performanceLabel.textContent = 'ممتاز';
-    } 
-    // إذا كان أحدهما "خطأ"
-    else if (assignmentsStatus === 'absent' && projectsStatus === 'absent') {
-        performanceIcon.className = 'status-icon absent-icon';
-        performanceIcon.innerHTML = '<i class="fas fa-times"></i>';
-        performanceLabel.className = 'status-label absent-label';
-        performanceLabel.textContent = 'ضعيف';
-    }
-    // إذا كان مختلط
-    else {
-        performanceIcon.className = 'status-icon present-icon';
-        performanceIcon.innerHTML = '<i class="fas fa-check"></i>';
-        performanceLabel.className = 'status-label present-label';
-        performanceLabel.textContent = 'جيد';
-    }
-}
-
-// تبديل جميع تقييمات التصنيف للطالب
-function toggleCategoryAll(studentId, category) {
-    if (category === 'performance') {
-        // تبديل كل من assignments و projects
-        toggleEvaluation(studentId, 'assignments');
-        setTimeout(() => {
-            toggleEvaluation(studentId, 'projects');
-        }, 150);
-    }
+    // الحصول على أيقونة ونص التقييم الإجمالي
+    const getOverallPerformance = () => {
+        const assignments = student.assignments;
+        const projects = student.projects;
+        
+        // إذا كان كلاهما "صح"
+        if (assignments === 'present' && projects === 'present') {
+            return { icon: 'fa-star', text: 'ممتاز', class: 'present' };
+        } 
+        // إذا كان كلاهما "خطأ"
+        else if (assignments === 'absent' && projects === 'absent') {
+            return { icon: 'fa-times', text: 'ضعيف', class: 'absent' };
+        }
+        // إذا كان أحدهما "محايد" أو كلاهما
+        else if (assignments === 'neutral' || projects === 'neutral') {
+            return { icon: 'fa-minus', text: 'متوسط', class: 'neutral' };
+        }
+        // إذا كان مختلط (واحد صح والآخر خطأ)
+        else {
+            return { icon: 'fa-check', text: 'جيد', class: 'present' };
+        }
+    };
+    
+    // تحديث كل عنصر في الصف
+    const updateElement = (id, info) => {
+        const icon = document.getElementById(id);
+        const label = document.getElementById(`label-${id}`);
+        
+        if (icon && label) {
+            icon.className = `status-icon ${info.class}-icon`;
+            icon.innerHTML = `<i class="fas ${info.icon}"></i>`;
+            label.className = `status-label ${info.class}-label`;
+            label.textContent = info.text;
+            
+            // تأثير النبض
+            icon.classList.add('pulse');
+            setTimeout(() => {
+                icon.classList.remove('pulse');
+            }, 400);
+        }
+    };
+    
+    // تحديث جميع العناصر
+    updateElement(`attendance-${studentId}`, getStatusInfo(student.attendance, 'attendance'));
+    updateElement(`assignments-${studentId}`, getStatusInfo(student.assignments));
+    updateElement(`projects-${studentId}`, getStatusInfo(student.projects));
+    updateElement(`classroomApps-${studentId}`, getStatusInfo(student.classroomApps));
+    updateElement(`participation-${studentId}`, getStatusInfo(student.participation));
+    updateElement(`performance-${studentId}`, getOverallPerformance());
 }
 
 // تعيين جميع تقييمات تصنيف معين
@@ -1641,37 +1493,14 @@ function setAllCategory(category, status) {
     }
     
     for (let i = 1; i <= totalStudents; i++) {
-        evaluationTypes.forEach((type, index) => {
-            setTimeout(() => {
-                // تعيين الحالة المطلوبة
-                studentsData[i][type] = status;
-                const statusIcon = document.getElementById(`${type}-${i}`);
-                const statusLabel = document.getElementById(`label-${type}-${i}`);
-                
-                if (status === 'present') {
-                    statusIcon.className = 'status-icon present-icon';
-                    statusIcon.innerHTML = '<i class="fas fa-check"></i>';
-                    statusLabel.className = 'status-label present-label';
-                    statusLabel.textContent = 'صح';
-                } else {
-                    statusIcon.className = 'status-icon absent-icon';
-                    statusIcon.innerHTML = '<i class="fas fa-times"></i>';
-                    statusLabel.className = 'status-label absent-label';
-                    statusLabel.textContent = 'خطأ';
-                }
-                
-                // تحديث التقييم الإجمالي للتصنيف
-                if (category === 'performance') {
-                    updateCategoryEvaluation(i);
-                }
-                
-                // تأثير لكل أيقونة
-                statusIcon.classList.add('pulse');
-                setTimeout(() => {
-                    statusIcon.classList.remove('pulse');
-                }, 500);
-            }, i * 100 + index * 50);
+        evaluationTypes.forEach(type => {
+            studentsData[i][type] = status;
         });
+        
+        // تحديث العرض مع تأثير متأخر
+        setTimeout(() => {
+            updateStudentDisplay(i);
+        }, i * 50);
     }
     
     // تحديث الإحصائيات بعد التحديث
@@ -1683,126 +1512,53 @@ function setAllCategory(category, status) {
         };
         const statusNames = {
             'present': '"صح"',
+            'neutral': '"محايد"',
             'absent': '"خطأ"'
         };
         showNotification(`تم تعيين جميع ${categoryNames[category]} كـ ${statusNames[status]}`, status);
-    }, totalStudents * 150);
+    }, totalStudents * 100);
 }
 
 // تعيين جميع الحضور
 function setAllAttendance(status) {
     for (let i = 1; i <= totalStudents; i++) {
+        studentsData[i].attendance = status;
+        
+        // تحديث العرض مع تأثير متأخر
         setTimeout(() => {
-            studentsData[i].attendance = status;
-            const statusIcon.getElementById(`attendance-${i}`);
-            const statusLabel = document.getElementById(`label-attendance-${i}`);
-            
-            if (status === 'present') {
-                statusIcon.className = 'status-icon present-icon';
-                statusIcon.innerHTML = '<i class="fas fa-check"></i>';
-                statusLabel.className = 'status-label present-label = document.getElementById(`attendance-${i}`);
-            const statusLabel = document.getElementById(`label-attendance-${i}`);
-            
-            if (status === 'present') {
-                statusIcon.className = 'status-icon present-icon';
-                statusIcon.innerHTML = '<i class="fas fa-check"></i>';
-                statusLabel.className = 'status-label present';
-                statusLabel.textContent = 'حاضر';
-            } else {
-                statusIcon.className = 'status-icon absent-icon-label';
-                statusLabel.textContent = 'حاضر';
-            } else {
-                statusIcon.className = 'status-icon absent-icon';
-                statusIcon';
-                statusIcon.innerHTML = '<i class="fas fa-times"></i>';
-                statusLabel.className = 'status-label absent-label';
-                statusLabel.innerHTML = '<i class="fas fa-times"></i>';
-                statusLabel.className = 'status-label absent-label';
-                statusLabel.textContent.textContent = 'غائب';
-            }
-            
-            // تأثير لكل أيقونة
-            statusIcon.classList.add('pulse');
-            setTimeout(() => = 'غائب';
-            }
-            
-            // تأثير لكل أيقونة
-            statusIcon.classList.add('pulse');
-            setTimeout(() => {
-                statusIcon.classList.remove('pulse');
-            }, 500);
-        }, i * 80);
+            updateStudentDisplay(i);
+        }, i * 60);
     }
     
-    // تحديث الإحصائيات {
-                statusIcon.classList.remove('pulse');
-            }, 500);
-        }, i * 80);
-    }
-    
-    // تحديث الإح
+    // تحديث الإحصائيات
     setTimeout(() => {
         updateStatistics();
         const statusNames = {
             'present': 'حاضرين',
-            'absent': 'غصائيات
-    setTimeout(() => {
-        updateStatistics();
-        const statusNames = {
-            'present': 'حاضرين',
-            'absent':ائبين'
-        };
-        showNotification(`تم تعيين جميع الطلاب كـ ${statusNames[status]}`, status);
-    }, totalStudents 'غائبين'
+            'absent': 'غائبين'
         };
         showNotification(`تم تعيين جميع الطلاب كـ ${statusNames[status]}`, status);
     }, totalStudents * 100);
 }
 
-// تبديل عشوائي لت * 100);
-}
-
-// تبديل عشوائي لتقييمقييمات بعض الطلاب
+// تبديل عشوائي لتقييمات بعض الطلاب
 function toggleRandom() {
     // التحقق من صلاحية الدخول
     if (!isAdminAuthenticated) {
-        showNotification('يجبات بعض الطلاب
-function toggleRandom() {
-    // التحقق من صلاحية الدخول
-    if (!isAdminAuthenticated) {
- التحقق من الهوية أولاً!', 'absent');
-        toggleAdminPanel();
-        return;
-    }
-    
         showNotification('يجب التحقق من الهوية أولاً!', 'absent');
         toggleAdminPanel();
         return;
     }
     
-    // تغ    // تغيير 3-4 طلاب عشوائيًا في تقييمات مختلفة
-    const changes = Math.floor(Math.random() * 3) + يير 3-4 طلاب عشوائيًا في تقييمات مختلفة
-    const changes = Math.floor(Math.random() * 3) + 2;2; // بين 2 و 4 تغييرات
+    // تغيير 3-4 طلاب عشوائيًا في تقييمات مختلفة
+    const changes = Math.floor(Math.random() * 3) + 2; // بين 2 و 4 تغييرات
     
     for (let i = 0; i < changes; i++) {
- // بين 2 و 4 تغييرات
-    
-    for (let i = 0; i < changes; i++) {
-               const randomStudent = Math.floor(Math.random() * totalStudents) + 1;
-        const evaluationTypes = ['assignments', 'projects', 'classroom const randomStudent = Math.floor(Math.random() * totalStudents) + 1;
-        const evaluationTypes = ['assignments', 'projects', 'classroomApps', 'partApps', 'participation', 'attendance'];
-        const randomType = evaluationTypes[Math.floor(Math.random() * evaluationTypes.length)];
-        
-icipation', 'attendance'];
+        const randomStudent = Math.floor(Math.random() * totalStudents) + 1;
+        const evaluationTypes = ['assignments', 'projects', 'classroomApps', 'participation', 'attendance'];
         const randomType = evaluationTypes[Math.floor(Math.random() * evaluationTypes.length)];
         
         setTimeout(() => {
-            if (randomType === 'attendance') {
-                toggleAttendance(randomStudent);
-            } else {
-                toggleEvaluation(randomStudent, randomType);
-            }
-               setTimeout(() => {
             if (randomType === 'attendance') {
                 toggleAttendance(randomStudent);
             } else {
@@ -1811,27 +1567,15 @@ icipation', 'attendance'];
         }, i * 300);
     }
     
-    showNotification(`تم تبديل }, i * 300);
-    }
- تقييمات ${changes} طلاب عشوائيًا`, 'present');
-}
-
-// تحديث الإحصائيات
-function updateStatistics() {
-    let presentCount = 0    
     showNotification(`تم تبديل تقييمات ${changes} طلاب عشوائيًا`, 'present');
 }
 
 // تحديث الإحصائيات
 function updateStatistics() {
     let presentCount = 0;
-    let absent;
     let absentCount = 0;
     
     // حساب عدد الحاضرين والغائبين
-    for (let i = 1; i <= totalCount = 0;
-    
-    // حساب عدد الحاضرين والغائبين
     for (let i = 1; i <= totalStudents; i++) {
         if (studentsData[i].attendance === 'present') {
             presentCount++;
@@ -1845,20 +1589,7 @@ function updateStatistics() {
     document.getElementById('absent-count').textContent = absentCount;
     document.getElementById('total-count').textContent = totalStudents;
     
-    // حساب نسبة الحضStudents; i++) {
-        if (studentsData[i].attendance === 'present') {
-            presentCount++;
-        } else {
-            absentCount++;
-        }
-    }
-    
-    // تحديث أرقام الإحصائيات
-    document.getElementById('present-count').textContent = presentCount;
-    document.getElementById('absent-count').textContent = absentCount;
-    document.getElementById('total-count').textContent = totalStudents;
-    
-    // حساب نسبة الحور
+    // حساب نسبة الحضور
     const attendanceRate = Math.round((presentCount / totalStudents) * 100);
     document.getElementById('attendance-rate').textContent = `${attendanceRate}%`;
     
@@ -1870,170 +1601,107 @@ function updateStatistics() {
 function updateCategoryStatistics() {
     // Performance Tasks
     let performancePresent = 0;
+    let performanceNeutral = 0;
+    let performanceAbsent = 0;
     let performanceTotal = totalStudents * 2; // assignments + projects لكل طالب
     
     for (let i = 1; i <= totalStudents; i++) {
         if (studentsData[i].assignments === 'present') performancePresent++;
+        else if (studentsData[i].assignments === 'neutral') performanceNeutral++;
+        else performanceAbsent++;
+        
         if (studentsData[i].projects === 'present') performancePresent++;
+        else if (studentsData[i].projects === 'neutral') performanceNeutral++;
+        else performanceAbsent++;
     }
     
-    const performanceRate = Math.round((performancePresentضور
-    const attendanceRate = Math.round((presentCount / totalStudents) * 100);
-    document.getElementById('attendance-rate').textContent = `${attendanceRate}%`;
+    // حساب النسبة بناءً على النقاط (صح=2, محايد=1, خطأ=0)
+    const performanceScore = (performancePresent * 2) + performanceNeutral;
+    const maxScore = performanceTotal * 2;
+    const performanceRate = Math.round((performanceScore / maxScore) * 100);
     
-    // تحديث إحصائيات التصنيفات
-    updateCategoryStatistics();
-}
-
-// تحديث إحصائيات التصنيفات
-function updateCategoryStatistics() {
-    // Performance Tasks
-    let performancePresent = 0;
-    let performanceTotal = totalStudents * 2; // assignments + projects لكل طالب
-    
-    for (let i = 1; i <= totalStudents; i++) {
-        if (studentsData[i].assignments === 'present') performancePresent++;
-        if (studentsData[i].projects === 'present') performancePresent++;
-    }
-    
-    const performanceRate = Math.round((performancePresent / performanceTotal) * 100 / performanceTotal) * 100);
     document.getElementById('category1-count').textContent = `${performanceRate}%`;
-    document.getElementById('category1-percent').textContent = `(${performancePresent);
-    document.getElementById('category1-count').textContent = `${performanceRate}%`;
-    document.getElementById('category1-percent').textContent = `(${performancePresent}/${performanceTotal})`;
+    document.getElementById('category1-percent').textContent = `(${performancePresent + performanceNeutral + performanceAbsent}/${performanceTotal})`;
     
     // Participation & Interaction
     let interactionPresent = 0;
-    let interactionTotal = totalStudents * 2; // classroomApps + participation لكل ط}/${performanceTotal})`;
-    
-    // Participation & Interaction
-    let interactionPresent = 0;
-    let interactionTotal = totalStudents * 2; // classroomالب
+    let interactionNeutral = 0;
+    let interactionAbsent = 0;
+    let interactionTotal = totalStudents * 2; // classroomApps + participation لكل طالب
     
     for (let i = 1; i <= totalStudents; i++) {
-        if (studentsData[i].classroomApps === 'present') interactionApps + participation لكل طالب
-    
-    for (let i = 1; i <= totalStudents; i++) {
-        if (Present++;
+        if (studentsData[i].classroomApps === 'present') interactionPresent++;
+        else if (studentsData[i].classroomApps === 'neutral') interactionNeutral++;
+        else interactionAbsent++;
+        
         if (studentsData[i].participation === 'present') interactionPresent++;
+        else if (studentsData[i].participation === 'neutral') interactionNeutral++;
+        else interactionAbsent++;
     }
     
-    const interactionRate = Math.round((interstudentsData[i].classroomApps === 'present') interactionPresent++;
-        if (studentsData[i].participation === 'present') interactionPresent++;
-    }
+    // حساب النسبة بناءً على النقاط
+    const interactionScore = (interactionPresent * 2) + interactionNeutral;
+    const interactionMaxScore = interactionTotal * 2;
+    const interactionRate = Math.round((interactionScore / interactionMaxScore) * 100);
     
-    const interactionRate = Math.round((interactionPresent / interactionTotal) * 100);
-    document.getElementById('category2-countactionPresent / interactionTotal) * 100);
-    document.getElementById('category2-count').textContent = `${inter').textContent = `${interactionRate}%`;
-    document.getElementById('category2-percent').textContent = `(${interactionPresent}/${interactionactionRate}%`;
-    document.getElementById('category2-percent').textContent = `(${interactionPresent}/${Total})`;
+    document.getElementById('category2-count').textContent = `${interactionRate}%`;
+    document.getElementById('category2-percent').textContent = `(${interactionPresent + interactionNeutral + interactionAbsent}/${interactionTotal})`;
     
     // الحضور
     let attendancePresent = 0;
     
     for (let i = 1; i <= totalStudents; i++) {
-        ifinteractionTotal})`;
-    
-    // الحضور
-    let attendancePresent = 0;
-    
-    for (let i = 1; i <= totalStudents; i++) {
-        (studentsData[i].attendance === 'present') attendancePresent++;
-    }
-    
-    const attendanceRate = Math.round((attendancePresent / totalStudents) * 100);
-    document if (studentsData[i].attendance === 'present') attendancePresent++;
+        if (studentsData[i].attendance === 'present') attendancePresent++;
     }
     
     const attendanceRate = Math.round((attendancePresent / totalStudents) * 100);
     document.getElementById('category3-count').textContent = `${attendanceRate}%`;
-    document.getElementById('category3-percent').textContent = `(${.getElementById('category3-count').textContent = `${attendanceRate}%`;
-    document.getElementById('category3-percent').textContent = `($attendancePresent}/${totalStudents})`;
-}
-
-// إظهار إشعار مؤقت
-function showNotification(message{attendancePresent}/${totalStudents})`;
+    document.getElementById('category3-percent').textContent = `(${attendancePresent}/${totalStudents})`;
 }
 
 // إظهار إشعار مؤقت
 function showNotification(message, type) {
     // إزالة أي إشعارات سابقة
-    const existingNotification =, type) {
-    // إزالة أي إشعارات سابقة
-    const existingNotification = document.querySelector document.querySelector('.custom-notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
-    // إنشاء إشعار جديد
-    const notification = document.createElement('('.custom-notification');
+    const existingNotification = document.querySelector('.custom-notification');
     if (existingNotification) {
         existingNotification.remove();
     }
     
     // إنشاء إشعار جديد
     const notification = document.createElement('div');
-div');
     notification.className = 'custom-notification';
     notification.textContent = message;
     notification.style.cssText = `
         position: fixed;
-        top: 25px;
-        right: 25    notification.className = 'custom-notification';
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 25px;
-        right:px;
-        background: ${type === 'present' ? 'var(--present-color)' : 'var(--absent-color)'};
+        top: 20px;
+        right: 15px;
+        left: 15px;
+        background: ${type === 'present' ? 'var(--present-color)' : type === 'neutral' ? 'var(--neutral-color)' : 'var(--absent-color)'};
         color: white;
- 25px;
-        background: ${type === 'present' ? 'var(--present-color)' : 'var(--absent-color)'};
-        color: white;
-               padding: 15px 25px;
-        border-radius: 10px;
+        padding: 12px 20px;
+        border-radius: 8px;
         z-index: 1000;
         font-weight: bold;
-        box-shadow padding: 15px 25px;
-        border-radius: 10px;
-        z-index: 1000;
-        font-weight: bold;
-: 0 8px 20px rgba(0,0,0,0.2);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         animation: fadeInOut 3s ease-in-out;
-        font-size:         box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        animation: fadeInOut 3s ease-in-out;
-       1.1rem;
+        font-size: 1rem;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
-    `;
-    
-    // إ font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        text-align: center;
     `;
     
     // إضافة أيقونة للإشعار
     const icon = document.createElement('i');
-    icon.classضافة أيقونة للإشعار
-    const icon = document.createElement('i');
-    icon.className = typeName = type === 'present' ? 'fas fa-check-circle' : 'fas fa-times-circle';
+    icon.className = type === 'present' ? 'fas fa-check-circle' : type === 'neutral' ? 'fas fa-minus-circle' : 'fas fa-times-circle';
     notification.prepend(icon);
     
     document.body.appendChild(notification);
     
- === 'present' ? 'fas fa-check-circle' : 'fas fa-times-circle';
-    notification.prepend(icon);
-    
-    document.body.appendChild    // إزالة الإشعار بعد 3 ثوان
-    setTimeout(() => {
-        notification.style.animation = 'fadeOut (notification);
-    
     // إزالة الإشعار بعد 3 ثوان
     setTimeout(() => {
-        notification.style.animation = 'fadeOut 0.50.5s ease-out forwards';
-s ease-out forwards';
+        notification.style.animation = 'fadeOut 0.5s ease-out forwards';
         setTimeout(() => {
             if (notification.parentNode) {
                 notification.parentNode.removeChild(notification);
@@ -2042,225 +1710,101 @@ s ease-out forwards';
     }, 2500);
 }
 
-// إضافة أنيميشن للإ        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 500);
-    }, 2500);
-}
-
-// إضافة أنيميشن للإششعارات
+// إضافة أنيميشن للإشعارات
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-عارات
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-25px); }
-25px); }
-        15%        15% { opacity: 1; transform: translateY(0); }
+        0% { opacity: 0; transform: translateY(-20px); }
+        15% { opacity: 1; transform: translateY(0); }
         85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY { opacity: 1; transform: translateY(0); }
-        85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-(-25px); }
+        100% { opacity: 0; transform: translateY(-20px); }
     }
     @keyframes fadeOut {
         from { opacity: 1; }
         to { opacity: 0; }
     }
 `;
-document.head.appendChild(25px); }
-    }
-    @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
-`;
-document.head.appendChild(stylestyle);
-
-// تحديث الإحصائيات عند تحميل الصفحة
-window.addEventListener('load', () => {
-    updateStatistics();
-});
-
-// د);
-
-// تحديث الإحصائيات عند تحميل الصفحة
-window.addEventListener('load', () => {
-    updateStatistics();
-});
+document.head.appendChild(style);
 
 // دالة تصدير PDF
 async function exportPDF() {
     const { jsPDF } = window.jspdf;
     
     // تغيير نص زر التصدير مؤقتًا
-   الة تصدير PDF
-async function exportPDF() {
-    const { jsPDF } = window.jspdf;
-    
-    // تغيير نص زر التصدير مؤقتًا
- const exportBtn = document.querySelector('.export');
+    const exportBtn = document.querySelector('.export');
     const originalText = exportBtn.innerHTML;
-    exportBtn.innerHTML = '<i class="fas fa-spinner    const exportBtn = document.querySelector('.export');
-    const originalText = exportBtn.innerHTML;
-    exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> fa-spin"></i> جاري التصدير...';
-    exportBtn.disabled = true;
-    
-    // إضافة تاريخ التصدير والتاريخ المحدد
- جاري التصدير...';
+    exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التصدير...';
     exportBtn.disabled = true;
     
     // إضافة تاريخ التصدير والتاريخ المحدد
     const dateElement = document.createElement('div');
     
     // تحضير نص التاريخ
-    let dateText    const dateElement = document.createElement('div');
-    
-    // تحضير نص التاريخ
     let dateText = '';
-    if (selectedAttendanceDate) {
-        const date = new Date(selectedAttendanceDate);
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = date = '';
     if (selectedAttendanceDate) {
         const date = new Date(selectedAttendanceDate);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = date.toLocaleDateString('ar-SA', options);
         dateText = `تاريخ التقييم: ${formattedDate}`;
     } else {
-        date.toLocaleDateString('ar-SA', options);
-        dateText = `تاريخ التقييم: ${formattedDate}`;
-    } else {
-        dateText = `تاريخ التقيText = `تاريخ التقييم: اليوم (${new Date().toLocaleDateString('ar-SA')})`;
+        dateText = `تاريخ التقييم: اليوم (${new Date().toLocaleDateString('ar-SA')})`;
     }
     
-    dateElement.style.cssText = 'text-alignيم: اليوم (${new Date().toLocaleDateString('ar-SA')})`;
-    }
+    dateElement.style.cssText = 'text-align: left; margin-bottom: 15px; color: #666; font-size: 0.95rem; padding: 10px 12px; background: #f8f9fa; border-radius: 8px; border-right: 4px solid #2c5aa0;';
+    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 8px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 8px;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
     
-    dateElement.style.css: left; margin-bottom: 20px; color: #666; font-size: 1rem; padding: 10px 15px; background: #f8f9fa;Text = 'text-align: left; margin-bottom: 20px; color: #666; font-size: 1rem; padding: 10px 15px; background: #f8f border-radius: 8px; border-right: 4px solid #2c5aa0;';
-    dateElement.innerHTML = `<i class="far fa-calendar-alt" style9fa; border-radius: 8px; border-right: 4px solid #2c5aa0;';
-    dateElement.innerHTML = `<i class="far fa-calendar="margin-left: 8px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 8px;"></i> وقت-alt" style="margin-left: 8px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 8px التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
-;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
-    
-    const    
     const captureArea = document.getElementById('captureArea');
     const originalContent = captureArea.innerHTML;
     
     // إضافة التاريخ أعلى المحتوى
-    captureArea.insertBefore captureArea = document.getElementById('captureArea');
-    const originalContent = captureArea.innerHTML;
-    
-    // إضافة التاريخ أعلى المحتوى
-    captureArea.insertBefore(dateElement, capture(dateElement, captureArea.firstChild);
+    captureArea.insertBefore(dateElement, captureArea.firstChild);
     
     const canvas = await html2canvas(captureArea, { 
         scale: 2,
         useCORS: true,
-        backgroundColor:Area.firstChild);
-    
-    const canvas = await html2canvas(captureArea, { 
-        scale: 2,
-        useCORS: '#ffffff'
+        backgroundColor: '#ffffff',
+        scrollY: -window.scrollY
     });
 
     // إعادة المحتوى الأصلي
     captureArea.removeChild(dateElement);
     
     const imgData = canvas.toDataURL("image/png");
- true,
-        backgroundColor: '#ffffff'
-    });
-
-    // إعادة المحتوى الأصلي
-    captureArea.removeChild(dateElement);
-    
-    const imgData = canvas.toDataURL    const pdf = new jsPDF("p", "mm", "a4");
-
-    let width = pdf.internal.pageSize.getWidth();
-    let("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
 
-    let width = pdf.internal.pageSize.getWidth();
-    let height = (canvas height = (canvas.height * width) / canvas.width;
+    const imgWidth = 190; // A4 width in mm minus margins
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    // إذا كان المحتوى طويلاً جداً، نقسمه على صفحات
-    if (.height * width) / canvas.width;
-
-    // إذا كان المحتوى طويلاً جداً، نقسمه على صفحات
-    if (height > pdf.internal.pageSize.getHeight()) {
-        let position = 0;
-        const pageHeight = pdf.internal.pageSize.getHeightheight > pdf.internal.pageSize.getHeight()) {
-        let position = 0;
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        
-        while (height > 0) {
-            pdf.addImage(imgData, "PNG", 0, position, width, height);
-            height -= pageHeight;
-            position -= pageHeight;
-            
-            if (height > 0) {
-               ();
-        
-        while (height > 0) {
-            pdf.addImage(imgData, "PNG", 0, position, width, height);
-            height -= pageHeight;
-            position -= pageHeight;
-            
-            if (height pdf.addPage();
-            }
-        }
-    } else {
-        pdf.addImage(imgData, "PNG", 0, 0, > 0) {
-                pdf.addPage();
-            }
-        }
-    } else {
-        pdf.addImage(imgData, "PNG", 0, 0, width width, height);
-    }
+    // إضافة الصورة إلى PDF
+    pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
     
     // إعداد اسم الملف بناءً على التاريخ المحدد
     let fileName = 'سجل-التقييم-الشامل';
-    if, height);
-    }
-    
-    // إعداد اسم الملف بناءً على التاريخ المحدد
-    let fileName = 'سجل-التقييم-الشامل';
-    if ( (selectedAttendanceDate) {
-        const date = new Date(selectedAttendanceDateselectedAttendanceDate) {
+    if (selectedAttendanceDate) {
         const date = new Date(selectedAttendanceDate);
-        const dateStr = date.toISOString().slice(0, 10);
-        fileName = `س);
         const dateStr = date.toISOString().slice(0, 10);
         fileName = `سجل-التقييم-${dateStr}`;
     } else {
-        fileName = `سجل-التقييم-${new Date().toISOString().slice(0جل-التقييم-${dateStr}`;
-    } else {
-        fileName = `سجل-التقييم-${new Date().to,10)}`;
-    }
-    
-    pdf.save(`${fileName}.pdf`);
-    
-    // إعادة زر التصدير إلى وضعه الأصليISOString().slice(0,10)}`;
+        fileName = `سجل-التقييم-${new Date().toISOString().slice(0,10)}`;
     }
     
     pdf.save(`${fileName}.pdf`);
     
     // إعادة زر التصدير إلى وضعه الأصلي
-
     exportBtn.innerHTML = originalText;
     exportBtn.disabled = false;
     
     // إظهار إشعار نجاح
-    showNotification('تم تصدير ملف PDF بنجاح!', '    exportBtn.innerHTML = originalText;
-    exportBtn.disabled = false;
-    
-    // إظهار إشعار نجاح
     showNotification('تم تصدير ملف PDF بنجاح!', 'present');
-present');
 }
+
+// تهيئة التطبيق عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    initializeStudentsData();
+    createTable();
+    updateStatistics();
+});
+
 </script>
 
 </body>
