@@ -56,6 +56,7 @@
         zoom: 0.9; /* تصغير إضافي للجسم */
         transform: scale(0.95); /* تصغير إضافي */
         transform-origin: top center;
+        transition: transform 0.3s ease;
     }
     
     .container {
@@ -69,6 +70,74 @@
         overflow: hidden;
         transform: scale(0.95); /* تصغير إضافي */
         transform-origin: top center;
+        transition: transform 0.3s ease, width 0.3s ease;
+    }
+    
+    /* تكبير الصفحة 30% دون التأثير على الخط */
+    body.zoomed-30 .container {
+        transform: scale(1.3) !important;
+        transform-origin: top center !important;
+        margin: 0 auto !important;
+        width: 77% !important; /* 100% / 1.3 = 77% تقريبًا */
+        min-height: auto !important;
+        padding: 0 !important;
+    }
+    
+    body.zoomed-30 .table-wrapper {
+        max-width: 100% !important;
+        overflow-x: visible !important;
+    }
+    
+    body.zoomed-30 table {
+        min-width: 550px !important;
+        font-size: 0.7rem !important; /* الحفاظ على حجم الخط الأصلي */
+    }
+    
+    body.zoomed-30 .student-name {
+        font-size: 0.8rem !important; /* الحفاظ على حجم الخط الأصلي */
+    }
+    
+    body.zoomed-30 .status-icon {
+        font-size: 1rem !important; /* الحفاظ على حجم الخط الأصلي */
+    }
+    
+    body.zoomed-30 .status-label {
+        font-size: 0.65rem !important; /* الحفاظ على حجم الخط الأصلي */
+    }
+    
+    body.zoomed-30 h2 {
+        font-size: 1rem !important; /* الحفاظ على حجم الخط الأصلي */
+    }
+    
+    body.zoomed-30 .summary-count {
+        font-size: 1.2rem !important; /* الحفاظ على حجم الخط الأصلي */
+    }
+    
+    body.zoomed-30 .summary-label {
+        font-size: 0.7rem !important; /* الحفاظ على حجم الخط الأصلي */
+    }
+    
+    body.zoomed-30 .status-btn {
+        font-size: 0.7rem !important; /* الحفاظ على حجم الخط الأصلي */
+    }
+    
+    body.zoomed-30 .export {
+        font-size: 0.85rem !important; /* الحفاظ على حجم الخط الأصلي */
+    }
+    
+    /* استجابة للشاشات الصغيرة */
+    @media (max-width: 768px) {
+        body.zoomed-30 .container {
+            transform: scale(1.2) !important;
+            width: 83% !important; /* 100% / 1.2 = 83% تقريبًا */
+        }
+    }
+    
+    @media (max-width: 480px) {
+        body.zoomed-30 .container {
+            transform: scale(1.1) !important;
+            width: 91% !important; /* 100% / 1.1 = 91% تقريبًا */
+        }
     }
     
     /* تحسينات للشاشات الصغيرة جداً */
@@ -1128,7 +1197,12 @@
     </button>
 </div>
 
-<!-- باقي JavaScript يبقى كما هو -->
+<div class="export-container" style="margin-top: 10px;">
+    <button class="export" onclick="toggleZoom()" style="background: linear-gradient(to right, #6a1b9a, #9c4dcc);" id="zoomBtn">
+        <i class="fas fa-search-plus"></i> تكبير الصفحة 30%
+    </button>
+</div>
+
 <script>
 // تخزين حالة التقييمات للطلاب
 let studentsData = {};
@@ -1797,21 +1871,36 @@ function showNotification(message, type) {
     }, 2500);
 }
 
-// إضافة أنيميشن للإشعارات
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-10px); }
-        15% { opacity: 1; transform: translateY(0); }
-        85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-10px); }
+// دالة التكبير/التصغير 30%
+function toggleZoom() {
+    const body = document.body;
+    const zoomBtn = document.getElementById('zoomBtn');
+    
+    if (body.classList.contains('zoomed-30')) {
+        // إزالة التكبير
+        body.classList.remove('zoomed-30');
+        zoomBtn.innerHTML = '<i class="fas fa-search-plus"></i> تكبير الصفحة 30%';
+        zoomBtn.style.background = 'linear-gradient(to right, #6a1b9a, #9c4dcc)';
+        showNotification('تم تصغير الصفحة إلى الحجم الطبيعي', 'present');
+        
+        // إعادة تعيين التمرير
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        // تطبيق التكبير
+        body.classList.add('zoomed-30');
+        zoomBtn.innerHTML = '<i class="fas fa-search-minus"></i> تصغير الصفحة إلى الحجم الطبيعي';
+        zoomBtn.style.background = 'linear-gradient(to right, #4a148c, #7b1fa2)';
+        showNotification('تم تكبير الصفحة بنسبة 30%', 'present');
+        
+        // تمرير لأسفل لعرض الصفحة المكبرة بالكامل
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 100);
     }
-    @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
+    
+    // تحديث حجم التصدير بعد التكبير
+    setTimeout(updateStatistics, 300);
+}
 
 // دالة تصدير PDF
 async function exportPDF() {
@@ -1846,6 +1935,13 @@ async function exportPDF() {
     // إضافة التاريخ أعلى المحتوى
     captureArea.insertBefore(dateElement, captureArea.firstChild);
     
+    // التحقق مما إذا كانت الصفحة مكبرة
+    const isZoomed = document.body.classList.contains('zoomed-30');
+    if (isZoomed) {
+        // إزالة التكبير مؤقتًا للتصدير
+        document.body.classList.remove('zoomed-30');
+    }
+    
     const canvas = await html2canvas(captureArea, { 
         scale: 2,
         useCORS: true,
@@ -1855,6 +1951,13 @@ async function exportPDF() {
 
     // إعادة المحتوى الأصلي
     captureArea.removeChild(dateElement);
+    
+    // إعادة التكبير إذا كان مفعلاً
+    if (isZoomed) {
+        setTimeout(() => {
+            document.body.classList.add('zoomed-30');
+        }, 100);
+    }
     
     const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
