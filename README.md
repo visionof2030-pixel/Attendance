@@ -56,19 +56,16 @@
         color: #333;
         line-height: 1.6;
         min-height: 100vh;
-        position: relative;
-        overflow-x: hidden;
     }
 
-    /* المحتوى الرئيسي */
-    .main-content {
-        transition: filter 0.3s ease;
-    }
-
-    .main-content.blurred {
+    /* منع تأثير blur على النوافذ المنبثقة نفسها */
+    body.blurred {
         filter: blur(3px);
-        pointer-events: none;
-        user-select: none;
+    }
+
+    .password-modal,
+    .admin-modal {
+        filter: none !important;
     }
 
     /* ============= الهيدر مع زر Admin ============= */
@@ -167,7 +164,7 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.7);
-        z-index: 2000;
+        z-index: 1000;
         align-items: center;
         justify-content: center;
         animation: fadeIn 0.3s ease;
@@ -189,7 +186,7 @@
         transform: scale(0.9);
         animation: scaleIn 0.3s ease forwards;
         position: relative;
-        z-index: 2001;
+        z-index: 1001;
     }
 
     @keyframes scaleIn {
@@ -281,7 +278,7 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.75);
-        z-index: 2000;
+        z-index: 1001;
         overflow-y: auto;
         animation: fadeIn 0.3s ease;
     }
@@ -509,7 +506,7 @@
         border-color: var(--danger-dark);
     }
 
-    /* ============= القائمة العلوية ============= */
+    /* ============= بقية التصميم ============= */
     .class-selector {
         display: flex;
         justify-content: center;
@@ -560,7 +557,6 @@
         100% { box-shadow: 0 4px 8px rgba(21, 101, 192, 0.4); }
     }
 
-    /* =============== التاريخ =============== */
     .date-container {
         width: 95%;
         max-width: 1200px;
@@ -632,7 +628,6 @@
         animation: fadeIn 0.5s ease;
     }
 
-    /* =============== جدول الطلاب =============== */
     .container {
         width: 95%;
         max-width: 1200px;
@@ -700,9 +695,32 @@
         padding-right: 20px;
         color: var(--dark-color);
         border-right: 3px solid var(--primary-light);
+        position: relative;
     }
 
-    /* =============== زر الـ PDF =============== */
+    .student-name .fa-star {
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    .notes-cell textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid var(--gray-medium);
+        font-family: "Cairo", sans-serif;
+        font-size: 14px;
+        min-height: 60px;
+        resize: vertical;
+    }
+
+    .notes-cell textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.1);
+    }
+
     .pdf-container {
         width: 95%;
         max-width: 1200px;
@@ -750,7 +768,6 @@
         100% { transform: scale(1) translateY(0); }
     }
 
-    /* ============= الإشعارات ============= */
     .notification {
         position: fixed;
         top: 20px;
@@ -830,6 +847,10 @@
             top: -8px;
             right: -8px;
         }
+        
+        .student-name {
+            font-size: 16px;
+        }
     }
 
     ::-webkit-scrollbar {
@@ -853,6 +874,20 @@
 </style>
 </head>
 <body>
+
+<header>
+    <button class="admin-btn" onclick="showAdminLogin()">
+        <i class="fas fa-user-shield"></i> Admin
+    </button>
+    
+    <div class="header-content">
+        <div class="school-logo">
+            <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h1>سجل متابعة الطلاب - النظام الأكاديمي</h1>
+        <h2>مادة اللغة الإنجليزية — المعلم: فهد الخالدي</h2>
+    </div>
+</header>
 
 <!-- نافذة إدخال كلمة مرور Admin -->
 <div class="password-modal" id="passwordModal">
@@ -907,10 +942,10 @@
             </div>
         </div>
         
-        <!-- الميزة 2: التحضير العشوائي -->
+        <!-- الميزة 2: التحضير العشوائي - معدّلة -->
         <div class="admin-section">
             <h3><i class="fas fa-random"></i> التحضير العشوائي للفصول</h3>
-            <p>تعيين حضور عشوائي للفصول بنسبة 75% حضور و 25% غياب</p>
+            <p>تعيين حضور عشوائي للفصل المحدد بنسبة 75% حضور و 25% غياب</p>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
                 <div>
@@ -926,27 +961,19 @@
                 </div>
                 
                 <div>
-                    <label for="monthSelect"><i class="fas fa-calendar"></i> الشهر:</label>
-                    <select id="monthSelect" style="width: 100%; padding: 10px; margin-top: 5px;">
-                        <option value="1">يناير</option>
-                        <option value="2">فبراير</option>
-                        <option value="3">مارس</option>
-                        <option value="4">أبريل</option>
-                        <option value="5">مايو</option>
-                        <option value="6">يونيو</option>
-                        <option value="7">يوليو</option>
-                        <option value="8">أغسطس</option>
-                        <option value="9">سبتمبر</option>
-                        <option value="10">أكتوبر</option>
-                        <option value="11">نوفمبر</option>
-                        <option value="12">ديسمبر</option>
-                    </select>
+                    <label><i class="fas fa-calendar"></i> التاريخ المستخدم:</label>
+                    <div style="padding: 10px; margin-top: 5px; background: #f8f9fa; border-radius: 5px; border: 1px solid #ddd;">
+                        <span id="currentDateDisplay">سيستخدم التاريخ المحدد في الأعلى</span>
+                    </div>
                 </div>
-                
-                <div>
-                    <label for="yearSelect"><i class="fas fa-calendar-alt"></i> السنة:</label>
-                    <input type="number" id="yearSelect" value="2024" min="2023" max="2025" style="width: 100%; padding: 10px; margin-top: 5px;">
-                </div>
+            </div>
+            
+            <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                <h4 style="color: #856404; margin-top: 0;"><i class="fas fa-info-circle"></i> ملاحظة:</h4>
+                <p style="color: #856404; margin-bottom: 0;">
+                    سيتم استخدام التاريخ المحدد في الأعلى (التاريخ الميلادي) لتوليد التحضير العشوائي.
+                    نسبة التحضير: 75% حضور و 25% غياب.
+                </p>
             </div>
             
             <button onclick="generateRandomAttendance()" style="background: linear-gradient(135deg, var(--warning-color), var(--warning-light)); color: white; border: none; padding: 12px 25px; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; width: 100%;">
@@ -1008,86 +1035,70 @@
     </div>
 </div>
 
-<!-- المحتوى الرئيسي -->
-<div class="main-content" id="mainContent">
-    <header>
-        <button class="admin-btn" onclick="showAdminLogin()">
-            <i class="fas fa-user-shield"></i> Admin
-        </button>
-        
-        <div class="header-content">
-            <div class="school-logo">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
-            <h1>سجل متابعة الطلاب - النظام الأكاديمي</h1>
-            <h2>مادة اللغة الإنجليزية — المعلم: فهد الخالدي</h2>
-        </div>
-    </header>
-
-    <!-- اختيار الفصل -->
-    <div class="class-selector">
-        <button onclick="showClass('c3_1')" class="active">الصف ٣/١</button>
-        <button onclick="showClass('c2_3')">الصف ٢/٣</button>
-        <button onclick="showClass('c3_3')">الصف ٣/٣</button>
-        <button onclick="showClass('c4_3')">الصف ٤/٣</button>
-        <button onclick="showClass('c5_3')">الصف ٥/٣</button>
-    </div>
-
-    <!-- التاريخ -->
-    <div class="date-container">
-        <div class="date-row">
-            <div class="date-group">
-                <label for="gregorianDate">
-                    <i class="fas fa-calendar-alt"></i>
-                    التاريخ الميلادي:
-                </label>
-                <input type="date" id="gregorianDate" class="date-input">
-                <div id="gregorianNotice" class="conversion-notice" style="display: none;">
-                    <i class="fas fa-sync-alt"></i>
-                    <span>سيتم تحويل التاريخ تلقائياً إلى الهجري</span>
-                </div>
-            </div>
-            
-            <div class="date-group">
-                <label for="hijriDate">
-                    <i class="fas fa-moon"></i>
-                    التاريخ الهجري:
-                </label>
-                <input type="text" id="hijriDate" class="date-input" placeholder="يوم / شهر / سنة هـ (مثال: 15 / 9 / 1445)">
-                <div id="hijriNotice" class="conversion-notice" style="display: none;">
-                    <i class="fas fa-sync-alt"></i>
-                    <span>سيتم تحويل التاريخ تلقائياً إلى الميلادي</span>
-                </div>
-            </div>
-        </div>
-        
-        <div style="text-align: center;">
-            <button id="todayBtn" class="btn" style="background: var(--warning-color); color: white;">
-                <i class="fas fa-calendar-day"></i> تعيين تاريخ اليوم
-            </button>
-        </div>
-    </div>
-
-    <!-- 🔥 محتوى الفصول -->
-    <div id="classContent"></div>
-
-    <!-- PDF -->
-    <div class="pdf-container">
-        <button id="exportPDF" onclick="generatePDF()">
-            <i class="fas fa-file-pdf"></i>
-            <span>تصدير التقرير بصيغة PDF</span>
-        </button>
-    </div>
-
-    <!-- إشعارات -->
-    <div class="notification" id="notification"></div>
+<!-- اختيار الفصل -->
+<div class="class-selector">
+    <button onclick="showClass('c3_1')" class="active">الصف ٣/١</button>
+    <button onclick="showClass('c2_3')">الصف ٢/٣</button>
+    <button onclick="showClass('c3_3')">الصف ٣/٣</button>
+    <button onclick="showClass('c4_3')">الصف ٤/٣</button>
+    <button onclick="showClass('c5_3')">الصف ٥/٣</button>
 </div>
+
+<!-- التاريخ -->
+<div class="date-container">
+    <div class="date-row">
+        <div class="date-group">
+            <label for="gregorianDate">
+                <i class="fas fa-calendar-alt"></i>
+                التاريخ الميلادي:
+            </label>
+            <input type="date" id="gregorianDate" class="date-input">
+            <div id="gregorianNotice" class="conversion-notice" style="display: none;">
+                <i class="fas fa-sync-alt"></i>
+                <span>سيتم تحويل التاريخ تلقائياً إلى الهجري</span>
+            </div>
+        </div>
+        
+        <div class="date-group">
+            <label for="hijriDate">
+                <i class="fas fa-moon"></i>
+                التاريخ الهجري:
+            </label>
+            <input type="text" id="hijriDate" class="date-input" placeholder="يوم / شهر / سنة هـ (مثال: 15 / 9 / 1445)">
+            <div id="hijriNotice" class="conversion-notice" style="display: none;">
+                <i class="fas fa-sync-alt"></i>
+                <span>سيتم تحويل التاريخ تلقائياً إلى الميلادي</span>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center;">
+        <button id="todayBtn" class="btn" style="background: var(--warning-color); color: white;">
+            <i class="fas fa-calendar-day"></i> تعيين تاريخ اليوم
+        </button>
+    </div>
+</div>
+
+<!-- 🔥 محتوى الفصول -->
+<div id="classContent"></div>
+
+<!-- PDF -->
+<div class="pdf-container">
+    <button id="exportPDF" onclick="generatePDF()">
+        <i class="fas fa-file-pdf"></i>
+        <span>تصدير التقرير بصيغة PDF</span>
+    </button>
+</div>
+
+<!-- إشعارات -->
+<div class="notification" id="notification"></div>
 
 <script>
 // ================== تهيئة المتغيرات ==================
 const ADMIN_PASSWORD = "Jassar1436";
 let starredStudents = JSON.parse(localStorage.getItem('starredStudents')) || {};
 let studentsData = JSON.parse(localStorage.getItem('studentsData')) || {};
+let attendanceData = JSON.parse(localStorage.getItem('attendanceData')) || {};
 let isAdminLoggedIn = false;
 let isConverting = false;
 
@@ -1100,15 +1111,15 @@ function showAdminLogin() {
         adminBtn.classList.remove('clicked');
     }, 400);
     
-    // إظهار نافذة كلمة المرور وتطبيق blur على المحتوى الرئيسي فقط
+    // إظهار نافذة كلمة المرور
     document.getElementById('passwordModal').classList.add('active');
-    document.getElementById('mainContent').classList.add('blurred');
+    document.body.classList.add('blurred');
     document.getElementById('adminPassword').focus();
 }
 
 function hideAdminLogin() {
     document.getElementById('passwordModal').classList.remove('active');
-    document.getElementById('mainContent').classList.remove('blurred');
+    document.body.classList.remove('blurred');
     document.getElementById('adminPassword').value = '';
     document.getElementById('passwordError').style.display = 'none';
 }
@@ -1144,13 +1155,28 @@ function checkAdminPassword() {
 
 function showAdminPanel() {
     document.getElementById('adminModal').classList.add('active');
-    document.getElementById('mainContent').classList.add('blurred');
+    document.body.classList.add('blurred');
     loadAdminData();
+    updateAdminDateDisplay();
 }
 
 function hideAdminPanel() {
     document.getElementById('adminModal').classList.remove('active');
-    document.getElementById('mainContent').classList.remove('blurred');
+    document.body.classList.remove('blurred');
+}
+
+function updateAdminDateDisplay() {
+    const gregorianDate = document.getElementById('gregorianDate').value;
+    const hijriDate = document.getElementById('hijriDate').value;
+    const dateDisplay = document.getElementById('currentDateDisplay');
+    
+    if (gregorianDate && hijriDate) {
+        dateDisplay.textContent = `${gregorianDate} (${hijriDate})`;
+    } else if (gregorianDate) {
+        dateDisplay.textContent = gregorianDate;
+    } else {
+        dateDisplay.textContent = 'الرجاء تحديد تاريخ في الأعلى';
+    }
 }
 
 // ================== الميزة 1: النجوم للطلاب المميزين ==================
@@ -1266,56 +1292,120 @@ function updateStarredStudentsList() {
     listElement.innerHTML = html;
 }
 
-// ================== الميزة 2: التحضير العشوائي ==================
+function getStudentStarElement(studentId, studentName) {
+    const isStarred = starredStudents[studentId] || false;
+    
+    return `
+        <div class="student-name">
+            ${studentName}
+            <i class="fas fa-star" onclick="toggleStudentStarInline('${studentId}', this)" 
+               style="color: ${isStarred ? '#ffd700' : '#ccc'}; cursor: pointer; margin-right: 10px; font-size: 18px;"
+               title="${isStarred ? 'طالب مميز' : 'إضافة نجمة'}">
+            </i>
+        </div>
+    `;
+}
+
+function toggleStudentStarInline(studentId, element) {
+    if (!isAdminLoggedIn) {
+        showNotification('يجب تسجيل الدخول كمسؤول لتعديل النجوم', 'warning');
+        showAdminLogin();
+        return;
+    }
+    
+    starredStudents[studentId] = !starredStudents[studentId];
+    localStorage.setItem('starredStudents', JSON.stringify(starredStudents));
+    
+    element.style.color = starredStudents[studentId] ? '#ffd700' : '#ccc';
+    element.title = starredStudents[studentId] ? 'طالب مميز' : 'إضافة نجمة';
+    
+    updateStarredStudentsList();
+    showNotification(starredStudents[studentId] ? 'تم إضافة نجمة للطالب' : 'تم إزالة النجمة من الطالب', 'success');
+}
+
+// ================== الميزة 2: التحضير العشوائي - معدّلة ==================
 function generateRandomAttendance() {
     const classId = document.getElementById('randomClassSelect').value;
-    const month = parseInt(document.getElementById('monthSelect').value);
-    const year = parseInt(document.getElementById('yearSelect').value);
+    const gregorianDate = document.getElementById('gregorianDate').value;
+    
+    if (!gregorianDate) {
+        showNotification('الرجاء تحديد التاريخ الميلادي أولاً', 'warning');
+        return;
+    }
     
     if (classId === 'all') {
-        ['c3_1', 'c2_3', 'c3_3', 'c4_3', 'c5_3'].forEach(classId => {
-            generateClassRandomAttendance(classId, month, year);
+        ['c3_1', 'c2_3', 'c3_3', 'c4_3', 'c5_3'].forEach(cid => {
+            generateClassRandomAttendance(cid, gregorianDate);
         });
         showNotification('تم توليد تحضير عشوائي لجميع الفصول', 'success');
     } else {
-        generateClassRandomAttendance(classId, month, year);
+        generateClassRandomAttendance(classId, gregorianDate);
         showNotification(`تم توليد تحضير عشوائي للفصل ${classId}`, 'success');
+    }
+    
+    // تحديث عرض الفصل الحالي إذا كان ضمن الفصول المحددة
+    const activeButton = document.querySelector('.class-selector button.active');
+    const activeClassId = activeButton.getAttribute('onclick').match(/'([^']+)'/)[1];
+    
+    if (classId === 'all' || classId === activeClassId) {
+        // تحديث الواجهة لتظهر التحضير العشوائي
+        setTimeout(() => {
+            applyRandomAttendanceToUI(activeClassId, gregorianDate);
+        }, 500);
     }
 }
 
-function generateClassRandomAttendance(classId, month, year) {
-    const attendanceData = JSON.parse(localStorage.getItem('attendanceData')) || {};
-    
+function generateClassRandomAttendance(classId, date) {
     if (!attendanceData[classId]) {
         attendanceData[classId] = {};
     }
     
     const classStudents = studentsData[classId] || getDefaultStudents(classId);
-    const daysInMonth = new Date(year, month, 0).getDate();
     
-    for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(year, month - 1, day);
-        const dayOfWeek = date.getDay();
+    // توليد بيانات عشوائية بنسبة 75% حضور و25% غياب
+    attendanceData[classId][date] = {};
+    
+    classStudents.forEach((student, index) => {
+        const random = Math.random(); // قيمة بين 0 و 1
+        const isPresent = random < 0.75; // 75% احتمال حضور
         
-        if (dayOfWeek !== 5 && dayOfWeek !== 6) {
-            const dateKey = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-            
-            if (!attendanceData[classId][dateKey]) {
-                attendanceData[classId][dateKey] = {};
-                
-                classStudents.forEach((student, index) => {
-                    const isPresent = Math.random() < 0.75;
-                    attendanceData[classId][dateKey][index] = {
-                        present: isPresent,
-                        absent: !isPresent,
-                        note: isPresent ? 'حضور عشوائي' : 'غياب عشوائي'
-                    };
-                });
-            }
-        }
-    }
+        attendanceData[classId][date][index] = {
+            present: isPresent,
+            absent: !isPresent,
+            note: isPresent ? 'حضور عشوائي' : 'غياب عشوائي'
+        };
+    });
     
     localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+}
+
+function applyRandomAttendanceToUI(classId, date) {
+    if (!attendanceData[classId] || !attendanceData[classId][date]) {
+        return;
+    }
+    
+    const classAttendance = attendanceData[classId][date];
+    const rows = document.querySelectorAll("#classContent table tbody tr");
+    
+    rows.forEach((row, index) => {
+        if (classAttendance[index]) {
+            const { present, absent, note } = classAttendance[index];
+            
+            if (present) {
+                row.cells[1].querySelector('.btn.present').classList.add('active');
+                row.cells[2].querySelector('.btn.absent').classList.remove('active');
+            } else if (absent) {
+                row.cells[1].querySelector('.btn.present').classList.remove('active');
+                row.cells[2].querySelector('.btn.absent').classList.add('active');
+            }
+            
+            if (note) {
+                row.cells[3].querySelector('textarea').value = note;
+            }
+        }
+    });
+    
+    showNotification('تم تطبيق التحضير العشوائي على الواجهة', 'success');
 }
 
 // ================== الميزة 3: إدارة الطلاب ==================
@@ -1336,7 +1426,8 @@ function addNewStudent() {
     localStorage.setItem('studentsData', JSON.stringify(studentsData));
     
     updateStudentSelects();
-    if (document.querySelector('.class-selector button.active').getAttribute('onclick').includes(classId)) {
+    const activeButton = document.querySelector('.class-selector button.active');
+    if (activeButton && activeButton.getAttribute('onclick').includes(classId)) {
         loadClassStudents(classId);
     }
     
@@ -1376,49 +1467,16 @@ function transferStudent() {
     
     localStorage.setItem('studentsData', JSON.stringify(studentsData));
     updateStudentSelects();
-    updateCurrentClassDisplay();
     
-    showNotification(`تم نقل الطالب ${studentName} إلى الفصل الجديد`, 'success');
-}
-
-function updateCurrentClassDisplay() {
     const activeButton = document.querySelector('.class-selector button.active');
     if (activeButton) {
-        const classId = activeButton.getAttribute('onclick').match(/'([^']+)'/)[1];
-        loadClassStudents(classId);
-    }
-}
-
-// ================== نظام النجوم في العرض الرئيسي ==================
-function getStudentStarElement(studentId, studentName) {
-    const isStarred = starredStudents[studentId] || false;
-    
-    return `
-        <div class="student-name">
-            ${studentName}
-            <i class="fas fa-star" onclick="toggleStudentStarInline('${studentId}', this)" 
-               style="color: ${isStarred ? '#ffd700' : '#ccc'}; cursor: pointer; margin-right: 10px; font-size: 18px;"
-               title="${isStarred ? 'طالب مميز' : 'إضافة نجمة'}">
-            </i>
-        </div>
-    `;
-}
-
-function toggleStudentStarInline(studentId, element) {
-    if (!isAdminLoggedIn) {
-        showNotification('يجب تسجيل الدخول كمسؤول لتعديل النجوم', 'warning');
-        showAdminLogin();
-        return;
+        const activeClassId = activeButton.getAttribute('onclick').match(/'([^']+)'/)[1];
+        if (activeClassId === oldClassId || activeClassId === newClassId) {
+            loadClassStudents(activeClassId);
+        }
     }
     
-    starredStudents[studentId] = !starredStudents[studentId];
-    localStorage.setItem('starredStudents', JSON.stringify(starredStudents));
-    
-    element.style.color = starredStudents[studentId] ? '#ffd700' : '#ccc';
-    element.title = starredStudents[studentId] ? 'طالب مميز' : 'إضافة نجمة';
-    
-    updateStarredStudentsList();
-    showNotification(starredStudents[studentId] ? 'تم إضافة نجمة للطالب' : 'تم إزالة النجمة من الطالب', 'success');
+    showNotification(`تم نقل الطالب ${studentName} إلى الفصل الجديد`, 'success');
 }
 
 // ================== النظام الرئيسي ==================
@@ -1699,6 +1757,14 @@ function loadClassStudents(classId) {
     
     // إضافة النجوم المحفوظة
     updateClassDisplay();
+    
+    // تطبيق بيانات التحضير المخزنة للتاريخ الحالي
+    const gregorianDate = document.getElementById('gregorianDate').value;
+    if (gregorianDate) {
+        setTimeout(() => {
+            applyRandomAttendanceToUI(classId, gregorianDate);
+        }, 100);
+    }
 }
 
 function updateClassDisplay() {
@@ -1716,7 +1782,7 @@ function updateClassDisplay() {
     });
 }
 
-// ================== تفعيل/تعطيل الحضور والغياب مع تأثيرات محسنة ==================
+// ================== تفعيل/تعطيل الحضور والغياب مع حفظ البيانات ==================
 function toggleSelect(btn, type, indicatorId) {
     const row = btn.closest("tr");
     
@@ -1759,9 +1825,30 @@ function toggleSelect(btn, type, indicatorId) {
         }
         row.querySelector(".btn.present").classList.remove("active");
     }
+    
+    // حفظ حالة الحضور
+    const [classId, index] = indicatorId.split('-');
+    const gregorianDate = document.getElementById('gregorianDate').value;
+    
+    if (gregorianDate) {
+        if (!attendanceData[classId]) {
+            attendanceData[classId] = {};
+        }
+        if (!attendanceData[classId][gregorianDate]) {
+            attendanceData[classId][gregorianDate] = {};
+        }
+        
+        attendanceData[classId][gregorianDate][index] = {
+            present: type === 'present',
+            absent: type === 'absent',
+            note: row.querySelector('.notes-cell textarea').value || ''
+        };
+        
+        localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+    }
 }
 
-// ================== استخراج PDF ==================
+// ================== استخراج PDF مع دعم العربية الكامل ==================
 function generatePDF() {
     // تأثير النقر على زر PDF
     const pdfBtn = document.getElementById('exportPDF');
@@ -1772,67 +1859,121 @@ function generatePDF() {
     
     try {
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+        const doc = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: 'a4'
+        });
         
-        // إضافة النص العربي
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(22);
-        doc.text("تقرير متابعة الطلاب", 105, 20, null, null, "center");
-        
-        doc.setFontSize(16);
-        doc.text("مادة اللغة الإنجليزية", 105, 30, null, null, "center");
-        doc.text("المعلم: فهد الخالدي", 105, 40, null, null, "center");
-        
-        // الحصول على التاريخ
+        // الحصول على البيانات
         const gregorianDate = document.getElementById("gregorianDate").value || "غير محدد";
         const hijriDate = document.getElementById("hijriDate").value || "غير محدد";
         const activeClass = document.querySelector(".class-selector button.active").textContent;
         
+        // عنوان التقرير
+        doc.setFontSize(20);
+        doc.setTextColor(13, 71, 161); // أزرق
+        doc.text("تقرير متابعة الطلاب - مادة اللغة الإنجليزية", 150, 20, { align: 'center' });
+        
+        doc.setFontSize(16);
+        doc.setTextColor(33, 33, 33);
+        doc.text("المعلم: فهد الخالدي", 150, 30, { align: 'center' });
+        
+        // معلومات الفصل والتاريخ
         doc.setFontSize(12);
-        doc.text(`الفصل: ${activeClass}`, 20, 60);
-        doc.text(`التاريخ الميلادي: ${gregorianDate}`, 20, 70);
-        doc.text(`التاريخ الهجري: ${hijriDate}`, 20, 80);
+        doc.text(`الفصل: ${activeClass}`, 15, 45);
+        doc.text(`التاريخ الميلادي: ${gregorianDate}`, 15, 55);
+        doc.text(`التاريخ الهجري: ${hijriDate}`, 15, 65);
         
-        // جمع بيانات الطلاب
-        let y = 100;
-        const rows = document.querySelectorAll("#classContent table tbody tr");
+        // جمع بيانات الطلاب من الجدول
+        const tableRows = document.querySelectorAll("#classContent table tbody tr");
+        const tableData = [];
         
-        rows.forEach((row, index) => {
-            if (y > 280) {
-                doc.addPage();
-                y = 20;
-            }
-            
-            const name = row.cells[0].textContent.replace('★', '').trim();
-            const present = row.cells[1].querySelector(".btn.present").classList.contains("active");
-            const absent = row.cells[2].querySelector(".btn.absent").classList.contains("active");
-            const notes = row.cells[3].querySelector("textarea").value || "لا توجد ملاحظات";
+        tableRows.forEach((row, index) => {
+            const name = row.cells[0].querySelector('.student-name').textContent.trim();
+            const isPresent = row.cells[1].querySelector(".btn.present").classList.contains("active");
+            const isAbsent = row.cells[2].querySelector(".btn.absent").classList.contains("active");
+            const notes = row.cells[3].querySelector("textarea").value || "";
             
             let status = "لم يتم التحديد";
-            if (present) status = "حاضر";
-            if (absent) status = "غائب";
+            let statusColor = [128, 128, 128]; // رمادي
             
-            doc.setFontSize(10);
-            doc.text(`${index + 1}. ${name}`, 20, y);
-            doc.text(`الحالة: ${status}`, 150, y);
+            if (isPresent) {
+                status = "حاضر";
+                statusColor = [46, 125, 50]; // أخضر
+            } else if (isAbsent) {
+                status = "غائب";
+                statusColor = [198, 40, 40]; // أحمر
+            }
             
-            // قص الملاحظات الطويلة
-            const shortNotes = notes.length > 30 ? notes.substring(0, 30) + "..." : notes;
-            doc.text(`ملاحظات: ${shortNotes}`, 20, y + 7);
-            
-            y += 20;
+            tableData.push([
+                (index + 1).toString(),
+                name,
+                status,
+                notes || "لا توجد ملاحظات"
+            ]);
         });
         
-        // توقيع
+        // إنشاء الجدول في PDF
+        doc.autoTable({
+            startY: 75,
+            head: [['#', 'اسم الطالب', 'الحالة', 'ملاحظات']],
+            body: tableData,
+            theme: 'grid',
+            styles: {
+                font: 'helvetica',
+                fontSize: 10,
+                textColor: [33, 33, 33],
+                cellPadding: 5,
+                overflow: 'linebreak',
+                halign: 'right',
+                valign: 'middle'
+            },
+            headStyles: {
+                fillColor: [13, 71, 161], // أزرق داكن
+                textColor: [255, 255, 255],
+                fontStyle: 'bold',
+                halign: 'center'
+            },
+            bodyStyles: {
+                halign: 'right'
+            },
+            columnStyles: {
+                0: { cellWidth: 15, halign: 'center' }, // العمود الأول (الرقم)
+                1: { cellWidth: 60, halign: 'right' },  // اسم الطالب
+                2: { 
+                    cellWidth: 25, 
+                    halign: 'center',
+                    fontStyle: 'bold'
+                }, // الحالة
+                3: { cellWidth: 70, halign: 'right' }   // الملاحظات
+            },
+            didParseCell: function(data) {
+                // تلوين خلية الحالة
+                if (data.column.index === 2 && data.row.index > 0) {
+                    const status = data.cell.raw;
+                    if (status === "حاضر") {
+                        data.cell.styles.textColor = [46, 125, 50]; // أخضر
+                    } else if (status === "غائب") {
+                        data.cell.styles.textColor = [198, 40, 40]; // أحمر
+                    }
+                }
+            },
+            margin: { left: 15, right: 15 }
+        });
+        
+        // توقيع وتاريخ الإصدار
+        const finalY = doc.lastAutoTable.finalY + 20;
         doc.setFontSize(10);
-        doc.text("توقيع المعلم: ________________", 20, 280);
-        doc.text("تاريخ الإصدار: " + new Date().toLocaleDateString('ar-SA'), 150, 280);
+        doc.text("توقيع المعلم: ________________", 15, finalY);
+        doc.text(`تاريخ الإصدار: ${new Date().toLocaleDateString('ar-SA')}`, 260, finalY);
+        doc.text("نظام متابعة الطلاب - الإصدار 1.0", 150, finalY + 10, { align: 'center' });
         
         // حفظ الملف
-        const fileName = `تقرير-الحضور-${activeClass}-${gregorianDate}.pdf`;
+        const fileName = `تقرير-الحضور-${activeClass.replace('/', '-')}-${gregorianDate}.pdf`;
         doc.save(fileName);
         
-        showNotification("تم استخراج التقرير بنجاح!", "success");
+        showNotification("تم تصدير التقرير بنجاح بصيغة PDF!", "success");
     } catch (error) {
         console.error("خطأ في إنشاء PDF:", error);
         showNotification("حدث خطأ أثناء إنشاء التقرير", "error");
@@ -1867,6 +2008,18 @@ window.onload = function() {
     // إضافة مستمعي الأحداث للتواريخ
     document.getElementById('gregorianDate').addEventListener('change', function(e) {
         convertToHijri(e.target.value);
+        if (document.getElementById('adminModal').classList.contains('active')) {
+            updateAdminDateDisplay();
+        }
+        
+        // تحديث بيانات التحضير عند تغيير التاريخ
+        const activeButton = document.querySelector('.class-selector button.active');
+        if (activeButton) {
+            const activeClassId = activeButton.getAttribute('onclick').match(/'([^']+)'/)[1];
+            setTimeout(() => {
+                applyRandomAttendanceToUI(activeClassId, e.target.value);
+            }, 300);
+        }
     });
     
     document.getElementById('hijriDate').addEventListener('input', function(e) {
@@ -1910,6 +2063,7 @@ window.generateRandomAttendance = generateRandomAttendance;
 window.addNewStudent = addNewStudent;
 window.transferStudent = transferStudent;
 window.toggleStudentStarInline = toggleStudentStarInline;
+window.setToday = setToday;
 </script>
 </body>
 </html>
