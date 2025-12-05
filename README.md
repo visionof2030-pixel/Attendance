@@ -76,7 +76,6 @@
         flex-wrap: wrap;
         gap: 20px;
         border: 2px solid rgba(44, 90, 160, 0.2);
-        position: relative;
     }
     
     .summary-item {
@@ -105,89 +104,6 @@
     .summary-label {
         font-size: 1.1rem;
         color: #555;
-    }
-    
-    /* عنصر تحديد التاريخ - مخفي في البداية */
-    .date-selector {
-        display: none;
-        text-align: center;
-        padding: 15px;
-        border-radius: 10px;
-        background: linear-gradient(to right, rgba(44, 90, 160, 0.1), rgba(74, 138, 244, 0.1));
-        border: 2px solid rgba(44, 90, 160, 0.3);
-        margin-bottom: 20px;
-        animation: fadeIn 0.5s ease;
-    }
-    
-    .date-selector.active {
-        display: block;
-    }
-    
-    .date-selector-title {
-        color: var(--primary-color);
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-    
-    .date-controls {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-        flex-wrap: wrap;
-    }
-    
-    .date-input {
-        padding: 12px 15px;
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        font-size: 1.1rem;
-        font-family: 'Tajawal', sans-serif;
-        text-align: center;
-        min-width: 200px;
-        transition: border-color 0.3s;
-    }
-    
-    .date-input:focus {
-        border-color: var(--primary-color);
-        outline: none;
-    }
-    
-    .date-btn {
-        padding: 12px 20px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-weight: 700;
-        font-family: 'Tajawal', sans-serif;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        background: linear-gradient(to right, var(--primary-color), #4a8af4);
-        color: white;
-    }
-    
-    .date-btn:hover {
-        background: linear-gradient(to right, #1e3f7a, #2c5aa0);
-        transform: translateY(-2px);
-    }
-    
-    .selected-date-display {
-        background: white;
-        padding: 10px 20px;
-        border-radius: 10px;
-        border: 2px solid var(--present-color);
-        margin-top: 15px;
-        display: inline-block;
-        font-weight: 700;
-        color: #333;
     }
     
     table {
@@ -408,11 +324,11 @@
         font-weight: 600;
     }
     
-    /* تصميم قسم كلمة المرور */
+    /* تصميم قسم الإدارة */
     .admin-panel {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.5s ease, padding 0.5s ease, margin 0.5s ease;
+        transition: max-height 0.8s ease, padding 0.8s ease, margin 0.8s ease;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         border-radius: 15px;
         margin: 0;
@@ -421,7 +337,7 @@
     }
     
     .admin-panel.active {
-        max-height: 300px;
+        max-height: 1000px;
         padding: 25px 20px;
         margin-top: 25px;
         border-color: rgba(44, 90, 160, 0.3);
@@ -432,12 +348,19 @@
         text-align: center;
         opacity: 0;
         transform: translateY(-10px);
-        transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+        transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s;
     }
     
     .admin-panel.active .admin-panel-content {
         opacity: 1;
         transform: translateY(0);
+    }
+    
+    /* تصميم قسم كلمة المرور */
+    .password-section {
+        margin-bottom: 25px;
+        padding-bottom: 25px;
+        border-bottom: 2px dashed #ccc;
     }
     
     .admin-title {
@@ -522,6 +445,84 @@
         margin-top: 10px;
         font-size: 0.95rem;
         display: none;
+    }
+    
+    /* تصميم قسم تحديد التاريخ - داخل الإدارة */
+    .date-section {
+        display: none;
+        animation: fadeIn 0.8s ease;
+    }
+    
+    .date-section.active {
+        display: block;
+    }
+    
+    .date-title {
+        color: #2c5aa0;
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .date-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+    
+    .date-input {
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-family: 'Tajawal', sans-serif;
+        text-align: center;
+        min-width: 200px;
+        transition: border-color 0.3s;
+    }
+    
+    .date-input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+    }
+    
+    .date-btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 700;
+        font-family: 'Tajawal', sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(to right, var(--primary-color), #4a8af4);
+        color: white;
+    }
+    
+    .date-btn:hover {
+        background: linear-gradient(to right, #1e3f7a, #2c5aa0);
+        transform: translateY(-2px);
+    }
+    
+    .selected-date-display {
+        background: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        border: 2px solid var(--present-color);
+        margin-top: 15px;
+        display: inline-block;
+        font-weight: 700;
+        color: #333;
     }
     
     /* تصميم متجاوب */
@@ -650,25 +651,6 @@
 <div class="container" id="captureArea">
     <h2><i class="fas fa-users" style="margin-left: 15px;"></i> سجل حضور الطلاب - النظام الذكي</h2>
     
-    <!-- عنصر تحديد التاريخ - مخفي في البداية -->
-    <div class="date-selector" id="dateSelector">
-        <div class="date-selector-title">
-            <i class="fas fa-calendar-alt"></i> تحديد تاريخ الحضور
-        </div>
-        <div class="date-controls">
-            <input type="date" class="date-input" id="attendanceDate" value="">
-            <button class="date-btn" onclick="setCustomDate()">
-                <i class="fas fa-check"></i> تطبيق التاريخ
-            </button>
-            <button class="date-btn" onclick="resetToToday()" style="background: linear-gradient(to right, #757575, #9e9e9e);">
-                <i class="fas fa-redo"></i> الرجوع لليوم
-            </button>
-        </div>
-        <div class="selected-date-display" id="selectedDateDisplay">
-            <i class="far fa-calendar-check"></i> تاريخ الحضور: <span id="currentDateDisplay">اليوم</span>
-        </div>
-    </div>
-    
     <div class="summary-box">
         <div class="summary-item">
             <div class="summary-count present-count" id="present-count">8</div>
@@ -795,23 +777,46 @@
         </button>
     </div>
     
-    <!-- قسم الإدارة -->
+    <!-- قسم الإدارة الكامل -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-panel-content">
-            <div class="admin-title">
-                <i class="fas fa-lock"></i> لوحة التحكم - إدخال كلمة المرور
+            <!-- قسم كلمة المرور -->
+            <div class="password-section" id="passwordSection">
+                <div class="admin-title">
+                    <i class="fas fa-lock"></i> التحقق من الهوية
+                </div>
+                <p class="admin-description">للدخول إلى خيارات الإدارة المتقدمة، يرجى إدخال كلمة المرور:</p>
+                <div class="password-container">
+                    <input type="password" class="password-input" id="passwordInput" placeholder="أدخل كلمة المرور هنا" autocomplete="off">
+                    <div class="password-buttons">
+                        <button class="password-submit" onclick="checkPassword()">تحقق</button>
+                        <button class="password-cancel" onclick="toggleAdminPanel()">إلغاء</button>
+                    </div>
+                </div>
+                <p class="password-error" id="passwordError">
+                    <i class="fas fa-exclamation-triangle"></i> كلمة المرور غير صحيحة
+                </p>
             </div>
-            <p class="admin-description">للدخول إلى خيارات الإدارة المتقدمة، يرجى إدخال كلمة المرور:</p>
-            <div class="password-container">
-                <input type="password" class="password-input" id="passwordInput" placeholder="أدخل كلمة المرور هنا" autocomplete="off">
-                <div class="password-buttons">
-                    <button class="password-submit" onclick="checkPassword()">تحقق</button>
-                    <button class="password-cancel" onclick="toggleAdminPanel()">إلغاء</button>
+            
+            <!-- قسم تحديد التاريخ - مخفي حتى التحقق -->
+            <div class="date-section" id="dateSection">
+                <div class="date-title">
+                    <i class="fas fa-calendar-alt"></i> تحديد وقت التحضير
+                </div>
+                <p class="admin-description">يمكنك تحديد تاريخ الحضور للأشهر الماضية أو القادمة:</p>
+                <div class="date-controls">
+                    <input type="date" class="date-input" id="attendanceDate" value="">
+                    <button class="date-btn" onclick="setCustomDate()">
+                        <i class="fas fa-check"></i> تطبيق التاريخ
+                    </button>
+                    <button class="date-btn" onclick="resetToToday()" style="background: linear-gradient(to right, #757575, #9e9e9e);">
+                        <i class="fas fa-redo"></i> الرجوع لليوم
+                    </button>
+                </div>
+                <div class="selected-date-display" id="selectedDateDisplay">
+                    <i class="far fa-calendar-check"></i> تاريخ الحضور: <span id="currentDateDisplay">اليوم</span>
                 </div>
             </div>
-            <p class="password-error" id="passwordError">
-                <i class="fas fa-exclamation-triangle"></i> كلمة المرور غير صحيحة
-            </p>
         </div>
     </div>
     
@@ -899,6 +904,11 @@ function toggleAdminPanel() {
         adminPanel.classList.remove('active');
         adminBtn.innerHTML = '<i class="fas fa-cog"></i> إدارة';
         adminBtn.style.background = 'linear-gradient(to right, #5d4037, #795548)';
+        
+        // إخفاء قسم التاريخ إذا كان ظاهرًا
+        document.getElementById('dateSection').classList.remove('active');
+        
+        // إعادة تعيين كلمة المرور
         document.getElementById('passwordInput').value = '';
         document.getElementById('passwordError').style.display = 'none';
     } else {
@@ -906,7 +916,17 @@ function toggleAdminPanel() {
         adminPanel.classList.add('active');
         adminBtn.innerHTML = '<i class="fas fa-times"></i> إغلاق الإدارة';
         adminBtn.style.background = 'linear-gradient(to right, #757575, #9e9e9e)';
-        document.getElementById('passwordInput').focus();
+        
+        // إذا تم التحقق مسبقًا، إظهار قسم التاريخ مباشرة
+        if (isAdminAuthenticated) {
+            document.getElementById('passwordSection').style.display = 'none';
+            document.getElementById('dateSection').classList.add('active');
+            initializeDateField();
+        } else {
+            document.getElementById('passwordSection').style.display = 'block';
+            document.getElementById('dateSection').classList.remove('active');
+            document.getElementById('passwordInput').focus();
+        }
     }
 }
 
@@ -914,20 +934,21 @@ function toggleAdminPanel() {
 function checkPassword() {
     const password = document.getElementById('passwordInput').value;
     const errorElement = document.getElementById('passwordError');
-    const adminPanel = document.getElementById('adminPanel');
-    const dateSelector = document.getElementById('dateSelector');
+    const passwordSection = document.getElementById('passwordSection');
+    const dateSection = document.getElementById('dateSection');
     
     // كلمة المرور الصحيحة: Jassar1436
     if (password === 'Jassar1436') {
         // تم التحقق بنجاح
         isAdminAuthenticated = true;
         document.getElementById('randomBtn').style.display = 'flex';
-        dateSelector.classList.add('active');
         
-        // إغلاق لوحة الإدارة
-        adminPanel.classList.remove('active');
-        document.querySelector('.admin-btn').innerHTML = '<i class="fas fa-cog"></i> إدارة';
-        document.querySelector('.admin-btn').style.background = 'linear-gradient(to right, #5d4037, #795548)';
+        // إخفاء قسم كلمة المرور وإظهار قسم التاريخ
+        passwordSection.style.display = 'none';
+        dateSection.classList.add('active');
+        
+        // تهيئة حقل التاريخ
+        initializeDateField();
         
         // إظهار رسالة نجاح
         showNotification('تم التحقق من الهوية بنجاح! خيارات الإدارة متاحة الآن.', 'present');
@@ -935,9 +956,6 @@ function checkPassword() {
         // مسح حقل كلمة المرور
         document.getElementById('passwordInput').value = '';
         errorElement.style.display = 'none';
-        
-        // تهيئة حقل التاريخ
-        initializeDateField();
     } else {
         // كلمة مرور خاطئة
         errorElement.style.display = 'block';
@@ -1177,11 +1195,6 @@ document.head.appendChild(style);
 // تحديث الإحصائيات عند تحميل الصفحة
 window.addEventListener('load', () => {
     updateStatistics();
-    // تهيئة حقل التاريخ إذا كان المستخدم قد سجل الدخول مسبقًا
-    if (isAdminAuthenticated) {
-        document.getElementById('dateSelector').classList.add('active');
-        initializeDateField();
-    }
 });
 
 // دالة تصدير PDF - معدلة لتضمين التاريخ المحدد
