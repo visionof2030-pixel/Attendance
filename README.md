@@ -34,7 +34,7 @@
     }
     
     .container {
-        max-width: 900px;
+        max-width: 1200px;
         margin: 20px auto;
         background: white;
         padding: 30px;
@@ -328,7 +328,7 @@
     .admin-panel {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.8s ease, padding 0.8s ease, margin 0.8s ease;
+        transition: max-height 1s ease, padding 1s ease, margin 1s ease;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         border-radius: 15px;
         margin: 0;
@@ -337,7 +337,7 @@
     }
     
     .admin-panel.active {
-        max-height: 1000px;
+        max-height: 1500px;
         padding: 25px 20px;
         margin-top: 25px;
         border-color: rgba(44, 90, 160, 0.3);
@@ -447,7 +447,7 @@
         display: none;
     }
     
-    /* تصميم قسم تحديد التاريخ - داخل الإدارة */
+    /* تصميم قسم تحديد التاريخ */
     .date-section {
         display: none;
         animation: fadeIn 0.8s ease;
@@ -525,6 +525,166 @@
         color: #333;
     }
     
+    /* تصميم قسم التحضير الشهري */
+    .monthly-section {
+        display: none;
+        animation: fadeIn 0.8s ease;
+        margin-top: 25px;
+        padding-top: 25px;
+        border-top: 2px dashed #ccc;
+    }
+    
+    .monthly-section.active {
+        display: block;
+    }
+    
+    .monthly-title {
+        color: #2c5aa0;
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .monthly-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+    
+    .month-select {
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-family: 'Tajawal', sans-serif;
+        text-align: center;
+        min-width: 150px;
+        transition: border-color 0.3s;
+    }
+    
+    .month-select:focus, .year-select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+    }
+    
+    .year-select {
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-family: 'Tajawal', sans-serif;
+        text-align: center;
+        min-width: 120px;
+        transition: border-color 0.3s;
+    }
+    
+    .monthly-btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 700;
+        font-family: 'Tajawal', sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(to right, #8e44ad, #9b59b6);
+        color: white;
+    }
+    
+    .monthly-btn:hover {
+        background: linear-gradient(to right, #6c3483, #7d3c98);
+        transform: translateY(-2px);
+    }
+    
+    .monthly-table-container {
+        overflow-x: auto;
+        margin-top: 20px;
+        border-radius: 10px;
+        border: 2px solid #ddd;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+    
+    .monthly-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+    
+    .monthly-table th {
+        background: linear-gradient(to right, #8e44ad, #9b59b6);
+        color: white;
+        padding: 12px 8px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .monthly-table td {
+        padding: 10px 8px;
+        border: 1px solid #eee;
+        text-align: center;
+    }
+    
+    .monthly-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
+    .day-header {
+        font-weight: bold;
+        background-color: rgba(142, 68, 173, 0.1);
+    }
+    
+    .weekend-day {
+        background-color: rgba(231, 76, 60, 0.1);
+        color: #c0392b;
+        font-weight: bold;
+    }
+    
+    .day-cell {
+        min-width: 100px;
+    }
+    
+    .monthly-summary {
+        margin-top: 20px;
+        padding: 15px;
+        background: linear-gradient(to right, rgba(142, 68, 173, 0.1), rgba(155, 89, 182, 0.1));
+        border-radius: 10px;
+        border: 2px solid rgba(142, 68, 173, 0.3);
+    }
+    
+    .monthly-summary h4 {
+        color: #8e44ad;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    
+    .monthly-summary-stats {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .monthly-stat {
+        text-align: center;
+        padding: 10px;
+        background: white;
+        border-radius: 8px;
+        min-width: 120px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    }
+    
     /* تصميم متجاوب */
     @media (max-width: 768px) {
         .container {
@@ -578,12 +738,20 @@
             min-width: auto;
         }
         
-        .date-controls {
+        .date-controls, .monthly-controls {
             flex-direction: column;
         }
         
-        .date-input {
+        .date-input, .month-select, .year-select {
             min-width: 100%;
+        }
+        
+        .monthly-table-container {
+            font-size: 0.9rem;
+        }
+        
+        .monthly-table th, .monthly-table td {
+            padding: 8px 5px;
         }
     }
     
@@ -817,6 +985,48 @@
                     <i class="far fa-calendar-check"></i> تاريخ الحضور: <span id="currentDateDisplay">اليوم</span>
                 </div>
             </div>
+            
+            <!-- قسم التحضير الشهري - مخفي حتى التحقق -->
+            <div class="monthly-section" id="monthlySection">
+                <div class="monthly-title">
+                    <i class="fas fa-calendar-day"></i> التحضير الشهري
+                </div>
+                <p class="admin-description">التحضير الشهري من يوم 1 إلى 26 من الشهر (مستثنى الجمعة والسبت):</p>
+                <div class="monthly-controls">
+                    <select class="month-select" id="monthSelect">
+                        <option value="0">يناير</option>
+                        <option value="1">فبراير</option>
+                        <option value="2">مارس</option>
+                        <option value="3">أبريل</option>
+                        <option value="4">مايو</option>
+                        <option value="5">يونيو</option>
+                        <option value="6">يوليو</option>
+                        <option value="7">أغسطس</option>
+                        <option value="8">سبتمبر</option>
+                        <option value="9">أكتوبر</option>
+                        <option value="10">نوفمبر</option>
+                        <option value="11">ديسمبر</option>
+                    </select>
+                    <select class="year-select" id="yearSelect"></select>
+                    <button class="monthly-btn" onclick="generateMonthlyTable()">
+                        <i class="fas fa-calendar-plus"></i> إنشاء جدول الشهر
+                    </button>
+                    <button class="monthly-btn" onclick="exportMonthlyPDF()" style="background: linear-gradient(to right, #27ae60, #2ecc71);">
+                        <i class="fas fa-file-pdf"></i> تصدير الشهر
+                    </button>
+                </div>
+                
+                <div class="monthly-table-container" id="monthlyTableContainer">
+                    <!-- سيتم إنشاء جدول الشهري هنا -->
+                </div>
+                
+                <div class="monthly-summary" id="monthlySummary" style="display: none;">
+                    <h4><i class="fas fa-chart-bar"></i> إحصائيات الشهر</h4>
+                    <div class="monthly-summary-stats" id="monthlySummaryStats">
+                        <!-- سيتم ملؤها بالإحصائيات -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -846,6 +1056,26 @@ let isAdminAuthenticated = false;
 
 // متغير لتخزين تاريخ الحضور المحدد
 let selectedAttendanceDate = null;
+
+// تخزين بيانات التحضير الشهري
+let monthlyAttendanceData = {};
+
+// تهيئة سنوات في القائمة المنسدلة
+function initializeYearSelect() {
+    const yearSelect = document.getElementById('yearSelect');
+    const currentYear = new Date().getFullYear();
+    
+    // إضافة سنوات من 2020 إلى 2030
+    for (let year = 2020; year <= 2030; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        if (year === currentYear) {
+            option.selected = true;
+        }
+        yearSelect.appendChild(option);
+    }
+}
 
 // تهيئة حقل التاريخ بالقيمة الحالية
 function initializeDateField() {
@@ -894,6 +1124,279 @@ function resetToToday() {
     showNotification('تم الرجوع إلى تاريخ اليوم', 'present');
 }
 
+// إنشاء جدول التحضير الشهري
+function generateMonthlyTable() {
+    const month = parseInt(document.getElementById('monthSelect').value);
+    const year = parseInt(document.getElementById('yearSelect').value);
+    
+    // إنشاء تاريخ للشهر المحدد
+    const date = new Date(year, month, 1);
+    const monthName = date.toLocaleDateString('ar-SA', { month: 'long' });
+    const yearName = date.toLocaleDateString('ar-SA', { year: 'numeric' });
+    
+    // إعداد بيانات الشهر في حالة عدم وجودها
+    const monthKey = `${year}-${month + 1}`;
+    if (!monthlyAttendanceData[monthKey]) {
+        monthlyAttendanceData[monthKey] = {};
+        
+        // تهيئة بيانات جميع الطلاب لجميع الأيام
+        for (let day = 1; day <= 26; day++) {
+            const dayDate = new Date(year, month, day);
+            // تخطي الجمعة (5) والسبت (6)
+            if (dayDate.getDay() !== 5 && dayDate.getDay() !== 6) {
+                const dayKey = `${year}-${month + 1}-${day}`;
+                monthlyAttendanceData[monthKey][dayKey] = {};
+                
+                // تعيين جميع الطلاب كحاضرين افتراضيًا
+                for (let i = 1; i <= totalStudents; i++) {
+                    monthlyAttendanceData[monthKey][dayKey][i] = 'present';
+                }
+            }
+        }
+    }
+    
+    // إنشاء جدول HTML
+    let tableHTML = `
+        <table class="monthly-table">
+            <thead>
+                <tr>
+                    <th>اسم الطالب</th>
+    `;
+    
+    // إضافة عناوين الأيام (1 إلى 26) مع استثناء الجمعة والسبت
+    for (let day = 1; day <= 26; day++) {
+        const dayDate = new Date(year, month, day);
+        const dayOfWeek = dayDate.getDay();
+        const dayName = getArabicDayName(dayOfWeek);
+        
+        // تخطي الجمعة (5) والسبت (6)
+        if (dayOfWeek === 5 || dayOfWeek === 6) {
+            tableHTML += `<th class="weekend-day">${day}<br>${dayName}</th>`;
+        } else {
+            tableHTML += `<th class="day-header">${day}<br>${dayName}</th>`;
+        }
+    }
+    
+    tableHTML += `</tr></thead><tbody>`;
+    
+    // إضافة صفوف الطلاب
+    const studentNames = [
+        "أحمد محمد", "جسّار فهد", "سارة عبدالله", "يوسف خالد",
+        "نورة سعيد", "فارس علي", "ليلى حسن", "محمد علي"
+    ];
+    
+    for (let i = 0; i < totalStudents; i++) {
+        const studentId = i + 1;
+        tableHTML += `<tr><td class="student-name">${studentNames[i]}</td>`;
+        
+        for (let day = 1; day <= 26; day++) {
+            const dayDate = new Date(year, month, day);
+            const dayOfWeek = dayDate.getDay();
+            const dayKey = `${year}-${month + 1}-${day}`;
+            
+            // تحديد حالة الحضور للطالب لهذا اليوم
+            let attendanceStatus = 'present';
+            if (monthlyAttendanceData[monthKey] && monthlyAttendanceData[monthKey][dayKey]) {
+                attendanceStatus = monthlyAttendanceData[monthKey][dayKey][studentId] || 'present';
+            }
+            
+            // تخطي الجمعة (5) والسبت (6)
+            if (dayOfWeek === 5 || dayOfWeek === 6) {
+                tableHTML += `<td class="weekend-day"><i class="fas fa-ban" style="color: #95a5a6;"></i><br>عطلة</td>`;
+            } else {
+                const isPresent = attendanceStatus === 'present';
+                const iconClass = isPresent ? 'fas fa-check present-icon-small' : 'fas fa-times absent-icon-small';
+                const iconColor = isPresent ? '#2e7d32' : '#c62828';
+                
+                tableHTML += `
+                    <td class="day-cell">
+                        <div class="monthly-attendance-icon" onclick="toggleMonthlyAttendance(${studentId}, ${day}, ${month}, ${year})" 
+                             style="cursor: pointer; font-size: 1.5rem; color: ${iconColor};">
+                            <i class="${iconClass}"></i>
+                        </div>
+                        <div style="font-size: 0.8rem; margin-top: 5px;">
+                            ${isPresent ? 'حاضر' : 'غائب'}
+                        </div>
+                    </td>
+                `;
+            }
+        }
+        
+        tableHTML += `</tr>`;
+    }
+    
+    tableHTML += `</tbody></table>`;
+    
+    // إضافة الجدول إلى الصفحة
+    document.getElementById('monthlyTableContainer').innerHTML = tableHTML;
+    
+    // إظهار قسم الإحصائيات
+    updateMonthlySummary(monthKey);
+    document.getElementById('monthlySummary').style.display = 'block';
+    
+    showNotification(`تم إنشاء جدول التحضير الشهري لـ ${monthName} ${yearName}`, 'present');
+}
+
+// الحصول على اسم اليوم بالعربية
+function getArabicDayName(dayOfWeek) {
+    const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+    return days[dayOfWeek];
+}
+
+// تبديل حالة الحضور في الجدول الشهري
+function toggleMonthlyAttendance(studentId, day, month, year) {
+    const monthKey = `${year}-${month + 1}`;
+    const dayKey = `${year}-${month + 1}-${day}`;
+    
+    // التأكد من وجود البيانات
+    if (!monthlyAttendanceData[monthKey]) {
+        monthlyAttendanceData[monthKey] = {};
+    }
+    if (!monthlyAttendanceData[monthKey][dayKey]) {
+        monthlyAttendanceData[monthKey][dayKey] = {};
+    }
+    
+    // تبديل الحالة
+    const currentStatus = monthlyAttendanceData[monthKey][dayKey][studentId] || 'present';
+    const newStatus = currentStatus === 'present' ? 'absent' : 'present';
+    
+    monthlyAttendanceData[monthKey][dayKey][studentId] = newStatus;
+    
+    // تحديث الجدول
+    generateMonthlyTable();
+    
+    // إشعار بصري
+    const studentNames = [
+        "أحمد محمد", "جسّار فهد", "سارة عبدالله", "يوسف خالد",
+        "نورة سعيد", "فارس علي", "ليلى حسن", "محمد علي"
+    ];
+    
+    showNotification(`تم تغيير حالة ${studentNames[studentId-1]} ليوم ${day}`, newStatus);
+}
+
+// تحديث إحصائيات الشهر
+function updateMonthlySummary(monthKey) {
+    if (!monthlyAttendanceData[monthKey]) return;
+    
+    let totalDays = 0;
+    let totalPresent = 0;
+    let totalAbsent = 0;
+    const studentStats = {};
+    
+    // تهيئة إحصائيات الطلاب
+    for (let i = 1; i <= totalStudents; i++) {
+        studentStats[i] = { present: 0, absent: 0 };
+    }
+    
+    // حساب الإحصائيات
+    for (const dayKey in monthlyAttendanceData[monthKey]) {
+        totalDays++;
+        
+        for (let i = 1; i <= totalStudents; i++) {
+            const status = monthlyAttendanceData[monthKey][dayKey][i] || 'present';
+            
+            if (status === 'present') {
+                totalPresent++;
+                studentStats[i].present++;
+            } else {
+                totalAbsent++;
+                studentStats[i].absent++;
+            }
+        }
+    }
+    
+    // تحديث عرض الإحصائيات
+    const summaryHTML = `
+        <div class="monthly-stat">
+            <div style="font-size: 1.8rem; color: #2c5aa0; font-weight: bold;">${totalDays}</div>
+            <div>أيام الدراسة</div>
+        </div>
+        <div class="monthly-stat">
+            <div style="font-size: 1.8rem; color: #2e7d32; font-weight: bold;">${totalPresent}</div>
+            <div>حضور كلي</div>
+        </div>
+        <div class="monthly-stat">
+            <div style="font-size: 1.8rem; color: #c62828; font-weight: bold;">${totalAbsent}</div>
+            <div>غياب كلي</div>
+        </div>
+        <div class="monthly-stat">
+            <div style="font-size: 1.8rem; color: #f57c00; font-weight: bold;">${totalDays > 0 ? Math.round((totalPresent / (totalDays * totalStudents)) * 100) : 0}%</div>
+            <div>نسبة الحضور</div>
+        </div>
+    `;
+    
+    document.getElementById('monthlySummaryStats').innerHTML = summaryHTML;
+}
+
+// تصدير جدول الشهر كملف PDF
+async function exportMonthlyPDF() {
+    const month = parseInt(document.getElementById('monthSelect').value);
+    const year = parseInt(document.getElementById('yearSelect').value);
+    
+    const date = new Date(year, month, 1);
+    const monthName = date.toLocaleDateString('ar-SA', { month: 'long' });
+    const yearName = date.toLocaleDateString('ar-SA', { year: 'numeric' });
+    
+    // إضافة عنوان للجدول الشهري
+    const monthlyTableContainer = document.getElementById('monthlyTableContainer');
+    const originalContent = monthlyTableContainer.innerHTML;
+    
+    const titleElement = document.createElement('div');
+    titleElement.style.cssText = 'text-align: center; margin-bottom: 20px; color: #2c5aa0; font-size: 1.5rem; font-weight: bold;';
+    titleElement.innerHTML = `<i class="fas fa-calendar-alt"></i> جدول التحضير الشهري - ${monthName} ${yearName}`;
+    
+    monthlyTableContainer.insertBefore(titleElement, monthlyTableContainer.firstChild);
+    
+    const { jsPDF } = window.jspdf;
+    
+    // تغيير نص زر التصدير مؤقتًا
+    const exportBtn = document.querySelector('.monthly-btn');
+    const originalText = exportBtn.innerHTML;
+    exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التصدير...';
+    exportBtn.disabled = true;
+    
+    const canvas = await html2canvas(monthlyTableContainer, { 
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+    });
+
+    // إعادة المحتوى الأصلي
+    monthlyTableContainer.removeChild(titleElement);
+    
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("l", "mm", "a4"); // اتجاه أفقي للجدول الطويل
+
+    let width = pdf.internal.pageSize.getWidth();
+    let height = (canvas.height * width) / canvas.width;
+
+    // إذا كان المحتوى طويلاً جداً، نقسمه على صفحات
+    if (height > pdf.internal.pageSize.getHeight()) {
+        let position = 0;
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        
+        while (height > 0) {
+            pdf.addImage(imgData, "PNG", 0, position, width, height);
+            height -= pageHeight;
+            position -= pageHeight;
+            
+            if (height > 0) {
+                pdf.addPage();
+            }
+        }
+    } else {
+        pdf.addImage(imgData, "PNG", 0, 0, width, height);
+    }
+    
+    pdf.save(`سجل-الحضور-الشهري-${monthName}-${yearName}.pdf`);
+    
+    // إعادة زر التصدير إلى وضعه الأصلي
+    exportBtn.innerHTML = originalText;
+    exportBtn.disabled = false;
+    
+    showNotification('تم تصدير جدول الشهر كملف PDF بنجاح!', 'present');
+}
+
 // فتح/إغلاق لوحة الإدارة
 function toggleAdminPanel() {
     const adminPanel = document.getElementById('adminPanel');
@@ -905,9 +1408,6 @@ function toggleAdminPanel() {
         adminBtn.innerHTML = '<i class="fas fa-cog"></i> إدارة';
         adminBtn.style.background = 'linear-gradient(to right, #5d4037, #795548)';
         
-        // إخفاء قسم التاريخ إذا كان ظاهرًا
-        document.getElementById('dateSection').classList.remove('active');
-        
         // إعادة تعيين كلمة المرور
         document.getElementById('passwordInput').value = '';
         document.getElementById('passwordError').style.display = 'none';
@@ -917,14 +1417,16 @@ function toggleAdminPanel() {
         adminBtn.innerHTML = '<i class="fas fa-times"></i> إغلاق الإدارة';
         adminBtn.style.background = 'linear-gradient(to right, #757575, #9e9e9e)';
         
-        // إذا تم التحقق مسبقًا، إظهار قسم التاريخ مباشرة
+        // إذا تم التحقق مسبقًا، إظهار أقسام الإدارة مباشرة
         if (isAdminAuthenticated) {
             document.getElementById('passwordSection').style.display = 'none';
             document.getElementById('dateSection').classList.add('active');
+            document.getElementById('monthlySection').classList.add('active');
             initializeDateField();
         } else {
             document.getElementById('passwordSection').style.display = 'block';
             document.getElementById('dateSection').classList.remove('active');
+            document.getElementById('monthlySection').classList.remove('active');
             document.getElementById('passwordInput').focus();
         }
     }
@@ -936,6 +1438,7 @@ function checkPassword() {
     const errorElement = document.getElementById('passwordError');
     const passwordSection = document.getElementById('passwordSection');
     const dateSection = document.getElementById('dateSection');
+    const monthlySection = document.getElementById('monthlySection');
     
     // كلمة المرور الصحيحة: Jassar1436
     if (password === 'Jassar1436') {
@@ -943,12 +1446,14 @@ function checkPassword() {
         isAdminAuthenticated = true;
         document.getElementById('randomBtn').style.display = 'flex';
         
-        // إخفاء قسم كلمة المرور وإظهار قسم التاريخ
+        // إخفاء قسم كلمة المرور وإظهار أقسام الإدارة
         passwordSection.style.display = 'none';
         dateSection.classList.add('active');
+        monthlySection.classList.add('active');
         
-        // تهيئة حقل التاريخ
+        // تهيئة حقول الإدارة
         initializeDateField();
+        initializeYearSelect();
         
         // إظهار رسالة نجاح
         showNotification('تم التحقق من الهوية بنجاح! خيارات الإدارة متاحة الآن.', 'present');
