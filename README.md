@@ -56,16 +56,29 @@
         color: #333;
         line-height: 1.6;
         min-height: 100vh;
+        transition: filter 0.3s ease;
     }
 
-    /* منع تأثير blur على النوافذ المنبثقة نفسها */
+    /* تأثير blur على المحتوى الرئيسي فقط */
     body.blurred {
-        filter: blur(3px);
+        overflow: hidden;
     }
 
+    .main-blur {
+        transition: filter 0.3s ease;
+    }
+
+    body.blurred .main-blur {
+        filter: blur(5px);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    /* إصلاح: منع تأثير blur على النوافذ المنبثقة */
     .password-modal,
     .admin-modal {
         filter: none !important;
+        backdrop-filter: none !important;
     }
 
     /* ============= الهيدر مع زر Admin ============= */
@@ -168,6 +181,7 @@
         align-items: center;
         justify-content: center;
         animation: fadeIn 0.3s ease;
+        backdrop-filter: none;
     }
 
     .password-modal.active {
@@ -187,6 +201,7 @@
         animation: scaleIn 0.3s ease forwards;
         position: relative;
         z-index: 1001;
+        filter: none !important;
     }
 
     @keyframes scaleIn {
@@ -281,6 +296,7 @@
         z-index: 1001;
         overflow-y: auto;
         animation: fadeIn 0.3s ease;
+        backdrop-filter: none;
     }
 
     .admin-modal.active {
@@ -300,6 +316,7 @@
         max-height: 90vh;
         overflow-y: auto;
         animation: slideUp 0.4s ease;
+        filter: none !important;
     }
 
     @keyframes slideUp {
@@ -875,19 +892,76 @@
 </head>
 <body>
 
-<header>
-    <button class="admin-btn" onclick="showAdminLogin()">
-        <i class="fas fa-user-shield"></i> Admin
-    </button>
-    
-    <div class="header-content">
-        <div class="school-logo">
-            <i class="fas fa-graduation-cap"></i>
+<div class="main-blur">
+    <header>
+        <button class="admin-btn" onclick="showAdminLogin()">
+            <i class="fas fa-user-shield"></i> Admin
+        </button>
+        
+        <div class="header-content">
+            <div class="school-logo">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1>سجل متابعة الطلاب - النظام الأكاديمي</h1>
+            <h2>مادة اللغة الإنجليزية — المعلم: فهد الخالدي</h2>
         </div>
-        <h1>سجل متابعة الطلاب - النظام الأكاديمي</h1>
-        <h2>مادة اللغة الإنجليزية — المعلم: فهد الخالدي</h2>
+    </header>
+
+    <!-- اختيار الفصل -->
+    <div class="class-selector">
+        <button onclick="showClass('c3_1')" class="active">الصف ٣/١</button>
+        <button onclick="showClass('c2_3')">الصف ٢/٣</button>
+        <button onclick="showClass('c3_3')">الصف ٣/٣</button>
+        <button onclick="showClass('c4_3')">الصف ٤/٣</button>
+        <button onclick="showClass('c5_3')">الصف ٥/٣</button>
     </div>
-</header>
+
+    <!-- التاريخ -->
+    <div class="date-container">
+        <div class="date-row">
+            <div class="date-group">
+                <label for="gregorianDate">
+                    <i class="fas fa-calendar-alt"></i>
+                    التاريخ الميلادي:
+                </label>
+                <input type="date" id="gregorianDate" class="date-input">
+                <div id="gregorianNotice" class="conversion-notice" style="display: none;">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>سيتم تحويل التاريخ تلقائياً إلى الهجري</span>
+                </div>
+            </div>
+            
+            <div class="date-group">
+                <label for="hijriDate">
+                    <i class="fas fa-moon"></i>
+                    التاريخ الهجري:
+                </label>
+                <input type="text" id="hijriDate" class="date-input" placeholder="يوم / شهر / سنة هـ (مثال: 15 / 9 / 1445)">
+                <div id="hijriNotice" class="conversion-notice" style="display: none;">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>سيتم تحويل التاريخ تلقائياً إلى الميلادي</span>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <button id="todayBtn" class="btn" style="background: var(--warning-color); color: white;">
+                <i class="fas fa-calendar-day"></i> تعيين تاريخ اليوم
+            </button>
+        </div>
+    </div>
+
+    <!-- 🔥 محتوى الفصول -->
+    <div id="classContent"></div>
+
+    <!-- PDF -->
+    <div class="pdf-container">
+        <button id="exportPDF" onclick="generatePDF()">
+            <i class="fas fa-file-pdf"></i>
+            <span>تصدير التقرير بصيغة PDF</span>
+        </button>
+    </div>
+</div>
 
 <!-- نافذة إدخال كلمة مرور Admin -->
 <div class="password-modal" id="passwordModal">
@@ -1033,61 +1107,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<!-- اختيار الفصل -->
-<div class="class-selector">
-    <button onclick="showClass('c3_1')" class="active">الصف ٣/١</button>
-    <button onclick="showClass('c2_3')">الصف ٢/٣</button>
-    <button onclick="showClass('c3_3')">الصف ٣/٣</button>
-    <button onclick="showClass('c4_3')">الصف ٤/٣</button>
-    <button onclick="showClass('c5_3')">الصف ٥/٣</button>
-</div>
-
-<!-- التاريخ -->
-<div class="date-container">
-    <div class="date-row">
-        <div class="date-group">
-            <label for="gregorianDate">
-                <i class="fas fa-calendar-alt"></i>
-                التاريخ الميلادي:
-            </label>
-            <input type="date" id="gregorianDate" class="date-input">
-            <div id="gregorianNotice" class="conversion-notice" style="display: none;">
-                <i class="fas fa-sync-alt"></i>
-                <span>سيتم تحويل التاريخ تلقائياً إلى الهجري</span>
-            </div>
-        </div>
-        
-        <div class="date-group">
-            <label for="hijriDate">
-                <i class="fas fa-moon"></i>
-                التاريخ الهجري:
-            </label>
-            <input type="text" id="hijriDate" class="date-input" placeholder="يوم / شهر / سنة هـ (مثال: 15 / 9 / 1445)">
-            <div id="hijriNotice" class="conversion-notice" style="display: none;">
-                <i class="fas fa-sync-alt"></i>
-                <span>سيتم تحويل التاريخ تلقائياً إلى الميلادي</span>
-            </div>
-        </div>
-    </div>
-    
-    <div style="text-align: center;">
-        <button id="todayBtn" class="btn" style="background: var(--warning-color); color: white;">
-            <i class="fas fa-calendar-day"></i> تعيين تاريخ اليوم
-        </button>
-    </div>
-</div>
-
-<!-- 🔥 محتوى الفصول -->
-<div id="classContent"></div>
-
-<!-- PDF -->
-<div class="pdf-container">
-    <button id="exportPDF" onclick="generatePDF()">
-        <i class="fas fa-file-pdf"></i>
-        <span>تصدير التقرير بصيغة PDF</span>
-    </button>
 </div>
 
 <!-- إشعارات -->
