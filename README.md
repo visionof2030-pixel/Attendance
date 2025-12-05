@@ -34,12 +34,12 @@
     }
     
     .container {
-        max-width: 800px;
+        max-width: 900px;
         margin: 20px auto;
         background: white;
-        padding: 25px;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         border: 1px solid var(--border-color);
     }
     
@@ -47,10 +47,10 @@
         margin-top: 0;
         text-align: center;
         color: var(--primary-color);
-        font-size: 1.8rem;
-        padding-bottom: 15px;
+        font-size: 2.2rem;
+        padding-bottom: 20px;
         border-bottom: 2px solid #f0f0f0;
-        margin-bottom: 25px;
+        margin-bottom: 30px;
         position: relative;
     }
     
@@ -60,10 +60,10 @@
         bottom: -2px;
         right: 50%;
         transform: translateX(50%);
-        width: 100px;
-        height: 3px;
+        width: 150px;
+        height: 4px;
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
-        border-radius: 3px;
+        border-radius: 4px;
     }
     
     table {
@@ -72,12 +72,13 @@
         border-spacing: 0;
         margin-top: 15px;
         overflow: hidden;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        font-size: 1.1rem;
     }
     
     th, td {
-        padding: 15px 12px;
+        padding: 20px 15px;
         text-align: center;
         border: 1px solid var(--border-color);
     }
@@ -86,7 +87,8 @@
         background: linear-gradient(to right, #2c5aa0, #3a6bc5);
         color: white;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1.3rem;
+        letter-spacing: 1px;
     }
     
     tr:nth-child(even) {
@@ -95,228 +97,331 @@
     
     tr:hover {
         background-color: #f0f7ff;
-        transition: background-color 0.2s;
+        transition: background-color 0.3s;
     }
     
-    /* تحسين تصميم الأزرار */
-    .btn-group {
+    /* تصميم خلايا الحضور */
+    .attendance-cell {
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .status-icon {
+        font-size: 3rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .status-icon:hover {
+        transform: scale(1.15);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .present-icon {
+        color: var(--present-color);
+        background-color: rgba(46, 125, 50, 0.1);
+        border: 3px solid rgba(46, 125, 50, 0.3);
+    }
+    
+    .present-icon:hover {
+        background-color: rgba(46, 125, 50, 0.2);
+        border-color: rgba(46, 125, 50, 0.5);
+    }
+    
+    .absent-icon {
+        color: var(--absent-color);
+        background-color: rgba(198, 40, 40, 0.1);
+        border: 3px solid rgba(198, 40, 40, 0.3);
+    }
+    
+    .absent-icon:hover {
+        background-color: rgba(198, 40, 40, 0.2);
+        border-color: rgba(198, 40, 40, 0.5);
+    }
+    
+    .status-label {
+        display: block;
+        margin-top: 10px;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+    
+    .present-label {
+        color: var(--present-color);
+    }
+    
+    .absent-label {
+        color: var(--absent-color);
+    }
+    
+    .status-controls {
         display: flex;
         justify-content: center;
-        gap: 8px;
+        gap: 15px;
+        margin-top: 20px;
+        flex-wrap: wrap;
     }
     
-    .btn {
-        padding: 10px 18px;
+    .status-btn {
+        padding: 12px 25px;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        font-weight: 600;
+        font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.95rem;
+        font-size: 1.1rem;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
-        min-width: 100px;
+        gap: 10px;
+        min-width: 150px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .status-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .status-btn:active {
+        transform: translateY(0);
         box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
     }
     
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-    }
-    
-    .btn:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-    }
-    
-    .present {
+    .present-btn {
         background: linear-gradient(to right, var(--present-color), #4caf50);
         color: white;
     }
     
-    .present:hover {
+    .present-btn:hover {
         background: linear-gradient(to right, var(--hover-present), #2e7d32);
     }
     
-    .absent {
+    .absent-btn {
         background: linear-gradient(to right, var(--absent-color), #f44336);
         color: white;
     }
     
-    .absent:hover {
+    .absent-btn:hover {
         background: linear-gradient(to right, var(--hover-absent), #c62828);
     }
     
     .export-container {
         text-align: center;
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px dashed #ddd;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px dashed #ddd;
     }
     
     .export {
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         color: white;
-        padding: 14px 28px;
-        font-size: 1.1rem;
-        border-radius: 10px;
-        min-width: 200px;
-        box-shadow: 0 5px 15px rgba(42, 91, 173, 0.3);
+        padding: 18px 35px;
+        font-size: 1.3rem;
+        border-radius: 12px;
+        min-width: 280px;
+        box-shadow: 0 8px 20px rgba(42, 91, 173, 0.3);
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        font-family: 'Tajawal', sans-serif;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
     }
     
     .export:hover {
         background: linear-gradient(to right, #1e3f7a, #2c5aa0);
-        box-shadow: 0 7px 18px rgba(42, 91, 173, 0.4);
-    }
-    
-    .status-indicator {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-left: 8px;
-        vertical-align: middle;
-    }
-    
-    .status-present {
-        background-color: var(--present-color);
-    }
-    
-    .status-absent {
-        background-color: var(--absent-color);
-    }
-    
-    /* تحسين مظهر حالة التحديد */
-    .selected {
-        box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.3);
-        font-weight: 700;
-    }
-    
-    .selected.absent {
-        box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.3);
+        box-shadow: 0 12px 25px rgba(42, 91, 173, 0.4);
+        transform: translateY(-3px);
     }
     
     .footer-note {
         text-align: center;
-        margin-top: 15px;
+        margin-top: 25px;
         color: #666;
-        font-size: 0.9rem;
-        padding: 10px;
+        font-size: 1rem;
+        padding: 15px;
         background-color: #f8f9fa;
-        border-radius: 8px;
-        border-right: 4px solid var(--primary-color);
+        border-radius: 12px;
+        border-right: 5px solid var(--primary-color);
+        line-height: 1.6;
+    }
+    
+    .student-name {
+        font-size: 1.3rem;
+        font-weight: 600;
     }
     
     /* تصميم متجاوب */
     @media (max-width: 768px) {
         .container {
-            padding: 15px;
+            padding: 20px;
             margin: 10px;
         }
         
-        .btn-group {
-            flex-direction: column;
-            align-items: center;
+        h2 {
+            font-size: 1.8rem;
         }
         
-        .btn {
-            width: 100%;
-            max-width: 180px;
+        .status-icon {
+            font-size: 2.5rem;
+            width: 70px;
+            height: 70px;
         }
         
         table {
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
         
         th, td {
-            padding: 10px 8px;
+            padding: 15px 10px;
         }
+        
+        .export {
+            min-width: 100%;
+            padding: 16px;
+        }
+        
+        .status-btn {
+            min-width: 130px;
+            padding: 10px 20px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .status-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+        }
+        
+        th {
+            font-size: 1.1rem;
+        }
+        
+        .student-name {
+            font-size: 1.1rem;
+        }
+    }
+    
+    /* أنيميشن للأيقونات */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    .status-icon.pulse {
+        animation: pulse 0.5s ease;
     }
 </style>
 </head>
 <body>
 
 <div class="container" id="captureArea">
-    <h2><i class="fas fa-users" style="margin-left: 10px;"></i> سجل حضور الطلاب - نسخة مطورة</h2>
+    <h2><i class="fas fa-users" style="margin-left: 15px;"></i> سجل حضور الطلاب - نظام الأيقونات</h2>
 
     <table>
         <thead>
             <tr>
                 <th width="15%">الرقم</th>
-                <th width="50%">اسم الطالب</th>
-                <th width="35%">الحضور</th>
+                <th width="45%">اسم الطالب</th>
+                <th width="40%">الحضور</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>1</td>
-                <td>أحمد محمد</td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn present" onclick="setStatus(this, 1)">
-                            <i class="fas fa-check"></i> حاضر
-                        </button>
-                        <button class="btn absent" onclick="setStatus(this, 1)">
-                            <i class="fas fa-times"></i> غائب
-                        </button>
+                <td class="student-name">أحمد محمد</td>
+                <td class="attendance-cell">
+                    <div class="status-icon present-icon" onclick="toggleStatus(1)" id="status-1">
+                        <i class="fas fa-check"></i>
                     </div>
+                    <span class="status-label present-label" id="label-1">حاضر</span>
                 </td>
             </tr>
             <tr>
                 <td>2</td>
-                <td>جسّار فهد</td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn present" onclick="setStatus(this, 2)">
-                            <i class="fas fa-check"></i> حاضر
-                        </button>
-                        <button class="btn absent" onclick="setStatus(this, 2)">
-                            <i class="fas fa-times"></i> غائب
-                        </button>
+                <td class="student-name">جسّار فهد</td>
+                <td class="attendance-cell">
+                    <div class="status-icon present-icon" onclick="toggleStatus(2)" id="status-2">
+                        <i class="fas fa-check"></i>
                     </div>
+                    <span class="status-label present-label" id="label-2">حاضر</span>
                 </td>
             </tr>
             <tr>
                 <td>3</td>
-                <td>سارة عبدالله</td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn present" onclick="setStatus(this, 3)">
-                            <i class="fas fa-check"></i> حاضر
-                        </button>
-                        <button class="btn absent" onclick="setStatus(this, 3)">
-                            <i class="fas fa-times"></i> غائب
-                        </button>
+                <td class="student-name">سارة عبدالله</td>
+                <td class="attendance-cell">
+                    <div class="status-icon present-icon" onclick="toggleStatus(3)" id="status-3">
+                        <i class="fas fa-check"></i>
                     </div>
+                    <span class="status-label present-label" id="label-3">حاضر</span>
                 </td>
             </tr>
             <tr>
                 <td>4</td>
-                <td>يوسف خالد</td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn present" onclick="setStatus(this, 4)">
-                            <i class="fas fa-check"></i> حاضر
-                        </button>
-                        <button class="btn absent" onclick="setStatus(this, 4)">
-                            <i class="fas fa-times"></i> غائب
-                        </button>
+                <td class="student-name">يوسف خالد</td>
+                <td class="attendance-cell">
+                    <div class="status-icon absent-icon" onclick="toggleStatus(4)" id="status-4">
+                        <i class="fas fa-times"></i>
                     </div>
+                    <span class="status-label absent-label" id="label-4">غائب</span>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td class="student-name">نورة سعيد</td>
+                <td class="attendance-cell">
+                    <div class="status-icon present-icon" onclick="toggleStatus(5)" id="status-5">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="status-label present-label" id="label-5">حاضر</span>
+                </td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td class="student-name">فارس علي</td>
+                <td class="attendance-cell">
+                    <div class="status-icon absent-icon" onclick="toggleStatus(6)" id="status-6">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <span class="status-label absent-label" id="label-6">غائب</span>
                 </td>
             </tr>
         </tbody>
     </table>
     
+    <div class="status-controls">
+        <button class="status-btn present-btn" onclick="setAllPresent()">
+            <i class="fas fa-user-check"></i> تعيين الكل حاضر
+        </button>
+        <button class="status-btn absent-btn" onclick="setAllAbsent()">
+            <i class="fas fa-user-slash"></i> تعيين الكل غائب
+        </button>
+    </div>
+    
     <div class="footer-note">
-        <i class="fas fa-info-circle"></i> يتم حفظ حالة الحضور فقط خلال هذه الجلسة. لاحتفاظ دائم، يرجى تصدير الملف كـ PDF.
+        <i class="fas fa-info-circle" style="margin-left: 10px;"></i> انقر على أيقونة الحضور أو الغياب لتغيير حالة الطالب. يتم حفظ حالة الحضور فقط خلال هذه الجلسة. لاحتفاظ دائم، يرجى تصدير الملف كـ PDF.
     </div>
 </div>
 
 <div class="export-container">
-    <button class="btn export" onclick="exportPDF()">
+    <button class="export" onclick="exportPDF()">
         <i class="fas fa-file-pdf"></i> تصدير سجل الحضور كملف PDF
     </button>
 </div>
@@ -324,56 +429,135 @@
 <script>
 // تخزين حالة الطلاب
 let studentsStatus = {
-    1: null,
-    2: null,
-    3: null,
-    4: null
+    1: 'present',
+    2: 'present',
+    3: 'present',
+    4: 'absent',
+    5: 'present',
+    6: 'absent'
 };
 
-function setStatus(btn, studentId) {
-    // تحديد نوع الزر (حاضر أم غائب)
-    const isPresent = btn.classList.contains('present');
+// تبديل حالة الطالب بين حاضر وغائب
+function toggleStatus(studentId) {
+    const statusIcon = document.getElementById(`status-${studentId}`);
+    const statusLabel = document.getElementById(`label-${studentId}`);
     
-    // إزالة التحديد من جميع أزرار هذا الطالب
-    const parent = btn.parentElement;
-    const allButtons = parent.querySelectorAll("button");
-    allButtons.forEach(b => {
-        b.classList.remove('selected');
-        b.style.opacity = "0.7";
-    });
+    // إضافة تأثير النبض
+    statusIcon.classList.add('pulse');
+    setTimeout(() => {
+        statusIcon.classList.remove('pulse');
+    }, 500);
     
-    // تطبيق التحديد على الزر المختار
-    btn.classList.add('selected');
-    btn.style.opacity = "1";
-    
-    // حفظ الحالة
-    studentsStatus[studentId] = isPresent ? 'present' : 'absent';
-    
-    // إظهار إشعار بصري بسيط
-    showStatusNotification(isPresent ? 'حاضر' : 'غائب', studentId);
+    // تبديل الحالة
+    if (studentsStatus[studentId] === 'present') {
+        // تغيير إلى غائب
+        studentsStatus[studentId] = 'absent';
+        statusIcon.className = 'status-icon absent-icon';
+        statusIcon.innerHTML = '<i class="fas fa-times"></i>';
+        statusLabel.className = 'status-label absent-label';
+        statusLabel.textContent = 'غائب';
+        
+        // إشعار بصري
+        showNotification(`تم تغيير حالة الطالب ${studentId} إلى غائب`, 'absent');
+    } else {
+        // تغيير إلى حاضر
+        studentsStatus[studentId] = 'present';
+        statusIcon.className = 'status-icon present-icon';
+        statusIcon.innerHTML = '<i class="fas fa-check"></i>';
+        statusLabel.className = 'status-label present-label';
+        statusLabel.textContent = 'حاضر';
+        
+        // إشعار بصري
+        showNotification(`تم تغيير حالة الطالب ${studentId} إلى حاضر`, 'present');
+    }
 }
 
-function showStatusNotification(status, studentId) {
-    // إنشاء عنصر الإشعار المؤقت
+// تعيين جميع الطلاب كحاضرين
+function setAllPresent() {
+    for (let i = 1; i <= 6; i++) {
+        studentsStatus[i] = 'present';
+        const statusIcon = document.getElementById(`status-${i}`);
+        const statusLabel = document.getElementById(`label-${i}`);
+        
+        statusIcon.className = 'status-icon present-icon';
+        statusIcon.innerHTML = '<i class="fas fa-check"></i>';
+        statusLabel.className = 'status-label present-label';
+        statusLabel.textContent = 'حاضر';
+        
+        // تأثير لكل أيقونة
+        setTimeout(() => {
+            statusIcon.classList.add('pulse');
+            setTimeout(() => {
+                statusIcon.classList.remove('pulse');
+            }, 500);
+        }, i * 100);
+    }
+    
+    showNotification('تم تعيين جميع الطلاب كحاضرين', 'present');
+}
+
+// تعيين جميع الطلاب كغائبين
+function setAllAbsent() {
+    for (let i = 1; i <= 6; i++) {
+        studentsStatus[i] = 'absent';
+        const statusIcon = document.getElementById(`status-${i}`);
+        const statusLabel = document.getElementById(`label-${i}`);
+        
+        statusIcon.className = 'status-icon absent-icon';
+        statusIcon.innerHTML = '<i class="fas fa-times"></i>';
+        statusLabel.className = 'status-label absent-label';
+        statusLabel.textContent = 'غائب';
+        
+        // تأثير لكل أيقونة
+        setTimeout(() => {
+            statusIcon.classList.add('pulse');
+            setTimeout(() => {
+                statusIcon.classList.remove('pulse');
+            }, 500);
+        }, i * 100);
+    }
+    
+    showNotification('تم تعيين جميع الطلاب كغائبين', 'absent');
+}
+
+// إظهار إشعار مؤقت
+function showNotification(message, type) {
+    // إزالة أي إشعارات سابقة
+    const existingNotification = document.querySelector('.custom-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // إنشاء إشعار جديد
     const notification = document.createElement('div');
-    notification.textContent = `تم تسجيل حالة الطالب ${studentId} كـ ${status}`;
+    notification.className = 'custom-notification';
+    notification.textContent = message;
     notification.style.cssText = `
         position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${status === 'حاضر' ? 'var(--present-color)' : 'var(--absent-color)'};
+        top: 25px;
+        right: 25px;
+        background: ${type === 'present' ? 'var(--present-color)' : 'var(--absent-color)'};
         color: white;
-        padding: 12px 20px;
-        border-radius: 8px;
+        padding: 15px 25px;
+        border-radius: 10px;
         z-index: 1000;
         font-weight: bold;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        animation: fadeInOut 2.5s ease-in-out;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        animation: fadeInOut 3s ease-in-out;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     `;
+    
+    // إضافة أيقونة للإشعار
+    const icon = document.createElement('i');
+    icon.className = type === 'present' ? 'fas fa-check-circle' : 'fas fa-times-circle';
+    notification.prepend(icon);
     
     document.body.appendChild(notification);
     
-    // إزالة الإشعار بعد 2.5 ثانية
+    // إزالة الإشعار بعد 3 ثوان
     setTimeout(() => {
         notification.style.animation = 'fadeOut 0.5s ease-out forwards';
         setTimeout(() => {
@@ -381,17 +565,17 @@ function showStatusNotification(status, studentId) {
                 notification.parentNode.removeChild(notification);
             }
         }, 500);
-    }, 2000);
+    }, 2500);
 }
 
 // إضافة أنيميشن للإشعارات
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-20px); }
+        0% { opacity: 0; transform: translateY(-25px); }
         15% { opacity: 1; transform: translateY(0); }
         85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-20px); }
+        100% { opacity: 0; transform: translateY(-25px); }
     }
     @keyframes fadeOut {
         from { opacity: 1; }
@@ -412,8 +596,8 @@ async function exportPDF() {
     
     // إضافة تاريخ التصدير
     const dateElement = document.createElement('div');
-    dateElement.style.cssText = 'text-align: left; margin-bottom: 15px; color: #666; font-size: 0.9rem;';
-    dateElement.innerHTML = `<i class="far fa-calendar-alt"></i> تاريخ التصدير: ${new Date().toLocaleDateString('ar-SA')}`;
+    dateElement.style.cssText = 'text-align: left; margin-bottom: 20px; color: #666; font-size: 1rem; padding: 10px 15px; background: #f8f9fa; border-radius: 8px; border-right: 4px solid #2c5aa0;';
+    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 8px;"></i> تاريخ التصدير: ${new Date().toLocaleDateString('ar-SA')} - <i class="far fa-clock" style="margin-left: 8px;"></i> الوقت: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
     
     const captureArea = document.getElementById('captureArea');
     const originalContent = captureArea.innerHTML;
@@ -461,36 +645,7 @@ async function exportPDF() {
     exportBtn.disabled = false;
     
     // إظهار إشعار نجاح
-    showExportNotification();
-}
-
-function showExportNotification() {
-    const notification = document.createElement('div');
-    notification.textContent = 'تم تصدير ملف PDF بنجاح!';
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        background: var(--present-color);
-        color: white;
-        padding: 12px 20px;
-        border-radius: 8px;
-        z-index: 1000;
-        font-weight: bold;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        animation: fadeInOut 2.5s ease-in-out;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'fadeOut 0.5s ease-out forwards';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 500);
-    }, 2000);
+    showNotification('تم تصدير ملف PDF بنجاح!', 'present');
 }
 </script>
 
