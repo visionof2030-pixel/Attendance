@@ -337,7 +337,7 @@
     }
     
     .admin-panel.active {
-        max-height: 1500px;
+        max-height: 1800px;
         padding: 25px 20px;
         margin-top: 25px;
         border-color: rgba(44, 90, 160, 0.3);
@@ -606,19 +606,28 @@
         transform: translateY(-2px);
     }
     
+    .monthly-random-btn {
+        background: linear-gradient(to right, #f57c00, #ff9800);
+        color: white;
+    }
+    
+    .monthly-random-btn:hover {
+        background: linear-gradient(to right, #e65100, #ef6c00);
+    }
+    
     .monthly-table-container {
         overflow-x: auto;
         margin-top: 20px;
         border-radius: 10px;
         border: 2px solid #ddd;
-        max-height: 500px;
+        max-height: 600px;
         overflow-y: auto;
     }
     
     .monthly-table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 800px;
+        min-width: 1200px;
     }
     
     .monthly-table th {
@@ -652,7 +661,15 @@
     }
     
     .day-cell {
-        min-width: 100px;
+        min-width: 80px;
+    }
+    
+    .present-icon-small {
+        color: #2e7d32;
+    }
+    
+    .absent-icon-small {
+        color: #c62828;
     }
     
     .monthly-summary {
@@ -752,6 +769,10 @@
         
         .monthly-table th, .monthly-table td {
             padding: 8px 5px;
+        }
+        
+        .monthly-table {
+            min-width: 1000px;
         }
     }
     
@@ -991,7 +1012,7 @@
                 <div class="monthly-title">
                     <i class="fas fa-calendar-day"></i> التحضير الشهري
                 </div>
-                <p class="admin-description">التحضير الشهري من يوم 1 إلى 26 من الشهر (مستثنى الجمعة والسبت):</p>
+                <p class="admin-description">التحضير الشهري من يوم 1 إلى 30 من الشهر (مستثنى الجمعة والسبت):</p>
                 <div class="monthly-controls">
                     <select class="month-select" id="monthSelect">
                         <option value="0">يناير</option>
@@ -1010,6 +1031,9 @@
                     <select class="year-select" id="yearSelect"></select>
                     <button class="monthly-btn" onclick="generateMonthlyTable()">
                         <i class="fas fa-calendar-plus"></i> إنشاء جدول الشهر
+                    </button>
+                    <button class="monthly-btn monthly-random-btn" onclick="toggleMonthlyRandom()">
+                        <i class="fas fa-random"></i> تبديل عشوائي
                     </button>
                     <button class="monthly-btn" onclick="exportMonthlyPDF()" style="background: linear-gradient(to right, #27ae60, #2ecc71);">
                         <i class="fas fa-file-pdf"></i> تصدير الشهر
@@ -1124,7 +1148,7 @@ function resetToToday() {
     showNotification('تم الرجوع إلى تاريخ اليوم', 'present');
 }
 
-// إنشاء جدول التحضير الشهري
+// إنشاء جدول التحضير الشهري (30 يوم)
 function generateMonthlyTable() {
     const month = parseInt(document.getElementById('monthSelect').value);
     const year = parseInt(document.getElementById('yearSelect').value);
@@ -1139,8 +1163,8 @@ function generateMonthlyTable() {
     if (!monthlyAttendanceData[monthKey]) {
         monthlyAttendanceData[monthKey] = {};
         
-        // تهيئة بيانات جميع الطلاب لجميع الأيام
-        for (let day = 1; day <= 26; day++) {
+        // تهيئة بيانات جميع الطلاب لجميع الأيام (1 إلى 30)
+        for (let day = 1; day <= 30; day++) {
             const dayDate = new Date(year, month, day);
             // تخطي الجمعة (5) والسبت (6)
             if (dayDate.getDay() !== 5 && dayDate.getDay() !== 6) {
@@ -1163,8 +1187,8 @@ function generateMonthlyTable() {
                     <th>اسم الطالب</th>
     `;
     
-    // إضافة عناوين الأيام (1 إلى 26) مع استثناء الجمعة والسبت
-    for (let day = 1; day <= 26; day++) {
+    // إضافة عناوين الأيام (1 إلى 30) مع استثناء الجمعة والسبت
+    for (let day = 1; day <= 30; day++) {
         const dayDate = new Date(year, month, day);
         const dayOfWeek = dayDate.getDay();
         const dayName = getArabicDayName(dayOfWeek);
@@ -1189,7 +1213,7 @@ function generateMonthlyTable() {
         const studentId = i + 1;
         tableHTML += `<tr><td class="student-name">${studentNames[i]}</td>`;
         
-        for (let day = 1; day <= 26; day++) {
+        for (let day = 1; day <= 30; day++) {
             const dayDate = new Date(year, month, day);
             const dayOfWeek = dayDate.getDay();
             const dayKey = `${year}-${month + 1}-${day}`;
@@ -1328,7 +1352,71 @@ function updateMonthlySummary(monthKey) {
     document.getElementById('monthlySummaryStats').innerHTML = summaryHTML;
 }
 
-// تصدير جدول الشهر كملف PDF
+// تبديل عشوائي في التحضير الشهري
+function toggleMonthlyRandom() {
+    // التحقق من صلاحية الدخول
+    if (!isAdminAuthenticated) {
+        showNotification('يجب التحقق من الهوية أولاً!', 'absent');
+        toggleAdminPanel();
+        return;
+    }
+    
+    const month = parseInt(document.getElementById('monthSelect').value);
+    const year = parseInt(document.getElementById('yearSelect').value);
+    const monthKey = `${year}-${month + 1}`;
+    
+    // التأكد من وجود جدول للشهر
+    if (!monthlyAttendanceData[monthKey]) {
+        showNotification('الرجاء إنشاء جدول الشهر أولاً', 'absent');
+        return;
+    }
+    
+    // تغيير 10-15 حالة عشوائيًا
+    const changes = Math.floor(Math.random() * 6) + 10; // بين 10 و 15 تغيير
+    
+    let changedCount = 0;
+    
+    for (let i = 0; i < changes; i++) {
+        // اختيار طالب عشوائي
+        const randomStudent = Math.floor(Math.random() * totalStudents) + 1;
+        
+        // اختيار يوم عشوائي من أيام الدراسة (1-30، مستثنى الجمعة والسبت)
+        let randomDay;
+        let dayDate;
+        let attempts = 0;
+        
+        do {
+            randomDay = Math.floor(Math.random() * 30) + 1;
+            dayDate = new Date(year, month, randomDay);
+            attempts++;
+            // تأكد من عدم تخطي الحد الأقصى لمحاولات البحث عن يوم دراسة
+            if (attempts > 50) break;
+        } while (dayDate.getDay() === 5 || dayDate.getDay() === 6); // تخطي الجمعة والسبت
+        
+        if (attempts > 50) continue;
+        
+        const dayKey = `${year}-${month + 1}-${randomDay}`;
+        
+        // التأكد من وجود اليوم في البيانات
+        if (!monthlyAttendanceData[monthKey][dayKey]) {
+            monthlyAttendanceData[monthKey][dayKey] = {};
+        }
+        
+        // تبديل الحالة
+        const currentStatus = monthlyAttendanceData[monthKey][dayKey][randomStudent] || 'present';
+        const newStatus = currentStatus === 'present' ? 'absent' : 'present';
+        
+        monthlyAttendanceData[monthKey][dayKey][randomStudent] = newStatus;
+        changedCount++;
+    }
+    
+    // تحديث الجدول
+    generateMonthlyTable();
+    
+    showNotification(`تم تبديل ${changedCount} حالة عشوائيًا في التحضير الشهري`, 'present');
+}
+
+// تصدير جدول الشهر كملف PDF بشكل عمودي
 async function exportMonthlyPDF() {
     const month = parseInt(document.getElementById('monthSelect').value);
     const year = parseInt(document.getElementById('yearSelect').value);
@@ -1337,15 +1425,28 @@ async function exportMonthlyPDF() {
     const monthName = date.toLocaleDateString('ar-SA', { month: 'long' });
     const yearName = date.toLocaleDateString('ar-SA', { year: 'numeric' });
     
-    // إضافة عنوان للجدول الشهري
-    const monthlyTableContainer = document.getElementById('monthlyTableContainer');
-    const originalContent = monthlyTableContainer.innerHTML;
+    // إنشاء عنصر مؤقت للتصدير
+    const exportContainer = document.createElement('div');
+    exportContainer.style.cssText = 'position: absolute; left: -9999px; top: 0; width: 800px; background: white; padding: 20px; font-family: "Tajawal", sans-serif;';
     
-    const titleElement = document.createElement('div');
-    titleElement.style.cssText = 'text-align: center; margin-bottom: 20px; color: #2c5aa0; font-size: 1.5rem; font-weight: bold;';
+    // إضافة عنوان
+    const titleElement = document.createElement('h2');
+    titleElement.style.cssText = 'text-align: center; color: #2c5aa0; font-size: 1.8rem; margin-bottom: 20px; border-bottom: 2px solid #2c5aa0; padding-bottom: 10px;';
     titleElement.innerHTML = `<i class="fas fa-calendar-alt"></i> جدول التحضير الشهري - ${monthName} ${yearName}`;
+    exportContainer.appendChild(titleElement);
     
-    monthlyTableContainer.insertBefore(titleElement, monthlyTableContainer.firstChild);
+    // نسخ جدول التحضير الشهري
+    const monthlyTableContainer = document.getElementById('monthlyTableContainer');
+    const tableClone = monthlyTableContainer.cloneNode(true);
+    exportContainer.appendChild(tableClone);
+    
+    // إضافة تذييل مع التاريخ
+    const footerElement = document.createElement('div');
+    footerElement.style.cssText = 'text-align: center; margin-top: 30px; color: #666; font-size: 0.9rem; padding-top: 10px; border-top: 1px dashed #ccc;';
+    footerElement.innerHTML = `تاريخ التصدير: ${new Date().toLocaleDateString('ar-SA')} - تم التصدير بواسطة نظام إدارة الحضور`;
+    exportContainer.appendChild(footerElement);
+    
+    document.body.appendChild(exportContainer);
     
     const { jsPDF } = window.jspdf;
     
@@ -1355,46 +1456,54 @@ async function exportMonthlyPDF() {
     exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التصدير...';
     exportBtn.disabled = true;
     
-    const canvas = await html2canvas(monthlyTableContainer, { 
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff'
-    });
+    try {
+        const canvas = await html2canvas(exportContainer, { 
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            width: 800,
+            height: exportContainer.scrollHeight
+        });
 
-    // إعادة المحتوى الأصلي
-    monthlyTableContainer.removeChild(titleElement);
-    
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("l", "mm", "a4"); // اتجاه أفقي للجدول الطويل
-
-    let width = pdf.internal.pageSize.getWidth();
-    let height = (canvas.height * width) / canvas.width;
-
-    // إذا كان المحتوى طويلاً جداً، نقسمه على صفحات
-    if (height > pdf.internal.pageSize.getHeight()) {
-        let position = 0;
-        const pageHeight = pdf.internal.pageSize.getHeight();
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4"); // اتجاه عمودي
         
-        while (height > 0) {
-            pdf.addImage(imgData, "PNG", 0, position, width, height);
-            height -= pageHeight;
+        const imgWidth = 210; // عرض صفحة A4 بالمليمتر
+        const pageHeight = 297; // ارتفاع صفحة A4 بالمليمتر
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        let heightLeft = imgHeight;
+        let position = 0;
+        let pageCount = 1;
+        
+        // إضافة الصفحة الأولى
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        
+        // إضافة صفحات إضافية إذا كان المحتوى طويلاً
+        while (heightLeft > 0) {
             position -= pageHeight;
-            
-            if (height > 0) {
-                pdf.addPage();
-            }
+            pdf.addPage();
+            pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            pageCount++;
         }
-    } else {
-        pdf.addImage(imgData, "PNG", 0, 0, width, height);
+        
+        // حفظ الملف
+        pdf.save(`سجل-الحضور-الشهري-${monthName}-${yearName}.pdf`);
+        
+        showNotification(`تم تصدير جدول الشهر (${pageCount} صفحة) كملف PDF بنجاح!`, 'present');
+    } catch (error) {
+        console.error('Error exporting PDF:', error);
+        showNotification('حدث خطأ أثناء التصدير', 'absent');
+    } finally {
+        // إزالة العنصر المؤقت
+        document.body.removeChild(exportContainer);
+        
+        // إعادة زر التصدير إلى وضعه الأصلي
+        exportBtn.innerHTML = originalText;
+        exportBtn.disabled = false;
     }
-    
-    pdf.save(`سجل-الحضور-الشهري-${monthName}-${yearName}.pdf`);
-    
-    // إعادة زر التصدير إلى وضعه الأصلي
-    exportBtn.innerHTML = originalText;
-    exportBtn.disabled = false;
-    
-    showNotification('تم تصدير جدول الشهر كملف PDF بنجاح!', 'present');
 }
 
 // فتح/إغلاق لوحة الإدارة
@@ -1702,7 +1811,7 @@ window.addEventListener('load', () => {
     updateStatistics();
 });
 
-// دالة تصدير PDF - معدلة لتضمين التاريخ المحدد
+// دالة تصدير PDF - معدلة لتضمين التاريخ المحدد بشكل عمودي
 async function exportPDF() {
     const { jsPDF } = window.jspdf;
     
@@ -1735,57 +1844,61 @@ async function exportPDF() {
     // إضافة التاريخ أعلى المحتوى
     captureArea.insertBefore(dateElement, captureArea.firstChild);
     
-    const canvas = await html2canvas(captureArea, { 
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff'
-    });
+    try {
+        const canvas = await html2canvas(captureArea, { 
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff'
+        });
 
-    // إعادة المحتوى الأصلي
-    captureArea.removeChild(dateElement);
-    
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4");
 
-    let width = pdf.internal.pageSize.getWidth();
-    let height = (canvas.height * width) / canvas.width;
-
-    // إذا كان المحتوى طويلاً جداً، نقسمه على صفحات
-    if (height > pdf.internal.pageSize.getHeight()) {
-        let position = 0;
-        const pageHeight = pdf.internal.pageSize.getHeight();
+        const imgWidth = 210; // عرض صفحة A4 بالمليمتر
+        const pageHeight = 297; // ارتفاع صفحة A4 بالمليمتر
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
         
-        while (height > 0) {
-            pdf.addImage(imgData, "PNG", 0, position, width, height);
-            height -= pageHeight;
+        let heightLeft = imgHeight;
+        let position = 0;
+        let pageCount = 1;
+        
+        // إضافة الصفحة الأولى
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        
+        // إضافة صفحات إضافية إذا كان المحتوى طويلاً
+        while (heightLeft > 0) {
             position -= pageHeight;
-            
-            if (height > 0) {
-                pdf.addPage();
-            }
+            pdf.addPage();
+            pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            pageCount++;
         }
-    } else {
-        pdf.addImage(imgData, "PNG", 0, 0, width, height);
+        
+        // إعداد اسم الملف بناءً على التاريخ المحدد
+        let fileName = 'سجل-الحضور';
+        if (selectedAttendanceDate) {
+            const date = new Date(selectedAttendanceDate);
+            const dateStr = date.toISOString().slice(0, 10);
+            fileName = `سجل-الحضور-${dateStr}`;
+        } else {
+            fileName = `سجل-الحضور-${new Date().toISOString().slice(0,10)}`;
+        }
+        
+        pdf.save(`${fileName}.pdf`);
+        
+        showNotification(`تم تصدير ملف PDF (${pageCount} صفحة) بنجاح!`, 'present');
+    } catch (error) {
+        console.error('Error exporting PDF:', error);
+        showNotification('حدث خطأ أثناء التصدير', 'absent');
+    } finally {
+        // إعادة المحتوى الأصلي
+        captureArea.removeChild(dateElement);
+        
+        // إعادة زر التصدير إلى وضعه الأصلي
+        exportBtn.innerHTML = originalText;
+        exportBtn.disabled = false;
     }
-    
-    // إعداد اسم الملف بناءً على التاريخ المحدد
-    let fileName = 'سجل-الحضور';
-    if (selectedAttendanceDate) {
-        const date = new Date(selectedAttendanceDate);
-        const dateStr = date.toISOString().slice(0, 10);
-        fileName = `سجل-الحضور-${dateStr}`;
-    } else {
-        fileName = `سجل-الحضور-${new Date().toISOString().slice(0,10)}`;
-    }
-    
-    pdf.save(`${fileName}.pdf`);
-    
-    // إعادة زر التصدير إلى وضعه الأصلي
-    exportBtn.innerHTML = originalText;
-    exportBtn.disabled = false;
-    
-    // إظهار إشعار نجاح
-    showNotification('تم تصدير ملف PDF بنجاح!', 'present');
 }
 </script>
 
