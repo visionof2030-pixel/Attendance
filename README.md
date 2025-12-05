@@ -136,7 +136,7 @@
         line-height: 1.2;
     }
     
-    /* تحسين الجدول للجوال */
+    /* تحسين الجدول للجوال - بدون هيدر */
     .table-wrapper {
         width: 100%;
         overflow-x: auto;
@@ -154,7 +154,7 @@
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
-        min-width: 700px;
+        min-width: 600px;
         font-size: 0.8rem;
     }
     
@@ -171,25 +171,6 @@
         color: white;
         font-weight: 700;
         font-size: 0.85rem;
-        white-space: nowrap;
-    }
-    
-    .category-header {
-        background: linear-gradient(to right, var(--category-1), #795548);
-    }
-    
-    .category-2-header {
-        background: linear-gradient(to right, var(--category-2), #0288d1);
-    }
-    
-    .category-3-header {
-        background: linear-gradient(to right, var(--category-3), #8e24aa);
-    }
-    
-    .sub-header {
-        background: rgba(255, 255, 255, 0.15);
-        font-size: 0.75rem;
-        font-weight: 500;
         white-space: nowrap;
     }
     
@@ -216,18 +197,18 @@
     .evaluation-cell {
         text-align: center;
         padding: 4px 2px;
-        min-width: 60px;
+        min-width: 50px;
     }
     
     .status-icon {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-block;
         padding: 4px;
         border-radius: 50%;
-        width: 40px;
-        height: 40px;
+        width: 38px;
+        height: 38px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -811,15 +792,19 @@
         }
         
         .status-icon {
-            width: 45px;
-            height: 45px;
-            font-size: 1.6rem;
+            width: 42px;
+            height: 42px;
+            font-size: 1.5rem;
         }
         
         .table-wrapper {
             padding: 0 5px;
             margin-left: -5px;
             margin-right: -5px;
+        }
+        
+        table {
+            min-width: 650px;
         }
     }
     
@@ -837,9 +822,9 @@
         }
         
         .status-icon {
-            width: 50px;
-            height: 50px;
-            font-size: 1.8rem;
+            width: 45px;
+            height: 45px;
+            font-size: 1.6rem;
         }
         
         .student-name {
@@ -866,6 +851,7 @@
         
         table {
             font-size: 0.85rem;
+            min-width: 700px;
         }
         
         th, td {
@@ -880,7 +866,7 @@
         }
         
         table {
-            min-width: 850px;
+            min-width: 750px;
             font-size: 0.9rem;
         }
         
@@ -889,13 +875,13 @@
         }
         
         .evaluation-cell {
-            min-width: 70px;
+            min-width: 60px;
         }
         
         .status-icon {
-            width: 55px;
-            height: 55px;
-            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            font-size: 1.8rem;
         }
         
         .status-label {
@@ -983,23 +969,19 @@
         </div>
     </div>
 
-    <!-- الجدول المعدل -->
+    <!-- الجدول المعدل - بدون هيدر -->
     <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th rowspan="2" width="8%">الرقم</th>
-                    <th rowspan="2" width="20%">اسم الطالب</th>
-                    <th colspan="3" class="category-header">المهام الأدائية</th>
-                    <th colspan="2" class="category-2-header">المشاركة والتفاعل</th>
-                    <th rowspan="2" width="12%" class="category-3-header">الحضور</th>
-                </tr>
-                <tr>
-                    <th class="sub-header">الواجبات</th>
-                    <th class="sub-header">المشاريع</th>
-                    <th class="sub-header">التقييم</th>
-                    <th class="sub-header">التطبيقات والأنشطة</th>
-                    <th class="sub-header">المشاركة</th>
+                    <th width="8%">الرقم</th>
+                    <th width="22%">اسم الطالب</th>
+                    <th width="12%">الواجبات</th>
+                    <th width="12%">المشاريع</th>
+                    <th width="12%">التقييم</th>
+                    <th width="12%">التطبيقات والأنشطة</th>
+                    <th width="12%">المشاركة</th>
+                    <th width="10%">الحضور</th>
                 </tr>
             </thead>
             <tbody>
