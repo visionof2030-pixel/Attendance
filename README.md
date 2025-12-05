@@ -3,123 +3,168 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>سجل حضور تجريبي</title>
+<title>سجل حضور مطوّر</title>
 
-<!-- خطوط عربية -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-
-<!-- مكتبات PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
     body {
         font-family: 'Tajawal', sans-serif;
-        background: #f6f8fc;
-        margin: 0;
+        background: #f0f2f7;
         padding: 20px;
-        direction: rtl;
     }
+
     .container {
-        max-width: 700px;
+        max-width: 750px;
         margin: auto;
-        background: white;
-        padding: 20px;
+        background: #fff;
+        padding: 18px;
         border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.08);
     }
+
     h2 {
-        margin-top: 0;
         text-align: center;
         color: #1a73e8;
+        margin-top: 0;
     }
+
     table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 15px;
     }
+
     th, td {
         border: 1px solid #ddd;
-        padding: 10px;
+        padding: 12px;
         text-align: center;
     }
+
     th {
         background: #1a73e8;
         color: white;
     }
+
     button {
-        padding: 10px 15px;
+        padding: 8px 12px;
         border: none;
         border-radius: 6px;
         cursor: pointer;
         font-weight: bold;
-        margin: 5px;
+        transition: 0.15s;
     }
+
     .present { background: #34a853; color: white; }
     .absent { background: #ea4335; color: white; }
-    .export { background: #1a73e8; color: white; width: 100%; }
+    .activeBtn { transform: scale(1.07); box-shadow: 0 0 12px rgba(0,0,0,0.2); }
+
+    .row-present { background: #e8f5e9 !important; animation: highlight 0.4s; }
+    .row-absent { background: #ffebee !important; animation: highlight 0.4s; }
+
+    @keyframes highlight {
+        from { opacity: 0.4; }
+        to { opacity: 1; }
+    }
+
+    .export {
+        width: 100%;
+        background: #1a73e8;
+        color: white;
+        margin-top: 18px;
+        font-size: 16px;
+        padding: 12px;
+    }
+
 </style>
 </head>
 <body>
 
 <div class="container" id="captureArea">
-    <h2>سجل حضور الطلاب - نسخة تجريبية</h2>
+    <h2>سجل حضور الطلاب</h2>
 
-    <table>
+    <table id="studentsTable">
         <thead>
             <tr>
                 <th>م</th>
                 <th>اسم الطالب</th>
-                <th>الحضور</th>
+                <th>الحالة</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+
+            <!-- الطالب 1 -->
+            <tr data-status="">
                 <td>1</td>
                 <td>أحمد محمد</td>
                 <td>
-                    <button class="present" onclick="setStatus(this)">حاضر</button>
-                    <button class="absent" onclick="setStatus(this)">غائب</button>
+                    <button class="present" onclick="setStatus(this,'حاضر')">حاضر</button>
+                    <button class="absent" onclick="setStatus(this,'غائب')">غائب</button>
                 </td>
             </tr>
-            <tr>
+
+            <!-- الطالب 2 -->
+            <tr data-status="">
                 <td>2</td>
                 <td>جسّار فهد</td>
                 <td>
-                    <button class="present" onclick="setStatus(this)">حاضر</button>
-                    <button class="absent" onclick="setStatus(this)">غائب</button>
+                    <button class="present" onclick="setStatus(this,'حاضر')">حاضر</button>
+                    <button class="absent" onclick="setStatus(this,'غائب')">غائب</button>
                 </td>
             </tr>
+
         </tbody>
     </table>
 </div>
 
-<button class="export" onclick="exportPDF()">تصدير ملف PDF</button>
+<button class="export" onclick="exportPDF()">تصدير PDF</button>
 
 <script>
-function setStatus(btn) {
-    // إزالة التفعيل من الأزرار داخل نفس الخلية
-    let parent = btn.parentElement.querySelectorAll("button");
-    parent.forEach(b => b.style.opacity = "0.4");
+function setStatus(btn, status) {
+    let row = btn.closest("tr");
+    let buttons = row.querySelectorAll("button");
 
-    // تفعيل الزر المختار
-    btn.style.opacity = "1";
+    buttons.forEach(b => b.classList.remove("activeBtn"));
+
+    btn.classList.add("activeBtn");
+    row.dataset.status = status;
+
+    row.classList.remove("row-present", "row-absent");
+
+    if (status === "حاضر") {
+        row.classList.add("row-present");
+    } else {
+        row.classList.add("row-absent");
+    }
 }
 
 async function exportPDF() {
     const { jsPDF } = window.jspdf;
 
-    const element = document.getElementById("captureArea");
-    const canvas = await html2canvas(element, { scale: 2 });
+    // جهّز نسخة PDF النصيّة
+    let pdf = new jsPDF("p", "mm", "a4");
 
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
+    pdf.setFont("Helvetica", "normal");
+    pdf.setFontSize(16);
 
-    let width = pdf.internal.pageSize.getWidth();
-    let height = (canvas.height * width) / canvas.width;
+    pdf.text("تقرير حضور الطلاب", 105, 15, { align: "center" });
 
-    pdf.addImage(imgData, "PNG", 0, 0, width, height);
-    pdf.save("سجل-الحضور.pdf");
+    pdf.setFontSize(13);
+
+    let y = 30;
+    const rows = document.querySelectorAll("#studentsTable tbody tr");
+
+    rows.forEach((row, index) => {
+        let name = row.children[1].innerText;
+        let status = row.dataset.status || "—";
+
+        pdf.text(`${index + 1}- ${name}  :  ${status}`, 12, y);
+        y += 10;
+    });
+
+    pdf.save("تقرير-الحضور.pdf");
 }
 </script>
 
