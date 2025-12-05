@@ -56,13 +56,19 @@
         color: #333;
         line-height: 1.6;
         min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* المحتوى الرئيسي */
+    .main-content {
         transition: filter 0.3s ease;
     }
 
-    body.blurred {
-        filter: blur(5px);
-        overflow: hidden;
+    .main-content.blurred {
+        filter: blur(3px);
         pointer-events: none;
+        user-select: none;
     }
 
     /* ============= الهيدر مع زر Admin ============= */
@@ -142,7 +148,6 @@
         font-size: 18px;
     }
 
-    /* تأثير النقر لزر Admin */
     .admin-btn.clicked {
         animation: adminClick 0.4s ease;
     }
@@ -161,12 +166,11 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 1000;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 2000;
         align-items: center;
         justify-content: center;
         animation: fadeIn 0.3s ease;
-        backdrop-filter: blur(3px);
     }
 
     .password-modal.active {
@@ -184,6 +188,8 @@
         border-top: 5px solid var(--admin-color);
         transform: scale(0.9);
         animation: scaleIn 0.3s ease forwards;
+        position: relative;
+        z-index: 2001;
     }
 
     @keyframes scaleIn {
@@ -274,11 +280,10 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 1001;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 2000;
         overflow-y: auto;
         animation: fadeIn 0.3s ease;
-        backdrop-filter: blur(3px);
     }
 
     .admin-modal.active {
@@ -365,7 +370,7 @@
         color: var(--admin-color);
     }
 
-    /* ============= تحسين تأثيرات أزرار الحضور والغياب ============= */
+    /* ============= أزرار الحضور والغياب ============= */
     .attendance-buttons {
         display: flex;
         justify-content: center;
@@ -407,13 +412,20 @@
         background: linear-gradient(135deg, var(--success-dark), var(--success-color));
         transform: scale(1.05) translateY(-2px);
         box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.3), 0 8px 20px rgba(46, 125, 50, 0.4);
-        animation: pulse-present 2s infinite, glow-present 3s infinite alternate;
+        animation: pulse-present 2s infinite;
         border: 2px solid #ffffff;
     }
 
-    @keyframes glow-present {
-        0% { box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.3), 0 8px 20px rgba(46, 125, 50, 0.4); }
-        100% { box-shadow: 0 0 0 6px rgba(76, 175, 80, 0.4), 0 10px 25px rgba(46, 125, 50, 0.5); }
+    @keyframes pulse-present {
+        0% {
+            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 15px rgba(76, 175, 80, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+        }
     }
 
     .absent {
@@ -432,59 +444,8 @@
         background: linear-gradient(135deg, var(--danger-dark), var(--danger-color));
         transform: scale(1.05) translateY(-2px);
         box-shadow: 0 0 0 4px rgba(239, 83, 80, 0.3), 0 8px 20px rgba(198, 40, 40, 0.4);
-        animation: pulse-absent 2s infinite, glow-absent 3s infinite alternate;
+        animation: pulse-absent 2s infinite;
         border: 2px solid #ffffff;
-    }
-
-    @keyframes glow-absent {
-        0% { box-shadow: 0 0 0 4px rgba(239, 83, 80, 0.3), 0 8px 20px rgba(198, 40, 40, 0.4); }
-        100% { box-shadow: 0 0 0 6px rgba(239, 83, 80, 0.4), 0 10px 25px rgba(198, 40, 40, 0.5); }
-    }
-
-    /* تأثير النقر المحسّن */
-    .btn.clicked {
-        animation: enhancedClick 0.4s ease;
-    }
-
-    @keyframes enhancedClick {
-        0% { transform: scale(1) translateY(0); }
-        30% { transform: scale(0.85) translateY(2px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        70% { transform: scale(1.05) translateY(-1px); }
-        100% { transform: scale(1) translateY(0); }
-    }
-
-    /* تأثير موجة النقر */
-    .btn::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.5);
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: all 0.6s ease;
-    }
-
-    .btn:active::before {
-        width: 200px;
-        height: 200px;
-        opacity: 0;
-        transition: 0s;
-    }
-
-    @keyframes pulse-present {
-        0% {
-            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
-        }
-        70% {
-            box-shadow: 0 0 0 15px rgba(76, 175, 80, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
-        }
     }
 
     @keyframes pulse-absent {
@@ -499,7 +460,17 @@
         }
     }
 
-    /* مؤشر التأكيد المحسّن */
+    .btn.clicked {
+        animation: enhancedClick 0.4s ease;
+    }
+
+    @keyframes enhancedClick {
+        0% { transform: scale(1) translateY(0); }
+        30% { transform: scale(0.85) translateY(2px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        70% { transform: scale(1.05) translateY(-1px); }
+        100% { transform: scale(1) translateY(0); }
+    }
+
     .confirmation-indicator {
         position: absolute;
         top: -10px;
@@ -861,7 +832,6 @@
         }
     }
 
-    /* ============= التمرير ============= */
     ::-webkit-scrollbar {
         width: 10px;
         height: 10px;
@@ -883,20 +853,6 @@
 </style>
 </head>
 <body>
-
-<header>
-    <button class="admin-btn" onclick="showAdminLogin()">
-        <i class="fas fa-user-shield"></i> Admin
-    </button>
-    
-    <div class="header-content">
-        <div class="school-logo">
-            <i class="fas fa-graduation-cap"></i>
-        </div>
-        <h1>سجل متابعة الطلاب - النظام الأكاديمي</h1>
-        <h2>مادة اللغة الإنجليزية — المعلم: فهد الخالدي</h2>
-    </div>
-</header>
 
 <!-- نافذة إدخال كلمة مرور Admin -->
 <div class="password-modal" id="passwordModal">
@@ -1052,63 +1008,80 @@
     </div>
 </div>
 
-<!-- اختيار الفصل -->
-<div class="class-selector">
-    <button onclick="showClass('c3_1')" class="active">الصف ٣/١</button>
-    <button onclick="showClass('c2_3')">الصف ٢/٣</button>
-    <button onclick="showClass('c3_3')">الصف ٣/٣</button>
-    <button onclick="showClass('c4_3')">الصف ٤/٣</button>
-    <button onclick="showClass('c5_3')">الصف ٥/٣</button>
-</div>
+<!-- المحتوى الرئيسي -->
+<div class="main-content" id="mainContent">
+    <header>
+        <button class="admin-btn" onclick="showAdminLogin()">
+            <i class="fas fa-user-shield"></i> Admin
+        </button>
+        
+        <div class="header-content">
+            <div class="school-logo">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1>سجل متابعة الطلاب - النظام الأكاديمي</h1>
+            <h2>مادة اللغة الإنجليزية — المعلم: فهد الخالدي</h2>
+        </div>
+    </header>
 
-<!-- التاريخ -->
-<div class="date-container">
-    <div class="date-row">
-        <div class="date-group">
-            <label for="gregorianDate">
-                <i class="fas fa-calendar-alt"></i>
-                التاريخ الميلادي:
-            </label>
-            <input type="date" id="gregorianDate" class="date-input">
-            <div id="gregorianNotice" class="conversion-notice" style="display: none;">
-                <i class="fas fa-sync-alt"></i>
-                <span>سيتم تحويل التاريخ تلقائياً إلى الهجري</span>
+    <!-- اختيار الفصل -->
+    <div class="class-selector">
+        <button onclick="showClass('c3_1')" class="active">الصف ٣/١</button>
+        <button onclick="showClass('c2_3')">الصف ٢/٣</button>
+        <button onclick="showClass('c3_3')">الصف ٣/٣</button>
+        <button onclick="showClass('c4_3')">الصف ٤/٣</button>
+        <button onclick="showClass('c5_3')">الصف ٥/٣</button>
+    </div>
+
+    <!-- التاريخ -->
+    <div class="date-container">
+        <div class="date-row">
+            <div class="date-group">
+                <label for="gregorianDate">
+                    <i class="fas fa-calendar-alt"></i>
+                    التاريخ الميلادي:
+                </label>
+                <input type="date" id="gregorianDate" class="date-input">
+                <div id="gregorianNotice" class="conversion-notice" style="display: none;">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>سيتم تحويل التاريخ تلقائياً إلى الهجري</span>
+                </div>
+            </div>
+            
+            <div class="date-group">
+                <label for="hijriDate">
+                    <i class="fas fa-moon"></i>
+                    التاريخ الهجري:
+                </label>
+                <input type="text" id="hijriDate" class="date-input" placeholder="يوم / شهر / سنة هـ (مثال: 15 / 9 / 1445)">
+                <div id="hijriNotice" class="conversion-notice" style="display: none;">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>سيتم تحويل التاريخ تلقائياً إلى الميلادي</span>
+                </div>
             </div>
         </div>
         
-        <div class="date-group">
-            <label for="hijriDate">
-                <i class="fas fa-moon"></i>
-                التاريخ الهجري:
-            </label>
-            <input type="text" id="hijriDate" class="date-input" placeholder="يوم / شهر / سنة هـ (مثال: 15 / 9 / 1445)">
-            <div id="hijriNotice" class="conversion-notice" style="display: none;">
-                <i class="fas fa-sync-alt"></i>
-                <span>سيتم تحويل التاريخ تلقائياً إلى الميلادي</span>
-            </div>
+        <div style="text-align: center;">
+            <button id="todayBtn" class="btn" style="background: var(--warning-color); color: white;">
+                <i class="fas fa-calendar-day"></i> تعيين تاريخ اليوم
+            </button>
         </div>
     </div>
-    
-    <div style="text-align: center;">
-        <button id="todayBtn" class="btn" style="background: var(--warning-color); color: white;">
-            <i class="fas fa-calendar-day"></i> تعيين تاريخ اليوم
+
+    <!-- 🔥 محتوى الفصول -->
+    <div id="classContent"></div>
+
+    <!-- PDF -->
+    <div class="pdf-container">
+        <button id="exportPDF" onclick="generatePDF()">
+            <i class="fas fa-file-pdf"></i>
+            <span>تصدير التقرير بصيغة PDF</span>
         </button>
     </div>
+
+    <!-- إشعارات -->
+    <div class="notification" id="notification"></div>
 </div>
-
-<!-- 🔥 محتوى الفصول -->
-<div id="classContent"></div>
-
-<!-- PDF -->
-<div class="pdf-container">
-    <button id="exportPDF" onclick="generatePDF()">
-        <i class="fas fa-file-pdf"></i>
-        <span>تصدير التقرير بصيغة PDF</span>
-    </button>
-</div>
-
-<!-- إشعارات -->
-<div class="notification" id="notification"></div>
 
 <script>
 // ================== تهيئة المتغيرات ==================
@@ -1127,15 +1100,15 @@ function showAdminLogin() {
         adminBtn.classList.remove('clicked');
     }, 400);
     
-    // إظهار نافذة كلمة المرور
+    // إظهار نافذة كلمة المرور وتطبيق blur على المحتوى الرئيسي فقط
     document.getElementById('passwordModal').classList.add('active');
-    document.body.classList.add('blurred');
+    document.getElementById('mainContent').classList.add('blurred');
     document.getElementById('adminPassword').focus();
 }
 
 function hideAdminLogin() {
     document.getElementById('passwordModal').classList.remove('active');
-    document.body.classList.remove('blurred');
+    document.getElementById('mainContent').classList.remove('blurred');
     document.getElementById('adminPassword').value = '';
     document.getElementById('passwordError').style.display = 'none';
 }
@@ -1171,13 +1144,13 @@ function checkAdminPassword() {
 
 function showAdminPanel() {
     document.getElementById('adminModal').classList.add('active');
-    document.body.classList.add('blurred');
+    document.getElementById('mainContent').classList.add('blurred');
     loadAdminData();
 }
 
 function hideAdminPanel() {
     document.getElementById('adminModal').classList.remove('active');
-    document.body.classList.remove('blurred');
+    document.getElementById('mainContent').classList.remove('blurred');
 }
 
 // ================== الميزة 1: النجوم للطلاب المميزين ==================
@@ -1776,9 +1749,6 @@ function toggleSelect(btn, type, indicatorId) {
             }, 3000);
         }
         row.querySelector(".btn.absent").classList.remove("active");
-        
-        // إشعار صوتي للحضور
-        playClickSound(true);
     } else {
         const absentIndicator = document.getElementById(`absent-indicator-${indicatorId}`);
         if (absentIndicator) {
@@ -1788,32 +1758,6 @@ function toggleSelect(btn, type, indicatorId) {
             }, 3000);
         }
         row.querySelector(".btn.present").classList.remove("active");
-        
-        // إشعار صوتي للغياب
-        playClickSound(false);
-    }
-}
-
-function playClickSound(isPresent) {
-    // إنشاء صوت نقر بسيط باستخدام Web Audio API
-    try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.value = isPresent ? 800 : 400;
-        oscillator.type = 'sine';
-        
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.1);
-    } catch (e) {
-        // إذا لم يعمل AudioContext، نتجاهل
     }
 }
 
@@ -1952,7 +1896,6 @@ window.onload = function() {
 };
 
 // ================== السماح لجميع الوظائف بالعمل ==================
-// هذه الوظيفة تسمح بالوصول إلى جميع الدوال من نافذة المتصفح
 window.showClass = showClass;
 window.toggleSelect = toggleSelect;
 window.generatePDF = generatePDF;
