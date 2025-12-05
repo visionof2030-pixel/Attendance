@@ -15,59 +15,484 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-hijri/2.1.2/moment-hijri.min.js"></script>
 
+<!-- مكتبة jsPDF مع دعم العربية -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
 <style>
     :root {
-        --primary-color: #2563eb;
-        --primary-dark: #1e40af;
-        --success-color: #10b981;
-        --success-dark: #059669;
-        --success-light: #d1fae5;
-        --danger-color: #ef4444;
-        --danger-dark: #b91c1c;
-        --danger-light: #fee2e2;
-        --purple-color: #7c3aed;
-        --purple-dark: #5b21b6;
-        --light-gray: #f5f7fa;
+        --primary-color: #0d47a1;
+        --primary-dark: #0a3a8a;
+        --primary-light: #5472d3;
+        --secondary-color: #1565c0;
+        --success-color: #2e7d32;
+        --success-dark: #1b5e20;
+        --success-light: #4caf50;
+        --danger-color: #c62828;
+        --danger-dark: #b71c1c;
+        --danger-light: #ef5350;
+        --warning-color: #f57c00;
+        --warning-light: #ff9800;
+        --admin-color: #6a1b9a;
+        --admin-dark: #4a148c;
+        --light-color: #f5f7fa;
+        --dark-color: #263238;
         --white: #ffffff;
-        --shadow: rgba(0,0,0,0.1);
-        --gray-200: #e5e7eb;
-        --warning-color: #f59e0b;
+        --gray-light: #eceff1;
+        --gray-medium: #b0bec5;
+        --shadow: rgba(0,0,0,0.08);
+        --star-color: #ffd700;
     }
 
     * {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
     }
 
     body {
         font-family: "Cairo", sans-serif;
-        background: var(--light-gray);
-        margin: 0;
-        padding: 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        color: #333;
         line-height: 1.6;
+        min-height: 100vh;
+        transition: filter 0.3s ease;
     }
 
-    /* ============= الهيدر ============= */
+    body.blurred {
+        filter: blur(5px);
+        overflow: hidden;
+    }
+
+    /* ============= الهيدر مع زر Admin ============= */
     header {
-        background: linear-gradient(90deg, #1d4ed8, #2563eb);
-        padding: 15px 10px;
+        background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
+        padding: 20px 15px;
         color: white;
         text-align: center;
-        box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 12px rgba(13, 71, 161, 0.2);
+        border-bottom: 4px solid var(--secondary-color);
         position: sticky;
         top: 0;
         z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-content {
+        flex: 1;
+    }
+
+    .school-logo {
+        width: 50px;
+        height: 50px;
+        background: white;
+        border-radius: 50%;
+        margin: 0 auto 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        font-size: 24px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
     header h1 {
         margin: 0;
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 700;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
     }
 
     header h2 {
-        margin: 5px 0 0 0;
+        margin: 8px 0 0 0;
         font-size: 16px;
-        opacity: .9;
+        opacity: .95;
+        font-weight: 600;
+    }
+
+    .admin-btn {
+        background: linear-gradient(135deg, var(--admin-color), #8e24aa);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 3px 8px rgba(106, 27, 154, 0.3);
+        margin-left: 10px;
+    }
+
+    .admin-btn:hover {
+        background: linear-gradient(135deg, var(--admin-dark), var(--admin-color));
+        transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba(106, 27, 154, 0.4);
+    }
+
+    .admin-btn i {
+        font-size: 18px;
+    }
+
+    /* ============= نافذة إدخال كلمة المرور ============= */
+    .password-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .password-modal.active {
+        display: flex;
+    }
+
+    .password-box {
+        background: white;
+        width: 90%;
+        max-width: 400px;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        text-align: center;
+        border-top: 5px solid var(--admin-color);
+    }
+
+    .password-box h3 {
+        color: var(--admin-dark);
+        margin-bottom: 20px;
+        font-size: 22px;
+    }
+
+    .password-input {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        border: 2px solid var(--gray-medium);
+        border-radius: 10px;
+        text-align: center;
+        letter-spacing: 2px;
+        font-family: "Cairo", sans-serif;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .password-input:focus {
+        border-color: var(--admin-color);
+        box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.2);
+        outline: none;
+    }
+
+    .password-btn {
+        background: linear-gradient(135deg, var(--admin-color), var(--admin-dark));
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .password-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(106, 27, 154, 0.4);
+    }
+
+    .password-error {
+        color: var(--danger-color);
+        font-size: 14px;
+        margin-top: 10px;
+        display: none;
+    }
+
+    /* ============= نافذة Admin الرئيسية ============= */
+    .admin-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1001;
+        overflow-y: auto;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .admin-modal.active {
+        display: block;
+    }
+
+    .admin-container {
+        background: white;
+        width: 95%;
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        border-top: 5px solid var(--admin-color);
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--gray-light);
+    }
+
+    .admin-header h2 {
+        color: var(--admin-dark);
+        font-size: 26px;
+        margin: 0;
+    }
+
+    .close-admin {
+        background: var(--danger-color);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .close-admin:hover {
+        background: var(--danger-dark);
+        transform: rotate(90deg);
+    }
+
+    .admin-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        border-radius: 10px;
+        background: #f8f9fa;
+        border: 1px solid var(--gray-light);
+    }
+
+    .admin-section h3 {
+        color: var(--primary-dark);
+        margin-bottom: 15px;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .admin-section h3 i {
+        color: var(--admin-color);
+    }
+
+    /* ============= النجوم للطلاب المميزين ============= */
+    .star-toggle {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+        padding: 10px;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid var(--gray-light);
+    }
+
+    .student-star {
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: var(--gray-medium);
+    }
+
+    .student-star.active {
+        color: var(--star-color);
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        animation: starPulse 2s infinite;
+    }
+
+    @keyframes starPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+
+    .starred-students-list {
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 10px;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid var(--gray-light);
+    }
+
+    .starred-student-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--gray-light);
+    }
+
+    .starred-student-item:last-child {
+        border-bottom: none;
+    }
+
+    /* ============= التحضير العشوائي ============= */
+    .random-attendance-controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .control-group label {
+        font-weight: 600;
+        color: var(--primary-dark);
+    }
+
+    .control-group select,
+    .control-group input {
+        padding: 10px;
+        border: 2px solid var(--gray-medium);
+        border-radius: 8px;
+        font-family: "Cairo", sans-serif;
+    }
+
+    .random-btn {
+        background: linear-gradient(135deg, var(--warning-color), var(--warning-light));
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .random-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(245, 124, 0, 0.4);
+    }
+
+    .progress-bar {
+        height: 10px;
+        background: var(--gray-light);
+        border-radius: 5px;
+        margin-top: 15px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--success-color), var(--success-light));
+        width: 0%;
+        transition: width 0.5s ease;
+    }
+
+    /* ============= إدارة الطلاب ============= */
+    .student-management {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .management-section {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid var(--gray-light);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: var(--primary-dark);
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid var(--gray-medium);
+        border-radius: 8px;
+        font-family: "Cairo", sans-serif;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .form-btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Cairo", sans-serif;
+    }
+
+    .add-btn {
+        background: linear-gradient(135deg, var(--success-color), var(--success-light));
+        color: white;
+    }
+
+    .transfer-btn {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        color: white;
+    }
+
+    .delete-btn {
+        background: linear-gradient(135deg, var(--danger-color), var(--danger-light));
+        color: white;
+    }
+
+    .form-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
     /* ============= القائمة العلوية ============= */
@@ -75,568 +500,343 @@
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 8px;
-        margin: 15px 10px;
-        padding: 10px 0;
+        gap: 10px;
+        margin: 20px 15px;
+        padding: 15px;
+        background: var(--white);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px var(--shadow);
+        border: 1px solid var(--gray-light);
     }
 
     .class-selector button {
         background: var(--primary-color);
         color: white;
         border: none;
-        padding: 10px 14px;
-        border-radius: 6px;
+        padding: 12px 18px;
+        border-radius: 8px;
         font-size: 16px;
+        font-weight: 600;
         cursor: pointer;
-        transition: .3s;
+        transition: all 0.3s ease;
         flex: 1;
-        min-width: 70px;
-        max-width: 100px;
+        min-width: 80px;
+        max-width: 110px;
+        box-shadow: 0 2px 5px rgba(13, 71, 161, 0.2);
     }
 
-    .class-selector button:hover,
-    .class-selector button.active {
+    .class-selector button:hover {
         background: var(--primary-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(13, 71, 161, 0.3);
+    }
+
+    .class-selector button.active {
+        background: var(--secondary-color);
         transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(21, 101, 192, 0.4);
     }
 
     /* =============== التاريخ =============== */
     .date-container {
         width: 95%;
-        max-width: 1100px;
-        margin: 15px auto;
+        max-width: 1200px;
+        margin: 20px auto;
         background: var(--white);
-        padding: 20px;
+        padding: 25px;
         border-radius: 12px;
-        box-shadow: 0px 4px 12px var(--shadow);
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .date-group {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .date-group label {
-        font-weight: 600;
-        margin-bottom: 8px;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .date-group label i {
-        color: var(--primary-color);
-    }
-
-    .date-input {
-        padding: 14px;
-        font-size: 16px;
-        border-radius: 8px;
-        border: 2px solid #ddd;
-        font-family: "Cairo", sans-serif;
-        width: 100%;
-        transition: all 0.3s ease;
-    }
-
-    .date-input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        outline: none;
+        box-shadow: 0 6px 20px var(--shadow);
+        border: 1px solid var(--gray-light);
+        border-top: 5px solid var(--secondary-color);
     }
 
     .date-row {
         display: flex;
-        gap: 20px;
+        gap: 25px;
         flex-wrap: wrap;
     }
 
-    .date-row .date-group {
+    .date-group {
         flex: 1;
-        min-width: 250px;
+        min-width: 280px;
+    }
+
+    .date-group label {
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 17px;
+        color: var(--primary-dark);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .date-group label i {
+        color: var(--primary-color);
+        background: var(--gray-light);
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    .date-input {
+        padding: 15px;
+        font-size: 16px;
+        border-radius: 10px;
+        border: 2px solid var(--gray-medium);
+        font-family: "Cairo", sans-serif;
+        width: 100%;
+        transition: all 0.3s ease;
+        background: var(--white);
+    }
+
+    .date-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+        outline: none;
     }
 
     .conversion-notice {
-        background: #f0f9ff;
-        border: 1px solid #bae6fd;
+        background: #e8f5e9;
+        border: 1px solid #a5d6a7;
         border-radius: 8px;
         padding: 12px 16px;
         margin-top: 10px;
         font-size: 14px;
-        color: #0369a1;
+        color: #2e7d32;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         animation: fadeIn 0.5s ease;
     }
 
-    .conversion-notice i {
-        color: #0ea5e9;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* =============== جدول الطلاب =============== */
+    /* =============== جدول الطلاب مع النجوم =============== */
     .container {
         width: 95%;
-        max-width: 1100px;
-        margin: 15px auto;
+        max-width: 1200px;
+        margin: 25px auto;
         background: var(--white);
-        padding: 15px;
+        padding: 25px;
         border-radius: 12px;
-        box-shadow: 0px 4px 12px var(--shadow);
+        box-shadow: 0 6px 20px var(--shadow);
+        border: 1px solid var(--gray-light);
         overflow-x: auto;
+        border-top: 5px solid var(--primary-color);
+    }
+
+    .container h3 {
+        text-align: center;
+        color: var(--primary-dark);
+        margin-bottom: 25px;
+        font-size: 22px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--gray-light);
     }
 
     .table-wrapper {
         overflow-x: auto;
-        margin-top: 15px;
-        border-radius: 8px;
-        border: 1px solid #eee;
+        border-radius: 10px;
+        border: 1px solid var(--gray-light);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     }
 
     table {
         width: 100%;
-        border-collapse: collapse;
-        min-width: 600px;
-    }
-
-    th, td {
-        padding: 14px 10px;
-        text-align: center;
-        border-bottom: 1px solid #eee;
+        border-collapse: separate;
+        border-spacing: 0;
+        min-width: 700px;
     }
 
     th {
-        background: var(--primary-dark);
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
         color: white;
-        font-size: 16px;
-        font-weight: 600;
-        white-space: nowrap;
+        font-size: 17px;
+        font-weight: 700;
+        padding: 18px 15px;
+        border: none;
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
 
-    /* =============== الأسماء =============== */
+    td {
+        padding: 16px 15px;
+        text-align: center;
+        border-bottom: 1px solid var(--gray-light);
+        background: var(--white);
+        transition: background 0.3s ease;
+    }
+
+    tr:hover td {
+        background: #f8f9fa;
+    }
+
     .student-name {
         font-size: 18px;
         font-weight: 700;
         text-align: right;
-        padding-right: 15px;
+        padding-right: 20px;
+        color: var(--dark-color);
+        border-right: 3px solid var(--primary-light);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .student-star-inline {
+        color: var(--star-color);
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .student-star-inline:hover {
+        transform: scale(1.2);
     }
 
     /* ============= أزرار الحضور والغياب ============= */
     .attendance-buttons {
         display: flex;
         justify-content: center;
-        gap: 10px;
+        gap: 12px;
     }
 
     .btn {
-        padding: 10px 16px;
-        border-radius: 8px;
+        padding: 12px 20px;
+        border-radius: 10px;
         font-size: 16px;
         cursor: pointer;
         transition: all 0.3s ease;
         border: none;
-        min-width: 70px;
-        font-weight: 600;
+        min-width: 85px;
+        font-weight: 700;
         position: relative;
         overflow: hidden;
-    }
-
-    .btn::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 5px;
-        height: 5px;
-        background: rgba(255, 255, 255, 0.5);
-        opacity: 0;
-        border-radius: 100%;
-        transform: scale(1, 1) translate(-50%);
-        transform-origin: 50% 50%;
-    }
-
-    .btn:focus:not(:active)::after {
-        animation: ripple 1s ease-out;
-    }
-
-    @keyframes ripple {
-        0% {
-            transform: scale(0, 0);
-            opacity: 0.5;
-        }
-        20% {
-            transform: scale(25, 25);
-            opacity: 0.3;
-        }
-        100% {
-            opacity: 0;
-            transform: scale(40, 40);
-        }
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
     }
 
     .present {
-        background: var(--success-color);
+        background: linear-gradient(135deg, var(--success-color), var(--success-light));
         color: white;
     }
     
-    .present:hover {
-        background: var(--success-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-    }
-    
     .present.active {
-        background: var(--success-dark);
+        background: linear-gradient(135deg, var(--success-dark), var(--success-color));
         transform: scale(1.05);
-        box-shadow: 0 0 0 3px var(--success-light), 0 4px 12px rgba(16, 185, 129, 0.4);
+        box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.2), 0 6px 12px rgba(46, 125, 50, 0.3);
         animation: pulse-present 2s infinite;
     }
 
     .absent {
-        background: var(--danger-color);
+        background: linear-gradient(135deg, var(--danger-color), var(--danger-light));
         color: white;
     }
     
-    .absent:hover {
-        background: var(--danger-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-    }
-    
     .absent.active {
-        background: var(--danger-dark);
+        background: linear-gradient(135deg, var(--danger-dark), var(--danger-color));
         transform: scale(1.05);
-        box-shadow: 0 0 0 3px var(--danger-light), 0 4px 12px rgba(239, 68, 68, 0.4);
+        box-shadow: 0 0 0 4px rgba(239, 83, 80, 0.2), 0 6px 12px rgba(198, 40, 40, 0.3);
         animation: pulse-absent 2s infinite;
-    }
-
-    @keyframes pulse-present {
-        0% {
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-        }
-        70% {
-            box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-        }
-    }
-
-    @keyframes pulse-absent {
-        0% {
-            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-        }
-        70% {
-            box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-        }
-    }
-
-    /* تأثير النقر */
-    .btn-clicked {
-        animation: click-effect 0.3s ease;
-    }
-
-    @keyframes click-effect {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(0.9);
-        }
-        100% {
-            transform: scale(1);
-        }
-    }
-
-    /* مؤشر التأكيد */
-    .confirmation-indicator {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        background: white;
-        color: var(--success-dark);
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        z-index: 1;
-        opacity: 0;
-        transform: scale(0);
-        transition: all 0.3s ease;
-    }
-
-    .confirmation-indicator.show {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    .confirmation-indicator.absent-check {
-        color: var(--danger-dark);
-    }
-
-    /* =============== الملاحظات =============== */
-    .notes-cell {
-        min-width: 200px;
-    }
-
-    textarea {
-        width: 100%;
-        height: 80px;
-        font-size: 16px;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        resize: vertical;
-        font-family: "Cairo", sans-serif;
-        line-height: 1.5;
-        transition: all 0.3s ease;
-    }
-
-    textarea:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        outline: none;
     }
 
     /* =============== زر الـ PDF =============== */
     .pdf-container {
         width: 95%;
-        max-width: 1100px;
-        margin: 25px auto;
+        max-width: 1200px;
+        margin: 30px auto;
     }
 
     #exportPDF {
         width: 100%;
-        background: var(--purple-color);
-        padding: 18px;
+        background: linear-gradient(135deg, #5e35b1, #4527a0);
+        padding: 22px;
         border: none;
         border-radius: 12px;
         color: white;
-        font-size: 20px;
-        font-weight: 700;
+        font-size: 22px;
+        font-weight: 800;
         cursor: pointer;
-        transition: .3s;
+        transition: all 0.3s ease;
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 10px;
+        gap: 15px;
+        box-shadow: 0 6px 15px rgba(94, 53, 177, 0.3);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        border: 2px solid transparent;
     }
 
-    #exportPDF:hover {
-        background: var(--purple-dark);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 15px rgba(124, 58, 237, 0.3);
+    /* ============= الإشعارات ============= */
+    .notification {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-100px);
+        background: var(--success-color);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        transition: transform 0.4s ease;
     }
 
-    /* ============= الجوال - تصميم متجاوب ============= */
+    .notification.show {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .notification.error {
+        background: var(--danger-color);
+    }
+
+    .notification.warning {
+        background: var(--warning-color);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* ============= التجاوب ============= */
     @media (max-width: 768px) {
-        header h1 {
-            font-size: 20px;
-        }
-        
-        header h2 {
-            font-size: 15px;
-        }
-        
-        .class-selector {
-            gap: 5px;
-            margin: 10px 5px;
-        }
-        
-        .class-selector button {
-            padding: 10px 8px;
-            font-size: 15px;
-            min-width: 60px;
-        }
-        
-        .container, .date-container, .pdf-container {
+        .admin-container {
             width: 98%;
-            padding: 12px;
+            padding: 20px;
+            margin: 15px auto;
         }
         
-        .date-row {
+        .admin-header h2 {
+            font-size: 22px;
+        }
+        
+        .student-management {
+            grid-template-columns: 1fr;
+        }
+        
+        .random-attendance-controls {
+            grid-template-columns: 1fr;
+        }
+        
+        header {
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
+            padding: 15px 10px;
         }
         
-        .student-name {
-            font-size: 16px;
-            padding-right: 10px;
-        }
-        
-        th, td {
-            padding: 12px 8px;
-            font-size: 15px;
-        }
-        
-        .btn {
-            padding: 10px 12px;
-            font-size: 15px;
-            min-width: 60px;
-        }
-        
-        textarea {
-            height: 70px;
-            font-size: 15px;
-        }
-        
-        #exportPDF {
-            padding: 16px;
-            font-size: 18px;
-        }
-        
-        .confirmation-indicator {
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
-            top: -6px;
-            right: -6px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        header {
-            padding: 12px 8px;
-        }
-        
-        header h1 {
-            font-size: 18px;
-        }
-        
-        header h2 {
-            font-size: 14px;
-        }
-        
-        .class-selector button {
-            font-size: 14px;
-            padding: 8px 6px;
-            min-width: 55px;
-        }
-        
-        .date-group label {
-            font-size: 15px;
-        }
-        
-        .date-input {
-            padding: 12px;
-            font-size: 15px;
-        }
-        
-        .student-name {
-            font-size: 15px;
-        }
-        
-        .btn {
-            padding: 8px 10px;
-            font-size: 14px;
-            min-width: 55px;
-        }
-        
-        th, td {
-            padding: 10px 6px;
-            font-size: 14px;
-        }
-        
-        textarea {
-            height: 65px;
-            font-size: 14px;
-        }
-        
-        #exportPDF {
-            font-size: 17px;
-            padding: 15px;
-        }
-        
-        .confirmation-indicator {
-            width: 18px;
-            height: 18px;
-            font-size: 11px;
-            top: -5px;
-            right: -5px;
-        }
-    }
-
-    /* تصميم خاص للشاشات الأفقية على الجوال */
-    @media (max-height: 500px) and (orientation: landscape) {
-        header {
-            position: relative;
-            padding: 10px;
-        }
-        
-        .class-selector {
-            margin: 10px 5px;
-            padding: 5px 0;
-        }
-        
-        .class-selector button {
-            padding: 8px 6px;
-            font-size: 14px;
-        }
-        
-        .container {
-            margin: 10px auto;
-            padding: 10px;
-        }
-        
-        textarea {
-            height: 60px;
-        }
-    }
-
-    /* تحسينات للوضع الداكن */
-    @media (prefers-color-scheme: dark) {
-        body {
-            background: #1a1a1a;
-            color: #f0f0f0;
-        }
-        
-        .container, .date-container {
-            background: #2d2d2d;
-            color: #f0f0f0;
-        }
-        
-        .date-input, textarea {
-            background: #3d3d3d;
-            color: #f0f0f0;
-            border-color: #555;
-        }
-        
-        .conversion-notice {
-            background: #1e3a8a;
-            border-color: #3b82f6;
-            color: #dbeafe;
-        }
-        
-        table {
-            color: #f0f0f0;
-        }
-        
-        th {
-            background: #1e3a8a;
-        }
-        
-        td {
-            border-color: #444;
-        }
-        
-        .confirmation-indicator {
-            background: #1a1a1a;
+        .admin-btn {
+            margin-left: 0;
+            margin-top: 10px;
         }
     }
 </style>
@@ -644,17 +844,203 @@
 <body>
 
 <header>
-    <h1>سجل متابعة الطلاب</h1>
-    <h2>مادة اللغة الإنجليزية — المعلم: فهد الخالدي</h2>
+    <button class="admin-btn" onclick="showAdminLogin()">
+        <i class="fas fa-user-shield"></i> Admin
+    </button>
+    
+    <div class="header-content">
+        <div class="school-logo">
+            <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h1>سجل متابعة الطلاب - النظام الأكاديمي</h1>
+        <h2>مادة اللغة الإنجليزية — المعلم: فهد الخالدي</h2>
+    </div>
 </header>
+
+<!-- نافذة إدخال كلمة مرور Admin -->
+<div class="password-modal" id="passwordModal">
+    <div class="password-box">
+        <h3><i class="fas fa-lock"></i> الوصول الإداري</h3>
+        <p>الرجاء إدخال كلمة المرور للوصول إلى لوحة التحكم</p>
+        <input type="password" id="adminPassword" class="password-input" placeholder="كلمة المرور">
+        <div class="password-error" id="passwordError">
+            <i class="fas fa-exclamation-circle"></i> كلمة المرور غير صحيحة
+        </div>
+        <button class="password-btn" onclick="checkAdminPassword()">
+            <i class="fas fa-sign-in-alt"></i> دخول
+        </button>
+        <button class="password-btn" style="background: var(--gray-medium);" onclick="hideAdminLogin()">
+            <i class="fas fa-times"></i> إلغاء
+        </button>
+    </div>
+</div>
+
+<!-- نافذة Admin الرئيسية -->
+<div class="admin-modal" id="adminModal">
+    <div class="admin-container">
+        <div class="admin-header">
+            <h2><i class="fas fa-cogs"></i> لوحة التحكم الإدارية</h2>
+            <button class="close-admin" onclick="hideAdminPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- الميزة 1: النجوم للطلاب المميزين -->
+        <div class="admin-section">
+            <h3><i class="fas fa-star"></i> النجوم للطلاب المميزين</h3>
+            <p>إضافة علامة نجمية للطلاب المميزين تظهر بجانب أسمائهم</p>
+            
+            <div class="star-toggle">
+                <div>
+                    <strong>الطلاب الحاليين:</strong>
+                    <select id="studentSelect" onchange="showSelectedStudent()">
+                        <option value="">اختر طالباً</option>
+                    </select>
+                </div>
+                <div>
+                    <i class="fas fa-star student-star" id="toggleStar" onclick="toggleStudentStar()"></i>
+                    <span id="starStatus">غير مميز</span>
+                </div>
+            </div>
+            
+            <div class="starred-students-list" id="starredStudentsList">
+                <h4>الطلاب المميزين:</h4>
+                <!-- سيتم ملؤها بالجافاسكريبت -->
+            </div>
+        </div>
+        
+        <!-- الميزة 2: التحضير العشوائي -->
+        <div class="admin-section">
+            <h3><i class="fas fa-random"></i> التحضير العشوائي للفصول</h3>
+            <p>تعيين حضور عشوائي للفصول بنسبة 75% حضور و 25% غياب</p>
+            
+            <div class="random-attendance-controls">
+                <div class="control-group">
+                    <label for="randomClassSelect"><i class="fas fa-chalkboard"></i> الفصل:</label>
+                    <select id="randomClassSelect">
+                        <option value="all">جميع الفصول</option>
+                        <option value="c3_1">الصف ٣/١</option>
+                        <option value="c2_3">الصف ٢/٣</option>
+                        <option value="c3_3">الصف ٣/٣</option>
+                        <option value="c4_3">الصف ٤/٣</option>
+                        <option value="c5_3">الصف ٥/٣</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="monthSelect"><i class="fas fa-calendar"></i> الشهر:</label>
+                    <select id="monthSelect">
+                        <option value="1">يناير</option>
+                        <option value="2">فبراير</option>
+                        <option value="3">مارس</option>
+                        <option value="4">أبريل</option>
+                        <option value="5">مايو</option>
+                        <option value="6">يونيو</option>
+                        <option value="7">يوليو</option>
+                        <option value="8">أغسطس</option>
+                        <option value="9">سبتمبر</option>
+                        <option value="10">أكتوبر</option>
+                        <option value="11">نوفمبر</option>
+                        <option value="12">ديسمبر</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="yearSelect"><i class="fas fa-calendar-alt"></i> السنة:</label>
+                    <input type="number" id="yearSelect" value="2024" min="2023" max="2025">
+                </div>
+            </div>
+            
+            <button class="random-btn" onclick="generateRandomAttendance()">
+                <i class="fas fa-magic"></i> توليد تحضير عشوائي
+            </button>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="randomProgress"></div>
+            </div>
+            <div id="randomStatus" style="margin-top: 10px; font-size: 14px;"></div>
+        </div>
+        
+        <!-- الميزة 3: إدارة الطلاب -->
+        <div class="admin-section">
+            <h3><i class="fas fa-users-cog"></i> إدارة الطلاب</h3>
+            <p>إضافة طلاب جدد أو نقلهم بين الفصول مع الحفاظ على البيانات</p>
+            
+            <div class="student-management">
+                <div class="management-section">
+                    <h4><i class="fas fa-user-plus"></i> إضافة طالب جديد</h4>
+                    <div class="form-group">
+                        <label for="newStudentName">اسم الطالب:</label>
+                        <input type="text" id="newStudentName" placeholder="اسم الطالب الكامل">
+                    </div>
+                    <div class="form-group">
+                        <label for="newStudentClass">الفصل:</label>
+                        <select id="newStudentClass">
+                            <option value="c3_1">الصف ٣/١</option>
+                            <option value="c2_3">الصف ٢/٣</option>
+                            <option value="c3_3">الصف ٣/٣</option>
+                            <option value="c4_3">الصف ٤/٣</option>
+                            <option value="c5_3">الصف ٥/٣</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="form-btn add-btn" onclick="addNewStudent()">
+                            <i class="fas fa-plus"></i> إضافة
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="management-section">
+                    <h4><i class="fas fa-exchange-alt"></i> نقل طالب بين الفصول</h4>
+                    <div class="form-group">
+                        <label for="transferStudentSelect">الطالب:</label>
+                        <select id="transferStudentSelect">
+                            <option value="">اختر طالباً</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transferToClass">الفصل الجديد:</label>
+                        <select id="transferToClass">
+                            <option value="c3_1">الصف ٣/١</option>
+                            <option value="c2_3">الصف ٢/٣</option>
+                            <option value="c3_3">الصف ٣/٣</option>
+                            <option value="c4_3">الصف ٤/٣</option>
+                            <option value="c5_3">الصف ٥/٣</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="form-btn transfer-btn" onclick="transferStudent()">
+                            <i class="fas fa-exchange-alt"></i> نقل
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="management-section">
+                    <h4><i class="fas fa-user-minus"></i> حذف طالب</h4>
+                    <div class="form-group">
+                        <label for="deleteStudentSelect">الطالب:</label>
+                        <select id="deleteStudentSelect">
+                            <option value="">اختر طالباً</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="form-btn delete-btn" onclick="deleteStudent()">
+                            <i class="fas fa-trash"></i> حذف
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- اختيار الفصل -->
 <div class="class-selector">
-    <button onclick="showClass('c3_1')" class="active">٣/١</button>
-    <button onclick="showClass('c2_3')">٢/٣</button>
-    <button onclick="showClass('c3_3')">٣/٣</button>
-    <button onclick="showClass('c4_3')">٤/٣</button>
-    <button onclick="showClass('c5_3')">٥/٣</button>
+    <button onclick="showClass('c3_1')" class="active">الصف ٣/١</button>
+    <button onclick="showClass('c2_3')">الصف ٢/٣</button>
+    <button onclick="showClass('c3_3')">الصف ٣/٣</button>
+    <button onclick="showClass('c4_3')">الصف ٤/٣</button>
+    <button onclick="showClass('c5_3')">الصف ٥/٣</button>
 </div>
 
 <!-- التاريخ -->
@@ -685,9 +1071,9 @@
         </div>
     </div>
     
-    <div style="text-align: center; margin-top: 10px;">
-        <button id="todayBtn" class="btn" style="background: var(--warning-color);">
-            <i class="fas fa-calendar-day"></i> اليوم الحالي
+    <div style="text-align: center;">
+        <button id="todayBtn" class="btn" style="background: var(--warning-color); color: white;">
+            <i class="fas fa-calendar-day"></i> تعيين تاريخ اليوم
         </button>
     </div>
 </div>
@@ -698,38 +1084,443 @@
 <!-- PDF -->
 <div class="pdf-container">
     <button id="exportPDF" onclick="generatePDF()">
-        <span>📄</span>
-        <span>استخراج تقرير PDF</span>
+        <i class="fas fa-file-pdf"></i>
+        <span>تصدير التقرير بصيغة PDF</span>
     </button>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- إشعارات -->
+<div class="notification" id="notification"></div>
 
 <script>
 // تهيئة مكتبة التواريخ الهجرية
 moment.locale('ar');
 
-/* ================== التحويل بين التواريخ ================== */
-let isConverting = false;
+// ================== متغيرات النظام ==================
+const ADMIN_PASSWORD = "Jassar1436";
+let starredStudents = JSON.parse(localStorage.getItem('starredStudents')) || {};
+let studentsData = JSON.parse(localStorage.getItem('studentsData')) || {};
+let isAdminLoggedIn = false;
 
-// تحويل الميلادي إلى هجري
+// ================== إدارة Admin ==================
+function showAdminLogin() {
+    document.getElementById('passwordModal').classList.add('active');
+    document.body.classList.add('blurred');
+}
+
+function hideAdminLogin() {
+    document.getElementById('passwordModal').classList.remove('active');
+    document.body.classList.remove('blurred');
+    document.getElementById('adminPassword').value = '';
+    document.getElementById('passwordError').style.display = 'none';
+}
+
+function checkAdminPassword() {
+    const password = document.getElementById('adminPassword').value;
+    if (password === ADMIN_PASSWORD) {
+        isAdminLoggedIn = true;
+        hideAdminLogin();
+        showAdminPanel();
+    } else {
+        document.getElementById('passwordError').style.display = 'block';
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminPassword').focus();
+    }
+}
+
+function showAdminPanel() {
+    document.getElementById('adminModal').classList.add('active');
+    document.body.classList.add('blurred');
+    loadAdminData();
+}
+
+function hideAdminPanel() {
+    document.getElementById('adminModal').classList.remove('active');
+    document.body.classList.remove('blurred');
+}
+
+// ================== الميزة 1: النجوم للطلاب المميزين ==================
+function loadAdminData() {
+    // تعبئة قائمة الطلاب
+    updateStudentSelects();
+    
+    // تعبئة قائمة النجوم
+    updateStarredStudentsList();
+}
+
+function updateStudentSelects() {
+    const studentSelect = document.getElementById('studentSelect');
+    const transferSelect = document.getElementById('transferStudentSelect');
+    const deleteSelect = document.getElementById('deleteStudentSelect');
+    
+    // تنظيف القوائم
+    studentSelect.innerHTML = '<option value="">اختر طالباً</option>';
+    transferSelect.innerHTML = '<option value="">اختر طالباً</option>';
+    deleteSelect.innerHTML = '<option value="">اختر طالباً</option>';
+    
+    // جمع جميع الطلاب من جميع الفصول
+    const allStudents = getAllStudents();
+    
+    // إضافة الطلاب إلى القوائم
+    allStudents.forEach(student => {
+        const option = document.createElement('option');
+        option.value = student.id;
+        option.textContent = `${student.name} (${student.className})`;
+        
+        studentSelect.appendChild(option.cloneNode(true));
+        transferSelect.appendChild(option.cloneNode(true));
+        deleteSelect.appendChild(option.cloneNode(true));
+    });
+}
+
+function getAllStudents() {
+    const allStudents = [];
+    const classes = ['c3_1', 'c2_3', 'c3_3', 'c4_3', 'c5_3'];
+    const classNames = {
+        'c3_1': '٣/١',
+        'c2_3': '٢/٣',
+        'c3_3': '٣/٣',
+        'c4_3': '٤/٣',
+        'c5_3': '٥/٣'
+    };
+    
+    classes.forEach(classId => {
+        const classData = studentsData[classId] || getDefaultStudents(classId);
+        classData.forEach((student, index) => {
+            allStudents.push({
+                id: `${classId}-${index}`,
+                name: student,
+                classId: classId,
+                className: classNames[classId]
+            });
+        });
+    });
+    
+    return allStudents;
+}
+
+function showSelectedStudent() {
+    const studentSelect = document.getElementById('studentSelect');
+    const studentId = studentSelect.value;
+    const starIcon = document.getElementById('toggleStar');
+    const starStatus = document.getElementById('starStatus');
+    
+    if (studentId) {
+        const isStarred = starredStudents[studentId] || false;
+        starIcon.classList.toggle('active', isStarred);
+        starStatus.textContent = isStarred ? 'مميز بنجمة' : 'غير مميز';
+    }
+}
+
+function toggleStudentStar() {
+    const studentSelect = document.getElementById('studentSelect');
+    const studentId = studentSelect.value;
+    
+    if (!studentId) {
+        showNotification('الرجاء اختيار طالب أولاً', 'warning');
+        return;
+    }
+    
+    starredStudents[studentId] = !starredStudents[studentId];
+    localStorage.setItem('starredStudents', JSON.stringify(starredStudents));
+    
+    const starIcon = document.getElementById('toggleStar');
+    const starStatus = document.getElementById('starStatus');
+    
+    starIcon.classList.toggle('active', starredStudents[studentId]);
+    starStatus.textContent = starredStudents[studentId] ? 'مميز بنجمة' : 'غير مميز';
+    
+    updateStarredStudentsList();
+    updateClassDisplay();
+    
+    showNotification(
+        starredStudents[studentId] ? 'تم إضافة نجمة للطالب' : 'تم إزالة النجمة من الطالب',
+        'success'
+    );
+}
+
+function updateStarredStudentsList() {
+    const listElement = document.getElementById('starredStudentsList');
+    const allStudents = getAllStudents();
+    
+    let html = '<h4>الطلاب المميزين:</h4>';
+    const starredList = allStudents.filter(student => starredStudents[student.id]);
+    
+    if (starredList.length === 0) {
+        html += '<p style="color: var(--gray-medium); text-align: center;">لا يوجد طلاب مميزين</p>';
+    } else {
+        starredList.forEach(student => {
+            html += `
+                <div class="starred-student-item">
+                    <span>${student.name}</span>
+                    <span style="color: var(--primary-color); font-weight: 600;">${student.className}</span>
+                    <i class="fas fa-star" style="color: var(--star-color);"></i>
+                </div>
+            `;
+        });
+    }
+    
+    listElement.innerHTML = html;
+}
+
+// ================== الميزة 2: التحضير العشوائي ==================
+function generateRandomAttendance() {
+    const classId = document.getElementById('randomClassSelect').value;
+    const month = parseInt(document.getElementById('monthSelect').value);
+    const year = parseInt(document.getElementById('yearSelect').value);
+    
+    if (classId === 'all') {
+        // تطبيق على جميع الفصول
+        ['c3_1', 'c2_3', 'c3_3', 'c4_3', 'c5_3'].forEach(classId => {
+            generateClassRandomAttendance(classId, month, year);
+        });
+        showNotification('تم توليد تحضير عشوائي لجميع الفصول', 'success');
+    } else {
+        generateClassRandomAttendance(classId, month, year);
+        showNotification(`تم توليد تحضير عشوائي للفصل ${classId}`, 'success');
+    }
+}
+
+function generateClassRandomAttendance(classId, month, year) {
+    // محاكاة بيانات التحضير للشهر المحدد
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const attendanceData = JSON.parse(localStorage.getItem('attendanceData')) || {};
+    
+    if (!attendanceData[classId]) {
+        attendanceData[classId] = {};
+    }
+    
+    // توليد تحضير لكل يوم (باستثناء الجمعة والسبت)
+    for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month - 1, day);
+        const dayOfWeek = date.getDay();
+        
+        // تخطي الجمعة (5) والسبت (6)
+        if (dayOfWeek !== 5 && dayOfWeek !== 6) {
+            const dateKey = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+            
+            if (!attendanceData[classId][dateKey]) {
+                attendanceData[classId][dateKey] = {};
+                
+                // توليد تحضير عشوائي بنسبة 75% حضور و 25% غياب
+                const classStudents = studentsData[classId] || getDefaultStudents(classId);
+                
+                classStudents.forEach((student, index) => {
+                    const isPresent = Math.random() < 0.75; // 75% حضور
+                    attendanceData[classId][dateKey][index] = {
+                        present: isPresent,
+                        absent: !isPresent,
+                        note: isPresent ? 'حضور عشوائي' : 'غياب عشوائي'
+                    };
+                });
+            }
+        }
+    }
+    
+    localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+    
+    // تحديث شريط التقدم
+    updateProgressBar();
+}
+
+function updateProgressBar() {
+    const progressBar = document.getElementById('randomProgress');
+    const statusElement = document.getElementById('randomStatus');
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 5;
+        progressBar.style.width = `${progress}%`;
+        
+        if (progress <= 25) {
+            statusElement.textContent = 'جاري تحميل البيانات...';
+        } else if (progress <= 50) {
+            statusElement.textContent = 'جاري توليد التحضير العشوائي...';
+        } else if (progress <= 75) {
+            statusElement.textContent = 'جاري حفظ البيانات...';
+        } else {
+            statusElement.textContent = 'اكتمل توليد التحضير بنجاح!';
+            clearInterval(interval);
+            
+            // إعادة تعيين الشريط بعد ثانيتين
+            setTimeout(() => {
+                progressBar.style.width = '0%';
+                statusElement.textContent = '';
+            }, 2000);
+        }
+    }, 50);
+}
+
+// ================== الميزة 3: إدارة الطلاب ==================
+function addNewStudent() {
+    const name = document.getElementById('newStudentName').value.trim();
+    const classId = document.getElementById('newStudentClass').value;
+    
+    if (!name) {
+        showNotification('الرجاء إدخال اسم الطالب', 'warning');
+        return;
+    }
+    
+    // تهيئة بيانات الفصل إذا لم تكن موجودة
+    if (!studentsData[classId]) {
+        studentsData[classId] = getDefaultStudents(classId);
+    }
+    
+    // إضافة الطالب الجديد
+    studentsData[classId].push(name);
+    localStorage.setItem('studentsData', JSON.stringify(studentsData));
+    
+    // تحديث العرض
+    updateStudentSelects();
+    if (document.querySelector(`.class-selector button.active`).getAttribute('onclick').includes(classId)) {
+        loadClassStudents(classId);
+    }
+    
+    // إعادة تعيين الحقل
+    document.getElementById('newStudentName').value = '';
+    
+    showNotification(`تم إضافة الطالب ${name} إلى الفصل بنجاح`, 'success');
+}
+
+function transferStudent() {
+    const studentId = document.getElementById('transferStudentSelect').value;
+    const newClassId = document.getElementById('transferToClass').value;
+    
+    if (!studentId) {
+        showNotification('الرجاء اختيار طالب للنقل', 'warning');
+        return;
+    }
+    
+    // استخراج معلومات الطالب
+    const [oldClassId, studentIndex] = studentId.split('-');
+    const studentIndexNum = parseInt(studentIndex);
+    
+    if (oldClassId === newClassId) {
+        showNotification('الطالب موجود بالفعل في هذا الفصل', 'warning');
+        return;
+    }
+    
+    // التأكد من وجود بيانات الطلاب
+    if (!studentsData[oldClassId] || !studentsData[oldClassId][studentIndexNum]) {
+        showNotification('لم يتم العثور على بيانات الطالب', 'error');
+        return;
+    }
+    
+    // نقل الطالب
+    const studentName = studentsData[oldClassId][studentIndexNum];
+    
+    // إضافة إلى الفصل الجديد
+    if (!studentsData[newClassId]) {
+        studentsData[newClassId] = getDefaultStudents(newClassId);
+    }
+    studentsData[newClassId].push(studentName);
+    
+    // إزالة من الفصل القديم
+    studentsData[oldClassId].splice(studentIndexNum, 1);
+    
+    // تحديث البيانات المحلية
+    localStorage.setItem('studentsData', JSON.stringify(studentsData));
+    
+    // تحديث القوائم والعرض
+    updateStudentSelects();
+    updateCurrentClassDisplay();
+    
+    showNotification(`تم نقل الطالب ${studentName} إلى الفصل الجديد`, 'success');
+}
+
+function deleteStudent() {
+    const studentId = document.getElementById('deleteStudentSelect').value;
+    
+    if (!studentId) {
+        showNotification('الرجاء اختيار طالب للحذف', 'warning');
+        return;
+    }
+    
+    if (!confirm('هل أنت متأكد من حذف هذا الطالب؟ لا يمكن التراجع عن هذا الإجراء.')) {
+        return;
+    }
+    
+    // استخراج معلومات الطالب
+    const [classId, studentIndex] = studentId.split('-');
+    const studentIndexNum = parseInt(studentIndex);
+    
+    // التأكد من وجود بيانات الطالب
+    if (!studentsData[classId] || !studentsData[classId][studentIndexNum]) {
+        showNotification('لم يتم العثور على بيانات الطالب', 'error');
+        return;
+    }
+    
+    const studentName = studentsData[classId][studentIndexNum];
+    
+    // حذف الطالب
+    studentsData[classId].splice(studentIndexNum, 1);
+    
+    // تحديث البيانات المحلية
+    localStorage.setItem('studentsData', JSON.stringify(studentsData));
+    
+    // تحديث القوائم والعرض
+    updateStudentSelects();
+    updateCurrentClassDisplay();
+    
+    showNotification(`تم حذف الطالب ${studentName} بنجاح`, 'success');
+}
+
+function updateCurrentClassDisplay() {
+    const activeButton = document.querySelector('.class-selector button.active');
+    if (activeButton) {
+        const classId = activeButton.getAttribute('onclick').match(/'([^']+)'/)[1];
+        loadClassStudents(classId);
+    }
+}
+
+// ================== نظام النجوم في العرض الرئيسي ==================
+function getStudentStarElement(studentId, studentName) {
+    const isStarred = starredStudents[studentId] || false;
+    
+    return `
+        <div class="student-name">
+            ${studentName}
+            <i class="fas fa-star student-star-inline ${isStarred ? 'active' : ''}" 
+               onclick="toggleStudentStarInline('${studentId}', this)"
+               title="${isStarred ? 'طالب مميز' : 'إضافة نجمة'}">
+            </i>
+        </div>
+    `;
+}
+
+function toggleStudentStarInline(studentId, element) {
+    if (!isAdminLoggedIn) {
+        showNotification('يجب تسجيل الدخول كمسؤول لتعديل النجوم', 'warning');
+        showAdminLogin();
+        return;
+    }
+    
+    starredStudents[studentId] = !starredStudents[studentId];
+    localStorage.setItem('starredStudents', JSON.stringify(starredStudents));
+    
+    element.classList.toggle('active', starredStudents[studentId]);
+    
+    // تحديث قائمة النجوم في لوحة التحكم
+    updateStarredStudentsList();
+}
+
+// ================== النظام الرئيسي (من الكود السابق) ==================
+// تحويل التواريخ
 function convertToHijri(gregorianDate) {
     if (!gregorianDate || isConverting) return;
-    
     isConverting = true;
+    
     try {
         const m = moment(gregorianDate);
         const hijriDate = m.format('iD / iM / iYYYY هـ');
         document.getElementById('hijriDate').value = hijriDate;
         
-        // إظهار إشعار التحويل
         const notice = document.getElementById('gregorianNotice');
         notice.style.display = 'flex';
         setTimeout(() => {
             notice.style.display = 'none';
         }, 3000);
         
-        // حفظ التاريخ في localStorage
         saveDatesToStorage();
     } catch (error) {
         console.error('خطأ في التحويل إلى التاريخ الهجري:', error);
@@ -738,16 +1529,12 @@ function convertToHijri(gregorianDate) {
     }
 }
 
-// تحويل الهجري إلى ميلادي
 function convertToGregorian(hijriDateString) {
     if (!hijriDateString || isConverting) return;
-    
     isConverting = true;
+    
     try {
-        // تنظيف النص من "هـ" والمسافات
         let cleaned = hijriDateString.replace(/هـ/g, '').trim();
-        
-        // البحث عن الأرقام في النص
         const numbers = cleaned.match(/\d+/g);
         
         if (numbers && numbers.length >= 3) {
@@ -755,23 +1542,17 @@ function convertToGregorian(hijriDateString) {
             const month = parseInt(numbers[1]);
             const year = parseInt(numbers[2]);
             
-            // التحقق من صحة الأرقام
             if (day >= 1 && day <= 30 && month >= 1 && month <= 12 && year >= 1300 && year <= 1500) {
-                // استخدام moment-hijri لإنشاء تاريخ هجري
                 const hijriMoment = moment().iYear(year).iMonth(month - 1).iDate(day);
-                
-                // التحويل إلى ميلادي
                 const gregorianDate = hijriMoment.format('YYYY-MM-DD');
                 document.getElementById('gregorianDate').value = gregorianDate;
                 
-                // إظهار إشعار التحويل
                 const notice = document.getElementById('hijriNotice');
                 notice.style.display = 'flex';
                 setTimeout(() => {
                     notice.style.display = 'none';
                 }, 3000);
                 
-                // حفظ التاريخ في localStorage
                 saveDatesToStorage();
             }
         }
@@ -782,15 +1563,21 @@ function convertToGregorian(hijriDateString) {
     }
 }
 
-// تعيين التاريخ الحالي
+let isConverting = false;
+
 function setToday() {
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
     document.getElementById('gregorianDate').value = formattedDate;
     convertToHijri(formattedDate);
+    
+    const btn = document.getElementById('todayBtn');
+    btn.classList.add('btn-clicked');
+    setTimeout(() => {
+        btn.classList.remove('btn-clicked');
+    }, 300);
 }
 
-// حفظ التواريخ في localStorage
 function saveDatesToStorage() {
     const gregorianDate = document.getElementById('gregorianDate').value;
     const hijriDate = document.getElementById('hijriDate').value;
@@ -801,7 +1588,6 @@ function saveDatesToStorage() {
     }
 }
 
-// تحميل التواريخ المحفوظة
 function loadDatesFromStorage() {
     const savedGregorian = localStorage.getItem('lastGregorianDate');
     const savedHijri = localStorage.getItem('lastHijriDate');
@@ -813,12 +1599,11 @@ function loadDatesFromStorage() {
     if (savedHijri) {
         document.getElementById('hijriDate').value = savedHijri;
     } else if (savedGregorian) {
-        // إذا كان هناك تاريخ ميلادي محفوظ ولكن لا يوجد هجري، قم بالتحويل
         convertToHijri(savedGregorian);
     }
 }
 
-/* ================== نظام عرض الفصول ================== */
+// تحميل الفصول
 function showClass(classId) {
     document.querySelectorAll(".class-selector button").forEach(btn => btn.classList.remove("active"));
     event.target.classList.add("active");
@@ -826,8 +1611,8 @@ function showClass(classId) {
     loadClassStudents(classId);
 }
 
-/* ================== تحميل الطلاب ================== */
-function loadClassStudents(classId) {
+// الحصول على الطلاب الافتراضيين (من الكود السابق)
+function getDefaultStudents(classId) {
     const classes = {
         "c3_1": [
             "إسماعيل محمد هاشم شفيق الرحمن",
@@ -884,7 +1669,7 @@ function loadClassStudents(classId) {
             "محمد اسحاق محمد اسلام عبدالحكيم",
             "محمد عبدالله ابو سعيد مياه",
             "حمد محمد اسماعيل امير حسين ابو بكر",
-            "حمد موسى ساليفو ديقوقa",
+            "حمد موسى ساليفو ديقوقا",
             "مشاري شيهو اسماعيل محمد بكر",
             "ياسر عبدالرحيم محمد علي سفر علي",
             "يوسف محمد عبد الرحمن علي"
@@ -934,26 +1719,35 @@ function loadClassStudents(classId) {
             "يعقوب محمد إسحاق يار محمد فضل على"
         ]
     };
+    
+    return studentsData[classId] || classes[classId] || [];
+}
 
+function loadClassStudents(classId) {
+    // استخدام البيانات المحفوظة أو الافتراضية
+    const classStudents = getDefaultStudents(classId);
+    
     let html = `
     <div class='container'>
-        <h3 style="margin: 0 0 15px 0; text-align: center; color: var(--primary-dark);">الفصل ${classId.replace('c', '').replace('_', '/')}</h3>
+        <h3>قائمة طلاب الفصل ${classId.replace('c', '').replace('_', '/')}</h3>
         <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th>اسم الطالب</th>
-                    <th>حضور</th>
-                    <th>غياب</th>
-                    <th class="notes-cell">ملاحظات</th>
+                    <th width="40%">اسم الطالب</th>
+                    <th width="15%">حضور</th>
+                    <th width="15%">غياب</th>
+                    <th width="30%">ملاحظات</th>
                 </tr>
             </thead>
             <tbody>`;
 
-    classes[classId].forEach((name, index) => {
+    classStudents.forEach((name, index) => {
+        const studentId = `${classId}-${index}`;
+        
         html += `
                 <tr>
-                    <td class="student-name">${name}</td>
+                    <td>${getStudentStarElement(studentId, name)}</td>
                     <td>
                         <div style="position: relative;">
                             <div class="confirmation-indicator" id="present-indicator-${classId}-${index}">
@@ -982,125 +1776,59 @@ function loadClassStudents(classId) {
     document.getElementById("classContent").innerHTML = html;
 }
 
-/* ================== تفعيل/تعطيل الحضور والغياب مع تأثيرات ================== */
+// تفعيل/تعطيل الحضور والغياب
 function toggleSelect(btn, type, indicatorId) {
     const row = btn.closest("tr");
     
-    // تأثير النقر
     btn.classList.add('btn-clicked');
     setTimeout(() => {
         btn.classList.remove('btn-clicked');
     }, 300);
     
-    // إزالة النشاط من جميع الأزرار في الصف
     row.querySelectorAll(".btn.present, .btn.absent")
         .forEach(b => b.classList.remove("active"));
     
-    // إزالة جميع مؤشرات التأكيد في الصف
     const indicators = row.querySelectorAll(".confirmation-indicator");
     indicators.forEach(indicator => {
         indicator.classList.remove("show");
     });
     
-    // تفعيل الزر المحدد
     btn.classList.add("active");
     
-    // إظهار مؤشر التأكيد المناسب
     if (type === 'present') {
         const presentIndicator = document.getElementById(`present-indicator-${indicatorId}`);
         if (presentIndicator) {
             presentIndicator.classList.add("show");
-            
-            // إخفاء المؤشر بعد 3 ثواني (اختياري)
             setTimeout(() => {
                 presentIndicator.classList.remove("show");
             }, 3000);
         }
-        
         row.querySelector(".btn.absent").classList.remove("active");
     } else {
         const absentIndicator = document.getElementById(`absent-indicator-${indicatorId}`);
         if (absentIndicator) {
             absentIndicator.classList.add("show");
-            
-            // إخفاء المؤشر بعد 3 ثواني (اختياري)
             setTimeout(() => {
                 absentIndicator.classList.remove("show");
             }, 3000);
         }
-        
         row.querySelector(".btn.present").classList.remove("active");
     }
 }
 
-/* ================== استخراج PDF ================== */
-function generatePDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ 
-        orientation: "p", 
-        unit: "pt", 
-        format: "a4",
-        compress: true
-    });
+// إشعارات
+function showNotification(message, type = 'success') {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.className = `notification ${type}`;
+    notification.classList.add('show');
     
-    // إضافة عنوان التقرير
-    doc.setFontSize(22);
-    doc.text("تقرير الغياب والحضور", 40, 40);
-    
-    doc.setFontSize(16);
-    doc.text("مادة اللغة الإنجليزية", 40, 65);
-    doc.text("إعداد: المعلم فهد الخالدي", 40, 85);
-    
-    // تاريخ التقرير
-    const gregorianDate = document.getElementById("gregorianDate").value || "غير محدد";
-    const hijriDate = document.getElementById("hijriDate").value || "غير محدد";
-    
-    doc.setFontSize(14);
-    doc.text(`التاريخ الميلادي: ${gregorianDate}`, 40, 110);
-    doc.text(`التاريخ الهجري: ${hijriDate}`, 40, 130);
-    
-    // بيانات الطلاب
-    let y = 170;
-    doc.setFontSize(12);
-    
-    document.querySelectorAll("table tbody tr").forEach((row, index) => {
-        if (y > 700) {
-            doc.addPage();
-            y = 40;
-        }
-        
-        const name = row.children[0].innerText;
-        const present = row.children[1].querySelector("button").classList.contains("active") ? "✔" : "";
-        const absent = row.children[2].querySelector("button").classList.contains("active") ? "✖" : "";
-        const note = row.children[3].querySelector("textarea").value || "لا توجد ملاحظات";
-        
-        // اسم الطالب
-        doc.setFont(undefined, 'bold');
-        doc.text(`${index + 1}. ${name}`, 40, y);
-        doc.setFont(undefined, 'normal');
-        
-        // حالة الحضور
-        const status = present ? "حاضر" : (absent ? "غائب" : "لم يتم التحديد");
-        const statusColor = present ? [16, 185, 129] : absent ? [239, 68, 68] : [107, 114, 128];
-        doc.setTextColor(...statusColor);
-        doc.text(`الحالة: ${status}`, 40, y + 20);
-        doc.setTextColor(0, 0, 0);
-        
-        // الملاحظات
-        const lines = doc.splitTextToSize(`ملاحظات: ${note}`, 450);
-        doc.text(lines, 40, y + 40);
-        
-        y += 60 + (lines.length * 15);
-    });
-    
-    // حفظ الملف
-    doc.save("تقرير-الحضور-والغياب.pdf");
-    
-    // إظهار رسالة نجاح
-    alert("تم استخراج التقرير بنجاح!");
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
 }
 
-/* ================== تهيئة الصفحة ================== */
+// تهيئة النظام عند التحميل
 window.onload = function() {
     // تحميل الفصل الأول
     showClass("c3_1");
@@ -1113,13 +1841,12 @@ window.onload = function() {
         setToday();
     }
     
-    // إضافة مستمعي الأحداث لحقول التاريخ
+    // إضافة مستمعي الأحداث
     document.getElementById('gregorianDate').addEventListener('change', function(e) {
         convertToHijri(e.target.value);
     });
     
     document.getElementById('hijriDate').addEventListener('input', function(e) {
-        // استخدام debounce لمنع التحويل مع كل ضغطة زر
         clearTimeout(window.hijriTimeout);
         window.hijriTimeout = setTimeout(() => {
             convertToGregorian(e.target.value);
@@ -1130,16 +1857,8 @@ window.onload = function() {
         convertToGregorian(e.target.value);
     });
     
-    // إضافة مستمع لزر اليوم الحالي
+    // زر اليوم الحالي
     document.getElementById('todayBtn').addEventListener('click', setToday);
-    
-    // إضافة تأثير عند النقر على زر اليوم
-    document.getElementById('todayBtn').addEventListener('click', function() {
-        this.classList.add('btn-clicked');
-        setTimeout(() => {
-            this.classList.remove('btn-clicked');
-        }, 300);
-    });
 };
 </script>
 
