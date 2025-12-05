@@ -3,10 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>سجل حضور مطوّر</title>
+<title>سجل حضور بالرموز</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
@@ -15,7 +14,6 @@
         background: #f0f2f7;
         padding: 20px;
     }
-
     .container {
         max-width: 750px;
         margin: auto;
@@ -24,30 +22,27 @@
         border-radius: 10px;
         box-shadow: 0 6px 14px rgba(0,0,0,0.08);
     }
-
     h2 {
         text-align: center;
         color: #1a73e8;
         margin-top: 0;
     }
-
     table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 15px;
     }
-
     th, td {
         border: 1px solid #ddd;
         padding: 12px;
         text-align: center;
     }
-
     th {
         background: #1a73e8;
         color: white;
     }
 
+    /* أزرار الحضور */
     button {
         padding: 8px 12px;
         border: none;
@@ -55,19 +50,23 @@
         cursor: pointer;
         font-weight: bold;
         transition: 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 15px;
     }
 
     .present { background: #34a853; color: white; }
     .absent { background: #ea4335; color: white; }
-    .activeBtn { transform: scale(1.07); box-shadow: 0 0 12px rgba(0,0,0,0.2); }
 
-    .row-present { background: #e8f5e9 !important; animation: highlight 0.4s; }
-    .row-absent { background: #ffebee !important; animation: highlight 0.4s; }
-
-    @keyframes highlight {
-        from { opacity: 0.4; }
-        to { opacity: 1; }
+    .activeBtn {
+        transform: scale(1.08);
+        box-shadow: 0 0 12px rgba(0,0,0,0.18);
     }
+
+    /* ألوان الصفوف */
+    .row-present { background: #e8f5e9 !important; }
+    .row-absent { background: #ffebee !important; }
 
     .export {
         width: 100%;
@@ -77,12 +76,11 @@
         font-size: 16px;
         padding: 12px;
     }
-
 </style>
 </head>
 <body>
 
-<div class="container" id="captureArea">
+<div class="container">
     <h2>سجل حضور الطلاب</h2>
 
     <table id="studentsTable">
@@ -93,25 +91,24 @@
                 <th>الحالة</th>
             </tr>
         </thead>
+
         <tbody>
 
-            <!-- الطالب 1 -->
             <tr data-status="">
                 <td>1</td>
                 <td>أحمد محمد</td>
                 <td>
-                    <button class="present" onclick="setStatus(this,'حاضر')">حاضر</button>
-                    <button class="absent" onclick="setStatus(this,'غائب')">غائب</button>
+                    <button class="present" onclick="setStatus(this,'حاضر','✔️')">✔️ حاضر</button>
+                    <button class="absent" onclick="setStatus(this,'غائب','❌')">❌ غائب</button>
                 </td>
             </tr>
 
-            <!-- الطالب 2 -->
             <tr data-status="">
                 <td>2</td>
                 <td>جسّار فهد</td>
                 <td>
-                    <button class="present" onclick="setStatus(this,'حاضر')">حاضر</button>
-                    <button class="absent" onclick="setStatus(this,'غائب')">غائب</button>
+                    <button class="present" onclick="setStatus(this,'حاضر','✔️')">✔️ حاضر</button>
+                    <button class="absent" onclick="setStatus(this,'غائب','❌')">❌ غائب</button>
                 </td>
             </tr>
 
@@ -122,15 +119,22 @@
 <button class="export" onclick="exportPDF()">تصدير PDF</button>
 
 <script>
-function setStatus(btn, status) {
+function setStatus(btn, status, symbol) {
+
     let row = btn.closest("tr");
     let buttons = row.querySelectorAll("button");
 
+    // إزالة تنشيط باقي الأزرار
     buttons.forEach(b => b.classList.remove("activeBtn"));
 
+    // تفعيل الزر الحالي
     btn.classList.add("activeBtn");
-    row.dataset.status = status;
 
+    // حفظ النتيجة داخل الصف
+    row.dataset.status = status;
+    row.dataset.symbol = symbol;
+
+    // تغيير لون الصف
     row.classList.remove("row-present", "row-absent");
 
     if (status === "حاضر") {
@@ -140,15 +144,11 @@ function setStatus(btn, status) {
     }
 }
 
-async function exportPDF() {
+function exportPDF() {
     const { jsPDF } = window.jspdf;
-
-    // جهّز نسخة PDF النصيّة
     let pdf = new jsPDF("p", "mm", "a4");
 
-    pdf.setFont("Helvetica", "normal");
     pdf.setFontSize(16);
-
     pdf.text("تقرير حضور الطلاب", 105, 15, { align: "center" });
 
     pdf.setFontSize(13);
@@ -159,8 +159,9 @@ async function exportPDF() {
     rows.forEach((row, index) => {
         let name = row.children[1].innerText;
         let status = row.dataset.status || "—";
+        let symbol = row.dataset.symbol || "";
 
-        pdf.text(`${index + 1}- ${name}  :  ${status}`, 12, y);
+        pdf.text(`${index + 1}- ${name} : ${symbol} ${status}`, 12, y);
         y += 10;
     });
 
