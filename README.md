@@ -324,32 +324,39 @@
         font-weight: 600;
     }
     
-    /* تصميم نافذة كلمة المرور */
-    .password-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 2000;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .password-box {
-        background: white;
-        padding: 30px;
+    /* تصميم قسم كلمة المرور الجديد */
+    .admin-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, padding 0.5s ease, margin 0.5s ease;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         border-radius: 15px;
-        width: 90%;
-        max-width: 400px;
-        text-align: center;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        animation: fadeIn 0.3s ease;
+        margin: 0;
+        padding: 0 20px;
+        border: 2px solid transparent;
     }
     
-    .password-title {
+    .admin-panel.active {
+        max-height: 300px;
+        padding: 25px 20px;
+        margin-top: 25px;
+        border-color: rgba(44, 90, 160, 0.3);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .admin-panel-content {
+        text-align: center;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+    }
+    
+    .admin-panel.active .admin-panel-content {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .admin-title {
         color: #2c5aa0;
         font-size: 1.5rem;
         margin-bottom: 20px;
@@ -359,17 +366,32 @@
         gap: 10px;
     }
     
+    .admin-description {
+        color: #666;
+        margin-bottom: 20px;
+        font-size: 1rem;
+    }
+    
+    .password-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+    
     .password-input {
-        width: 100%;
+        flex: 1;
+        max-width: 300px;
         padding: 15px;
         border: 2px solid #ddd;
         border-radius: 10px;
         font-size: 1.1rem;
         font-family: 'Tajawal', sans-serif;
         text-align: center;
-        margin-bottom: 20px;
-        box-sizing: border-box;
         transition: border-color 0.3s;
+        min-width: 200px;
     }
     
     .password-input:focus {
@@ -379,8 +401,7 @@
     
     .password-buttons {
         display: flex;
-        gap: 15px;
-        justify-content: center;
+        gap: 10px;
     }
     
     .password-submit, .password-cancel {
@@ -391,7 +412,7 @@
         font-weight: 700;
         font-size: 1rem;
         transition: all 0.3s ease;
-        min-width: 120px;
+        min-width: 100px;
     }
     
     .password-submit {
@@ -410,6 +431,13 @@
     
     .password-cancel:hover {
         background: linear-gradient(to right, #616161, #757575);
+    }
+    
+    .password-error {
+        color: #c62828;
+        margin-top: 10px;
+        font-size: 0.95rem;
+        display: none;
     }
     
     /* تصميم متجاوب */
@@ -455,6 +483,15 @@
             min-width: 130px;
             padding: 10px 20px;
         }
+        
+        .password-container {
+            flex-direction: column;
+        }
+        
+        .password-input {
+            max-width: 100%;
+            min-width: auto;
+        }
     }
     
     @media (max-width: 480px) {
@@ -474,9 +511,10 @@
     }
     
     /* أنيميشن للأيقونات */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
     }
     
     @keyframes pulse {
@@ -511,24 +549,6 @@
 </style>
 </head>
 <body>
-
-<!-- نافذة إدخال كلمة المرور -->
-<div class="password-modal" id="passwordModal">
-    <div class="password-box">
-        <div class="password-title">
-            <i class="fas fa-lock"></i> التحقق من الهوية
-        </div>
-        <p style="color: #666; margin-bottom: 20px;">للدخول إلى لوحة الإدارة، يرجى إدخال كلمة المرور:</p>
-        <input type="password" class="password-input" id="passwordInput" placeholder="أدخل كلمة المرور هنا" autocomplete="off">
-        <div class="password-buttons">
-            <button class="password-submit" onclick="checkPassword()">تحقق</button>
-            <button class="password-cancel" onclick="closePasswordModal()">إلغاء</button>
-        </div>
-        <p id="passwordError" style="color: #c62828; margin-top: 15px; display: none;">
-            <i class="fas fa-exclamation-triangle"></i> كلمة المرور غير صحيحة
-        </p>
-    </div>
-</div>
 
 <div class="container" id="captureArea">
     <h2><i class="fas fa-users" style="margin-left: 15px;"></i> سجل حضور الطلاب - النظام الذكي</h2>
@@ -651,12 +671,32 @@
         <button class="status-btn absent-btn" onclick="setAllAbsent()">
             <i class="fas fa-user-slash"></i> تعيين الكل غائب
         </button>
-        <button class="status-btn admin-btn" onclick="openAdminPanel()">
+        <button class="status-btn admin-btn" onclick="toggleAdminPanel()">
             <i class="fas fa-cog"></i> إدارة
         </button>
         <button class="status-btn random-btn" id="randomBtn" onclick="toggleRandom()">
             <i class="fas fa-random"></i> تبديل عشوائي
         </button>
+    </div>
+    
+    <!-- قسم الإدارة الجديد - يظهر/يخفي داخل الصفحة -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-panel-content">
+            <div class="admin-title">
+                <i class="fas fa-lock"></i> لوحة التحكم - إدخال كلمة المرور
+            </div>
+            <p class="admin-description">للدخول إلى خيارات الإدارة المتقدمة، يرجى إدخال كلمة المرور:</p>
+            <div class="password-container">
+                <input type="password" class="password-input" id="passwordInput" placeholder="أدخل كلمة المرور هنا" autocomplete="off">
+                <div class="password-buttons">
+                    <button class="password-submit" onclick="checkPassword()">تحقق</button>
+                    <button class="password-cancel" onclick="toggleAdminPanel()">إلغاء</button>
+                </div>
+            </div>
+            <p class="password-error" id="passwordError">
+                <i class="fas fa-exclamation-triangle"></i> كلمة المرور غير صحيحة
+            </p>
+        </div>
     </div>
     
     <div class="footer-note">
@@ -683,31 +723,50 @@ for (let i = 1; i <= totalStudents; i++) {
 // متغير للتحقق من صلاحية الدخول
 let isAdminAuthenticated = false;
 
-// فتح لوحة الإدارة
-function openAdminPanel() {
-    document.getElementById('passwordModal').style.display = 'flex';
-    document.getElementById('passwordInput').focus();
-    document.getElementById('passwordError').style.display = 'none';
-}
-
-// إغلاق نافذة كلمة المرور
-function closePasswordModal() {
-    document.getElementById('passwordModal').style.display = 'none';
-    document.getElementById('passwordInput').value = '';
+// فتح/إغلاق لوحة الإدارة
+function toggleAdminPanel() {
+    const adminPanel = document.getElementById('adminPanel');
+    const adminBtn = document.querySelector('.admin-btn');
+    
+    if (adminPanel.classList.contains('active')) {
+        // إغلاق لوحة الإدارة
+        adminPanel.classList.remove('active');
+        adminBtn.innerHTML = '<i class="fas fa-cog"></i> إدارة';
+        adminBtn.style.background = 'linear-gradient(to right, #5d4037, #795548)';
+        document.getElementById('passwordInput').value = '';
+        document.getElementById('passwordError').style.display = 'none';
+    } else {
+        // فتح لوحة الإدارة
+        adminPanel.classList.add('active');
+        adminBtn.innerHTML = '<i class="fas fa-times"></i> إغلاق الإدارة';
+        adminBtn.style.background = 'linear-gradient(to right, #757575, #9e9e9e)';
+        document.getElementById('passwordInput').focus();
+    }
 }
 
 // التحقق من كلمة المرور
 function checkPassword() {
     const password = document.getElementById('passwordInput').value;
     const errorElement = document.getElementById('passwordError');
+    const adminPanel = document.getElementById('adminPanel');
     
     // كلمة المرور الصحيحة: Jassar1436
     if (password === 'Jassar1436') {
         // تم التحقق بنجاح
         isAdminAuthenticated = true;
         document.getElementById('randomBtn').style.display = 'flex';
-        closePasswordModal();
+        
+        // إغلاق لوحة الإدارة
+        adminPanel.classList.remove('active');
+        document.querySelector('.admin-btn').innerHTML = '<i class="fas fa-cog"></i> إدارة';
+        document.querySelector('.admin-btn').style.background = 'linear-gradient(to right, #5d4037, #795548)';
+        
+        // إظهار رسالة نجاح
         showNotification('تم التحقق من الهوية بنجاح! زر "تبديل عشوائي" متاح الآن.', 'present');
+        
+        // مسح حقل كلمة المرور
+        document.getElementById('passwordInput').value = '';
+        errorElement.style.display = 'none';
     } else {
         // كلمة مرور خاطئة
         errorElement.style.display = 'block';
@@ -721,17 +780,6 @@ function checkPassword() {
         }, 500);
     }
 }
-
-// إضافة تأثير اهتزاز للإدخال
-const shakeStyle = document.createElement('style');
-shakeStyle.textContent = `
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-        20%, 40%, 60%, 80% { transform: translateX(5px); }
-    }
-`;
-document.head.appendChild(shakeStyle);
 
 // السماح بإدخال كلمة المرور عند الضغط على Enter
 document.getElementById('passwordInput').addEventListener('keypress', function(event) {
@@ -874,7 +922,7 @@ function toggleRandom() {
     // التحقق من صلاحية الدخول
     if (!isAdminAuthenticated) {
         showNotification('يجب التحقق من الهوية أولاً!', 'absent');
-        openAdminPanel();
+        toggleAdminPanel();
         return;
     }
     
