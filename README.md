@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>سجل التقويم الشامل للطلاب</title>
 
 <!-- خطوط عربية -->
@@ -31,6 +31,14 @@
     
     * {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
     }
     
     body {
@@ -41,30 +49,40 @@
         direction: rtl;
         min-height: 100vh;
         overflow-x: hidden;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
     }
     
     .container {
-        max-width: 100%;
+        width: 100%;
         margin: 0 auto;
         background: white;
-        padding: 12px;
-        border-radius: 12px;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
-        border: 1px solid var(--border-color);
+        padding: 8px;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
         overflow: hidden;
+    }
+    
+    /* تحسينات للشاشات الصغيرة جداً */
+    @media (max-width: 360px) {
+        .container {
+            padding: 6px;
+        }
     }
     
     h2 {
         margin-top: 0;
         text-align: center;
         color: var(--primary-color);
-        font-size: 1.4rem;
-        padding-bottom: 12px;
+        font-size: 1.2rem;
+        padding-bottom: 10px;
         border-bottom: 1px solid #f0f0f0;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
         position: relative;
         word-break: break-word;
-        line-height: 1.4;
+        line-height: 1.3;
+        padding-top: 5px;
     }
     
     h2:after {
@@ -73,35 +91,35 @@
         bottom: -1px;
         right: 50%;
         transform: translateX(50%);
-        width: 100px;
-        height: 3px;
+        width: 80px;
+        height: 2px;
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
-        border-radius: 3px;
+        border-radius: 2px;
     }
     
     .summary-box {
         background: linear-gradient(to right, rgba(44, 90, 160, 0.1), rgba(74, 138, 244, 0.1));
-        border-radius: 10px;
-        padding: 12px;
-        margin-bottom: 16px;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 12px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 8px;
         border: 1px solid rgba(44, 90, 160, 0.2);
     }
     
     .summary-item {
         text-align: center;
-        padding: 10px 6px;
-        border-radius: 8px;
+        padding: 8px 4px;
+        border-radius: 6px;
         background: white;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
     }
     
     .summary-count {
-        font-size: 1.7rem;
+        font-size: 1.5rem;
         font-weight: 700;
-        margin-bottom: 4px;
+        margin-bottom: 3px;
     }
     
     .present-count {
@@ -113,43 +131,46 @@
     }
     
     .summary-label {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         color: #555;
         line-height: 1.2;
     }
     
-    /* تصميم الجدول - متجاوب تمامًا */
+    /* تحسين الجدول للجوال */
     .table-wrapper {
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin-top: 12px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        margin-top: 10px;
+        border-radius: 8px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
         border: 1px solid #eee;
+        margin-left: -2px;
+        margin-right: -2px;
+        padding: 0 2px;
     }
     
     table {
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
-        min-width: 750px;
-        font-size: 0.85rem;
+        min-width: 700px;
+        font-size: 0.8rem;
     }
     
     th, td {
-        padding: 10px 6px;
+        padding: 8px 4px;
         text-align: center;
         border: 1px solid var(--border-color);
-        line-height: 1.3;
+        line-height: 1.2;
+        white-space: nowrap;
     }
     
     th {
         background: linear-gradient(to right, #2c5aa0, #3a6bc5);
         color: white;
         font-weight: 700;
-        font-size: 0.9rem;
-        letter-spacing: 0.3px;
+        font-size: 0.85rem;
         white-space: nowrap;
     }
     
@@ -167,18 +188,19 @@
     
     .sub-header {
         background: rgba(255, 255, 255, 0.15);
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         font-weight: 500;
         white-space: nowrap;
     }
     
     .student-name {
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 600;
         text-align: right;
-        padding-right: 8px;
-        min-width: 100px;
+        padding-right: 6px;
+        min-width: 90px;
         word-break: break-word;
+        white-space: normal;
     }
     
     tr:nth-child(even) {
@@ -190,31 +212,32 @@
         transition: background-color 0.2s;
     }
     
-    /* تصميم خلايا التقييم - مصغرة للجوال */
+    /* تحسين خلايا التقييم للجوال */
     .evaluation-cell {
         text-align: center;
-        padding: 6px 4px;
-        min-width: 70px;
+        padding: 4px 2px;
+        min-width: 60px;
     }
     
     .status-icon {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-block;
-        padding: 5px;
+        padding: 4px;
         border-radius: 50%;
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto;
+        touch-action: manipulation;
     }
     
     .status-icon:hover {
-        transform: scale(1.08);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transform: scale(1.06);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     }
     
     /* الحالة الحاضرة - حاضر / صح / ممتاز */
@@ -255,11 +278,11 @@
     
     .status-label {
         display: block;
-        margin-top: 4px;
+        margin-top: 3px;
         font-weight: 700;
-        font-size: 0.8rem;
-        min-height: 18px;
-        line-height: 1.2;
+        font-size: 0.75rem;
+        min-height: 16px;
+        line-height: 1.1;
     }
     
     .present-label {
@@ -274,70 +297,74 @@
         color: var(--neutral-color);
     }
     
-    /* أزرار التحكم - تصميم متجاوب */
+    /* تحسين أزرار التحكم للجوال */
     .controls-container {
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        margin: 20px 0;
+        gap: 10px;
+        margin: 16px 0;
+        width: 100%;
     }
     
     .category-controls {
         background: white;
-        border-radius: 10px;
-        padding: 12px;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         flex: 1;
         border: 1px solid rgba(44, 90, 160, 0.1);
+        width: 100%;
     }
     
     .control-title {
         color: var(--primary-color);
-        font-size: 1.1rem;
-        margin-bottom: 10px;
+        font-size: 1rem;
+        margin-bottom: 8px;
         text-align: center;
-        padding-bottom: 6px;
+        padding-bottom: 5px;
         border-bottom: 1px solid #f0f0f0;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 5px;
         flex-wrap: wrap;
     }
     
     .category-buttons {
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 5px;
         justify-content: center;
     }
     
     .status-btn {
-        padding: 8px 12px;
+        padding: 7px 10px;
         border: none;
-        border-radius: 6px;
+        border-radius: 5px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
-        min-width: 110px;
+        gap: 4px;
+        min-width: 0;
         flex: 1;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+        touch-action: manipulation;
+        min-height: 40px;
     }
     
     .status-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     
     .status-btn:active {
         transform: translateY(0);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     }
     
     .present-btn {
@@ -386,49 +413,24 @@
         background: linear-gradient(to right, #e65100, #ef6c00);
     }
     
-    .category-1-btn {
-        background: linear-gradient(to right, var(--category-1), #795548);
-        color: white;
-    }
-    
-    .category-1-btn:hover {
-        background: linear-gradient(to right, #3e2723, #4e342e);
-    }
-    
-    .category-2-btn {
-        background: linear-gradient(to right, var(--category-2), #0288d1);
-        color: white;
-    }
-    
-    .category-2-btn:hover {
-        background: linear-gradient(to right, #01579b, #0277bd);
-    }
-    
-    .category-3-btn {
-        background: linear-gradient(to right, var(--category-3), #8e24aa);
-        color: white;
-    }
-    
-    .category-3-btn:hover {
-        background: linear-gradient(to right, #4a148c, #6a1b9a);
-    }
-    
     .export-container {
         text-align: center;
-        margin-top: 20px;
-        padding-top: 16px;
+        margin-top: 16px;
+        padding-top: 12px;
         border-top: 1px dashed #ddd;
+        width: 100%;
+        padding-left: 5px;
+        padding-right: 5px;
     }
     
     .export {
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         color: white;
-        padding: 14px 20px;
-        font-size: 1rem;
-        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        border-radius: 6px;
         width: 100%;
-        max-width: 280px;
-        box-shadow: 0 5px 12px rgba(42, 91, 173, 0.2);
+        box-shadow: 0 4px 10px rgba(42, 91, 173, 0.2);
         border: none;
         cursor: pointer;
         font-weight: 700;
@@ -437,51 +439,55 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 7px;
+        touch-action: manipulation;
+        min-height: 50px;
     }
     
     .export:hover {
         background: linear-gradient(to right, #1e3f7a, #2c5aa0);
-        box-shadow: 0 8px 15px rgba(42, 91, 173, 0.3);
+        box-shadow: 0 6px 12px rgba(42, 91, 173, 0.3);
         transform: translateY(-2px);
     }
     
     .footer-note {
         text-align: center;
-        margin-top: 16px;
+        margin-top: 12px;
         color: #666;
-        font-size: 0.85rem;
-        padding: 10px;
+        font-size: 0.8rem;
+        padding: 8px;
         background-color: #f8f9fa;
-        border-radius: 8px;
-        border-right: 3px solid var(--primary-color);
-        line-height: 1.4;
+        border-radius: 6px;
+        border-right: 2px solid var(--primary-color);
+        line-height: 1.3;
+        width: 100%;
     }
     
-    /* تصميم قسم الإدارة */
+    /* تحسين قسم الإدارة للجوال */
     .admin-panel {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.5s ease, padding 0.5s ease, margin 0.5s ease;
+        transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 10px;
+        border-radius: 8px;
         margin: 0;
-        padding: 0 12px;
+        padding: 0 10px;
         border: 1px solid transparent;
+        width: 100%;
     }
     
     .admin-panel.active {
-        max-height: 800px;
-        padding: 16px 12px;
-        margin-top: 16px;
+        max-height: 700px;
+        padding: 12px 10px;
+        margin-top: 12px;
         border-color: rgba(44, 90, 160, 0.2);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
     }
     
     .admin-panel-content {
         text-align: center;
         opacity: 0;
-        transform: translateY(-6px);
+        transform: translateY(-5px);
         transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s;
     }
     
@@ -490,42 +496,43 @@
         transform: translateY(0);
     }
     
-    /* تصميم قسم كلمة المرور */
+    /* تحسين قسم كلمة المرور للجوال */
     .password-section {
-        margin-bottom: 16px;
-        padding-bottom: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
         border-bottom: 1px dashed #ccc;
     }
     
     .admin-title {
         color: #2c5aa0;
-        font-size: 1.1rem;
-        margin-bottom: 12px;
+        font-size: 1rem;
+        margin-bottom: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 5px;
         flex-wrap: wrap;
     }
     
     .admin-description {
         color: #666;
-        margin-bottom: 12px;
-        font-size: 0.9rem;
+        margin-bottom: 10px;
+        font-size: 0.85rem;
     }
     
     .password-container {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin-bottom: 12px;
+        gap: 8px;
+        margin-bottom: 10px;
+        width: 100%;
     }
     
     .password-input {
-        padding: 10px;
+        padding: 9px;
         border: 2px solid #ddd;
-        border-radius: 6px;
-        font-size: 0.95rem;
+        border-radius: 5px;
+        font-size: 0.9rem;
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
@@ -539,19 +546,20 @@
     
     .password-buttons {
         display: flex;
-        gap: 8px;
+        gap: 7px;
         justify-content: center;
+        width: 100%;
     }
     
     .password-submit, .password-cancel {
-        padding: 8px 16px;
+        padding: 8px 14px;
         border: none;
-        border-radius: 6px;
+        border-radius: 5px;
         cursor: pointer;
         font-weight: 700;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         transition: all 0.2s ease;
-        min-width: 90px;
+        min-width: 80px;
         flex: 1;
     }
     
@@ -575,15 +583,15 @@
     
     .password-error {
         color: #c62828;
-        margin-top: 8px;
-        font-size: 0.85rem;
+        margin-top: 7px;
+        font-size: 0.8rem;
         display: none;
     }
     
-    /* تصميم قسم تحديد التاريخ */
+    /* تحسين قسم تحديد التاريخ للجوال */
     .date-section {
         display: none;
-        animation: fadeIn 0.5s ease;
+        animation: fadeIn 0.4s ease;
     }
     
     .date-section.active {
@@ -592,26 +600,27 @@
     
     .date-title {
         color: #2c5aa0;
-        font-size: 1.1rem;
-        margin-bottom: 10px;
+        font-size: 1rem;
+        margin-bottom: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 5px;
     }
     
     .date-controls {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin-bottom: 12px;
+        gap: 8px;
+        margin-bottom: 10px;
+        width: 100%;
     }
     
     .date-input {
-        padding: 10px;
+        padding: 9px;
         border: 2px solid #ddd;
-        border-radius: 6px;
-        font-size: 0.95rem;
+        border-radius: 5px;
+        font-size: 0.9rem;
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
@@ -624,18 +633,18 @@
     }
     
     .date-btn {
-        padding: 10px;
+        padding: 9px;
         border: none;
-        border-radius: 6px;
+        border-radius: 5px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 5px;
         background: linear-gradient(to right, var(--primary-color), #4a8af4);
         color: white;
         width: 100%;
@@ -648,29 +657,29 @@
     
     .selected-date-display {
         background: white;
-        padding: 8px 12px;
-        border-radius: 6px;
+        padding: 7px 10px;
+        border-radius: 5px;
         border: 2px solid var(--present-color);
-        margin-top: 12px;
+        margin-top: 10px;
         display: inline-block;
         font-weight: 700;
         color: #333;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
     
-    /* مصفوفة التقييم للجوال */
+    /* تحسين مصفوفة التقييم للجوال */
     .evaluation-matrix {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        margin: 16px 0;
+        gap: 8px;
+        margin: 12px 0;
     }
     
     .matrix-item {
         background: white;
-        border-radius: 10px;
-        padding: 12px;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         text-align: center;
         border-top: 3px solid;
     }
@@ -689,48 +698,48 @@
     }
     
     .matrix-title {
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 700;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         color: #333;
     }
     
     .matrix-count {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         font-weight: 800;
-        margin: 6px 0;
+        margin: 5px 0;
     }
     
     .matrix-percent {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         font-weight: 700;
         color: #666;
-        margin-top: 6px;
+        margin-top: 5px;
     }
     
     /* أنيميشن */
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-6px); }
+        from { opacity: 0; transform: translateY(-5px); }
         to { opacity: 1; transform: translateY(0); }
     }
     
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
-        20%, 40%, 60%, 80% { transform: translateX(3px); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+        20%, 40%, 60%, 80% { transform: translateX(2px); }
     }
     
     @keyframes pulse {
         0% { transform: scale(1); }
-        50% { transform: scale(1.06); }
+        50% { transform: scale(1.05); }
         100% { transform: scale(1); }
     }
     
     @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-15px); }
+        0% { opacity: 0; transform: translateY(-12px); }
         15% { opacity: 1; transform: translateY(0); }
         85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-15px); }
+        100% { opacity: 0; transform: translateY(-12px); }
     }
     
     @keyframes fadeOut {
@@ -742,24 +751,19 @@
         animation: pulse 0.3s ease;
     }
     
-    /* تصميم متجاوب إضافي */
+    /* تحسينات إضافية للأجهزة الكبيرة */
     @media (min-width: 480px) {
-        body {
-            padding: 8px;
-        }
-        
         .container {
-            padding: 16px;
-            border-radius: 10px;
+            padding: 10px;
         }
         
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
         
         .summary-box {
             grid-template-columns: repeat(4, 1fr);
-            padding: 16px;
+            padding: 12px;
         }
         
         .evaluation-matrix {
@@ -776,7 +780,7 @@
         }
         
         .category-controls {
-            min-width: 240px;
+            min-width: 220px;
             flex: 1;
         }
         
@@ -785,7 +789,7 @@
         }
         
         .password-input {
-            min-width: 180px;
+            min-width: 160px;
         }
         
         .password-buttons {
@@ -798,12 +802,38 @@
         
         .date-btn {
             width: auto;
-            min-width: 130px;
+            min-width: 120px;
         }
         
         .export {
-            font-size: 1.1rem;
-            padding: 16px 24px;
+            font-size: 1rem;
+            padding: 14px 20px;
+        }
+        
+        .status-icon {
+            width: 45px;
+            height: 45px;
+            font-size: 1.6rem;
+        }
+        
+        .table-wrapper {
+            padding: 0 5px;
+            margin-left: -5px;
+            margin-right: -5px;
+        }
+    }
+    
+    @media (min-width: 768px) {
+        .container {
+            padding: 15px;
+            max-width: 95%;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
         }
         
         .status-icon {
@@ -811,16 +841,55 @@
             height: 50px;
             font-size: 1.8rem;
         }
-    }
-    
-    @media (min-width: 768px) {
-        body {
-            padding: 15px;
+        
+        .student-name {
+            font-size: 1rem;
         }
         
+        .controls-container {
+            gap: 12px;
+        }
+        
+        .category-controls {
+            padding: 12px;
+        }
+        
+        .control-title {
+            font-size: 1.1rem;
+        }
+        
+        .status-btn {
+            min-width: 110px;
+            padding: 9px 12px;
+            font-size: 0.85rem;
+        }
+        
+        table {
+            font-size: 0.85rem;
+        }
+        
+        th, td {
+            padding: 10px 6px;
+        }
+    }
+    
+    @media (min-width: 1024px) {
         .container {
+            max-width: 1200px;
             padding: 20px;
-            max-width: 95%;
+        }
+        
+        table {
+            min-width: 850px;
+            font-size: 0.9rem;
+        }
+        
+        th, td {
+            padding: 12px 8px;
+        }
+        
+        .evaluation-cell {
+            min-width: 70px;
         }
         
         .status-icon {
@@ -829,92 +898,49 @@
             font-size: 2rem;
         }
         
-        .student-name {
-            font-size: 1.1rem;
+        .status-label {
+            font-size: 0.85rem;
+        }
+    }
+    
+    /* تحسينات للشاشات الطويلة */
+    @media (max-height: 700px) {
+        .summary-box {
+            padding: 8px;
+            gap: 6px;
+        }
+        
+        .evaluation-matrix {
+            margin: 10px 0;
+            gap: 6px;
         }
         
         .controls-container {
-            gap: 16px;
+            margin: 12px 0;
+            gap: 8px;
         }
         
-        .category-controls {
-            padding: 16px;
-        }
-        
-        .control-title {
-            font-size: 1.2rem;
-        }
-        
-        .status-btn {
-            min-width: 120px;
-            padding: 10px 15px;
-            font-size: 0.9rem;
-        }
-        
-        table {
-            font-size: 0.9rem;
-        }
-        
-        th, td {
-            padding: 12px 8px;
+        .export-container {
+            margin-top: 12px;
+            padding-top: 10px;
         }
     }
     
-    @media (min-width: 1024px) {
-        .container {
-            max-width: 1200px;
-            padding: 24px;
-        }
-        
-        table {
-            min-width: 900px;
-            font-size: 0.95rem;
-        }
-        
-        th, td {
-            padding: 14px 10px;
-        }
-        
-        .evaluation-cell {
-            min-width: 80px;
-        }
-        
-        .status-icon {
-            width: 60px;
-            height: 60px;
-            font-size: 2.2rem;
-        }
-        
-        .status-label {
-            font-size: 0.9rem;
-        }
+    /* منع التكبير التلقائي على iOS */
+    input, textarea, select {
+        font-size: 16px !important;
     }
     
-    /* شارة الحالة */
-    .status-badge {
-        display: inline-block;
-        padding: 3px 10px;
-        border-radius: 15px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        margin-right: 6px;
-    }
-    
-    .badge-present {
-        background-color: rgba(46, 125, 50, 0.12);
-        color: var(--present-color);
-    }
-    
-    .badge-absent {
-        background-color: rgba(198, 40, 40, 0.12);
-        color: var(--absent-color);
+    /* تحسين التمرير على iOS */
+    .table-wrapper {
+        -webkit-overflow-scrolling: touch;
     }
 </style>
 </head>
 <body>
 
 <div class="container" id="captureArea">
-    <h2><i class="fas fa-chart-bar" style="margin-left: 8px;"></i> سجل التقويم الشامل للطلاب</h2>
+    <h2><i class="fas fa-chart-bar" style="margin-left: 6px;"></i> سجل التقويم الشامل للطلاب</h2>
     
     <div class="summary-box">
         <div class="summary-item">
@@ -941,19 +967,19 @@
             <div class="matrix-title">المهام الأدائية</div>
             <div class="matrix-count" id="category1-count">100%</div>
             <div class="matrix-percent" id="category1-percent">(16/16)</div>
-            <div style="font-size: 0.8rem; color: #666;">Assignments & Projects</div>
+            <div style="font-size: 0.75rem; color: #666;">Assignments & Projects</div>
         </div>
         <div class="matrix-item matrix-2">
             <div class="matrix-title">المشاركة والتفاعل</div>
             <div class="matrix-count" id="category2-count">100%</div>
             <div class="matrix-percent" id="category2-percent">(16/16)</div>
-            <div style="font-size: 0.8rem; color: #666;">Participation & Interaction</div>
+            <div style="font-size: 0.75rem; color: #666;">Participation & Interaction</div>
         </div>
         <div class="matrix-item matrix-3">
             <div class="matrix-title">الحضور</div>
             <div class="matrix-count" id="category3-count">100%</div>
             <div class="matrix-percent" id="category3-percent">(8/8)</div>
-            <div style="font-size: 0.8rem; color: #666;">سجل الحضور اليومي</div>
+            <div style="font-size: 0.75rem; color: #666;">سجل الحضور اليومي</div>
         </div>
     </div>
 
@@ -963,7 +989,7 @@
             <thead>
                 <tr>
                     <th rowspan="2" width="8%">الرقم</th>
-                    <th rowspan="2" width="22%">اسم الطالب</th>
+                    <th rowspan="2" width="20%">اسم الطالب</th>
                     <th colspan="3" class="category-header">المهام الأدائية</th>
                     <th colspan="2" class="category-2-header">المشاركة والتفاعل</th>
                     <th rowspan="2" width="12%" class="category-3-header">الحضور</th>
@@ -1083,7 +1109,7 @@
     </div>
     
     <div class="footer-note">
-        <i class="fas fa-info-circle" style="margin-left: 6px;"></i> انقر على أيقونة أي تقييم للتبديل بين "صح" (أخضر)، "محايد" (رمادي)، "خطأ" (أحمر). الحضور يتبدل بين "حاضر" و"غائب" فقط.
+        <i class="fas fa-info-circle" style="margin-left: 5px;"></i> انقر على أيقونة أي تقييم للتبديل بين "صح" (أخضر)، "محايد" (رمادي)، "خطأ" (أحمر). الحضور يتبدل بين "حاضر" و"غائب" فقط.
     </div>
 </div>
 
@@ -1153,7 +1179,7 @@ function createTable() {
             }
         };
         
-        // الحصول على أيقونة ونص التقييم الإجمالي - تم تصحيح المشكلة هنا
+        // الحصول على أيقونة ونص التقييم الإجمالي
         const getOverallPerformance = () => {
             const assignments = student.assignments;
             const projects = student.projects;
@@ -1471,7 +1497,7 @@ function updateStudentDisplay(studentId) {
         }
     };
     
-    // الحصول على أيقونة ونص التقييم الإجمالي - نفس التصحيح هنا
+    // الحصول على أيقونة ونص التقييم الإجمالي
     const getOverallPerformance = () => {
         const assignments = student.assignments;
         const projects = student.projects;
@@ -1724,22 +1750,22 @@ function showNotification(message, type) {
     notification.textContent = message;
     notification.style.cssText = `
         position: fixed;
-        top: 15px;
-        right: 10px;
-        left: 10px;
+        top: 10px;
+        right: 8px;
+        left: 8px;
         background: ${type === 'present' ? 'var(--present-color)' : type === 'neutral' ? 'var(--neutral-color)' : 'var(--absent-color)'};
         color: white;
-        padding: 10px 16px;
-        border-radius: 6px;
+        padding: 9px 14px;
+        border-radius: 5px;
         z-index: 1000;
         font-weight: bold;
-        box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
         animation: fadeInOut 3s ease-in-out;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 7px;
         text-align: center;
     `;
     
@@ -1765,10 +1791,10 @@ function showNotification(message, type) {
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-15px); }
+        0% { opacity: 0; transform: translateY(-12px); }
         15% { opacity: 1; transform: translateY(0); }
         85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-15px); }
+        100% { opacity: 0; transform: translateY(-12px); }
     }
     @keyframes fadeOut {
         from { opacity: 1; }
@@ -1801,8 +1827,8 @@ async function exportPDF() {
         dateText = `تاريخ التقييم: اليوم (${new Date().toLocaleDateString('ar-SA')})`;
     }
     
-    dateElement.style.cssText = 'text-align: left; margin-bottom: 12px; color: #666; font-size: 0.9rem; padding: 8px 10px; background: #f8f9fa; border-radius: 6px; border-right: 3px solid #2c5aa0;';
-    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 6px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 6px;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
+    dateElement.style.cssText = 'text-align: left; margin-bottom: 10px; color: #666; font-size: 0.85rem; padding: 7px 9px; background: #f8f9fa; border-radius: 5px; border-right: 2px solid #2c5aa0;';
+    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 5px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 5px;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
     
     const captureArea = document.getElementById('captureArea');
     const originalContent = captureArea.innerHTML;
@@ -1855,6 +1881,23 @@ document.addEventListener('DOMContentLoaded', function() {
     createTable();
     updateStatistics();
 });
+
+// إضافة خاصية لمنع التكبير على الهواتف
+document.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// منع التكبير المزدوج
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(e) {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
 
 </script>
 
