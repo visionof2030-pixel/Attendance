@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1, user-scalable=yes" />
 <title>سجل التقويم الشامل للطلاب</title>
 
 <!-- خطوط عربية -->
@@ -27,6 +27,7 @@
         --category-3: #6a1b9a;
         --light-bg: #f8f9fa;
         --border-color: #dee2e6;
+        --scale-factor: 0.65; /* عامل تصغير بنسبة 65% */
     }
     
     * {
@@ -39,35 +40,47 @@
         width: 100%;
         height: 100%;
         overflow-x: hidden;
+        font-size: 14px; /* تصغير الخط العام */
     }
     
     body {
         font-family: 'Tajawal', sans-serif;
         background: linear-gradient(135deg, #f6f8fc 0%, #e9f2ff 100%);
         margin: 0;
-        padding: 0;
+        padding: 4px; /* تصغير الهوامش */
         direction: rtl;
         min-height: 100vh;
         overflow-x: hidden;
         -webkit-text-size-adjust: 100%;
         -webkit-tap-highlight-color: transparent;
+        zoom: 0.9; /* تصغير إضافي للجسم */
+        transform: scale(0.95); /* تصغير إضافي */
+        transform-origin: top center;
     }
     
     .container {
         width: 100%;
         margin: 0 auto;
         background: white;
-        padding: 8px;
+        padding: 6px; /* تصغير الحشو */
         border-radius: 0;
         box-shadow: none;
         border: none;
         overflow: hidden;
+        transform: scale(0.95); /* تصغير إضافي */
+        transform-origin: top center;
     }
     
     /* تحسينات للشاشات الصغيرة جداً */
     @media (max-width: 360px) {
         .container {
-            padding: 6px;
+            padding: 4px;
+        }
+        
+        body {
+            padding: 2px;
+            zoom: 0.85;
+            transform: scale(0.9);
         }
     }
     
@@ -75,14 +88,14 @@
         margin-top: 0;
         text-align: center;
         color: var(--primary-color);
-        font-size: 1.2rem;
-        padding-bottom: 10px;
+        font-size: 1rem; /* تصغير من 1.2rem */
+        padding-bottom: 8px; /* تصغير */
         border-bottom: 1px solid #f0f0f0;
-        margin-bottom: 12px;
+        margin-bottom: 8px; /* تصغير */
         position: relative;
         word-break: break-word;
-        line-height: 1.3;
-        padding-top: 5px;
+        line-height: 1.2;
+        padding-top: 3px;
     }
     
     h2:after {
@@ -91,7 +104,7 @@
         bottom: -1px;
         right: 50%;
         transform: translateX(50%);
-        width: 80px;
+        width: 60px; /* تصغير */
         height: 2px;
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         border-radius: 2px;
@@ -99,27 +112,27 @@
     
     .summary-box {
         background: linear-gradient(to right, rgba(44, 90, 160, 0.1), rgba(74, 138, 244, 0.1));
-        border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 12px;
+        border-radius: 6px; /* تصغير */
+        padding: 8px; /* تصغير */
+        margin-bottom: 8px; /* تصغير */
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
+        gap: 6px; /* تصغير */
         border: 1px solid rgba(44, 90, 160, 0.2);
     }
     
     .summary-item {
         text-align: center;
-        padding: 8px 4px;
-        border-radius: 6px;
+        padding: 6px 3px; /* تصغير */
+        border-radius: 4px; /* تصغير */
         background: white;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); /* تصغير الظل */
     }
     
     .summary-count {
-        font-size: 1.5rem;
+        font-size: 1.2rem; /* تصغير من 1.5rem */
         font-weight: 700;
-        margin-bottom: 3px;
+        margin-bottom: 2px;
     }
     
     .present-count {
@@ -131,9 +144,9 @@
     }
     
     .summary-label {
-        font-size: 0.8rem;
+        font-size: 0.7rem; /* تصغير من 0.8rem */
         color: #555;
-        line-height: 1.2;
+        line-height: 1.1;
     }
     
     /* تحسين الجدول للجوال - بدون هيدر */
@@ -141,28 +154,28 @@
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin-top: 10px;
-        border-radius: 8px;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        margin-top: 8px; /* تصغير */
+        border-radius: 6px; /* تصغير */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* تصغير الظل */
         border: 1px solid #eee;
-        margin-left: -2px;
-        margin-right: -2px;
-        padding: 0 2px;
+        margin-left: -1px;
+        margin-right: -1px;
+        padding: 0 1px;
     }
     
     table {
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
-        min-width: 600px;
-        font-size: 0.8rem;
+        min-width: 520px; /* تصغير من 600px */
+        font-size: 0.7rem; /* تصغير من 0.8rem */
     }
     
     th, td {
-        padding: 8px 4px;
+        padding: 6px 3px; /* تصغير من 8px 4px */
         text-align: center;
         border: 1px solid var(--border-color);
-        line-height: 1.2;
+        line-height: 1.1;
         white-space: nowrap;
     }
     
@@ -170,16 +183,16 @@
         background: linear-gradient(to right, #2c5aa0, #3a6bc5);
         color: white;
         font-weight: 700;
-        font-size: 0.85rem;
+        font-size: 0.75rem; /* تصغير من 0.85rem */
         white-space: nowrap;
     }
     
     .student-name {
-        font-size: 0.9rem;
+        font-size: 0.8rem; /* تصغير من 0.9rem */
         font-weight: 600;
         text-align: right;
-        padding-right: 6px;
-        min-width: 90px;
+        padding-right: 4px; /* تصغير */
+        min-width: 70px; /* تصغير من 90px */
         word-break: break-word;
         white-space: normal;
     }
@@ -196,19 +209,19 @@
     /* تحسين خلايا التقييم للجوال */
     .evaluation-cell {
         text-align: center;
-        padding: 4px 2px;
-        min-width: 50px;
+        padding: 3px 1px; /* تصغير */
+        min-width: 42px; /* تصغير من 50px */
     }
     
     .status-icon {
-        font-size: 1.3rem;
+        font-size: 1rem; /* تصغير من 1.3rem */
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-block;
-        padding: 4px;
+        padding: 3px; /* تصغير */
         border-radius: 50%;
-        width: 38px;
-        height: 38px;
+        width: 30px; /* تصغير من 38px */
+        height: 30px; /* تصغير من 38px */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -218,14 +231,14 @@
     
     .status-icon:hover {
         transform: scale(1.06);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* تصغير الظل */
     }
     
     /* الحالة الحاضرة - حاضر / صح / ممتاز */
     .present-icon {
         color: var(--present-color);
         background-color: rgba(46, 125, 50, 0.08);
-        border: 2px solid rgba(46, 125, 50, 0.2);
+        border: 1.5px solid rgba(46, 125, 50, 0.2); /* تصغير */
     }
     
     .present-icon:hover {
@@ -237,7 +250,7 @@
     .absent-icon {
         color: var(--absent-color);
         background-color: rgba(198, 40, 40, 0.08);
-        border: 2px solid rgba(198, 40, 40, 0.2);
+        border: 1.5px solid rgba(198, 40, 40, 0.2); /* تصغير */
     }
     
     .absent-icon:hover {
@@ -249,7 +262,7 @@
     .neutral-icon {
         color: var(--neutral-color);
         background-color: rgba(117, 117, 117, 0.08);
-        border: 2px solid rgba(117, 117, 117, 0.2);
+        border: 1.5px solid rgba(117, 117, 117, 0.2); /* تصغير */
     }
     
     .neutral-icon:hover {
@@ -259,11 +272,11 @@
     
     .status-label {
         display: block;
-        margin-top: 3px;
+        margin-top: 2px; /* تصغير */
         font-weight: 700;
-        font-size: 0.75rem;
-        min-height: 16px;
-        line-height: 1.1;
+        font-size: 0.65rem; /* تصغير من 0.75rem */
+        min-height: 14px; /* تصغير */
+        line-height: 1;
     }
     
     .present-label {
@@ -282,16 +295,16 @@
     .controls-container {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin: 16px 0;
+        gap: 8px; /* تصغير من 10px */
+        margin: 12px 0; /* تصغير من 16px */
         width: 100%;
     }
     
     .category-controls {
         background: white;
-        border-radius: 8px;
-        padding: 10px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        border-radius: 6px; /* تصغير */
+        padding: 8px; /* تصغير من 10px */
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* تصغير الظل */
         flex: 1;
         border: 1px solid rgba(44, 90, 160, 0.1);
         width: 100%;
@@ -299,53 +312,53 @@
     
     .control-title {
         color: var(--primary-color);
-        font-size: 1rem;
-        margin-bottom: 8px;
+        font-size: 0.9rem; /* تصغير من 1rem */
+        margin-bottom: 6px; /* تصغير */
         text-align: center;
-        padding-bottom: 5px;
+        padding-bottom: 4px; /* تصغير */
         border-bottom: 1px solid #f0f0f0;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 4px; /* تصغير */
         flex-wrap: wrap;
     }
     
     .category-buttons {
         display: flex;
         flex-wrap: wrap;
-        gap: 5px;
+        gap: 4px; /* تصغير من 5px */
         justify-content: center;
     }
     
     .status-btn {
-        padding: 7px 10px;
+        padding: 5px 8px; /* تصغير من 7px 10px */
         border: none;
-        border-radius: 5px;
+        border-radius: 4px; /* تصغير */
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.8rem;
+        font-size: 0.7rem; /* تصغير من 0.8rem */
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: 3px; /* تصغير */
         min-width: 0;
         flex: 1;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); /* تصغير الظل */
         touch-action: manipulation;
-        min-height: 40px;
+        min-height: 32px; /* تصغير من 40px */
     }
     
     .status-btn:hover {
         transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* تصغير الظل */
     }
     
     .status-btn:active {
         transform: translateY(0);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06); /* تصغير الظل */
     }
     
     .present-btn {
@@ -396,22 +409,22 @@
     
     .export-container {
         text-align: center;
-        margin-top: 16px;
-        padding-top: 12px;
+        margin-top: 12px; /* تصغير من 16px */
+        padding-top: 8px; /* تصغير */
         border-top: 1px dashed #ddd;
         width: 100%;
-        padding-left: 5px;
-        padding-right: 5px;
+        padding-left: 3px; /* تصغير */
+        padding-right: 3px; /* تصغير */
     }
     
     .export {
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         color: white;
-        padding: 12px 16px;
-        font-size: 0.95rem;
-        border-radius: 6px;
+        padding: 10px 12px; /* تصغير من 12px 16px */
+        font-size: 0.85rem; /* تصغير من 0.95rem */
+        border-radius: 5px; /* تصغير */
         width: 100%;
-        box-shadow: 0 4px 10px rgba(42, 91, 173, 0.2);
+        box-shadow: 0 3px 8px rgba(42, 91, 173, 0.2); /* تصغير الظل */
         border: none;
         cursor: pointer;
         font-weight: 700;
@@ -420,27 +433,27 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 7px;
+        gap: 5px; /* تصغير */
         touch-action: manipulation;
-        min-height: 50px;
+        min-height: 40px; /* تصغير من 50px */
     }
     
     .export:hover {
         background: linear-gradient(to right, #1e3f7a, #2c5aa0);
-        box-shadow: 0 6px 12px rgba(42, 91, 173, 0.3);
+        box-shadow: 0 4px 9px rgba(42, 91, 173, 0.3); /* تصغير الظل */
         transform: translateY(-2px);
     }
     
     .footer-note {
         text-align: center;
-        margin-top: 12px;
+        margin-top: 10px; /* تصغير من 12px */
         color: #666;
-        font-size: 0.8rem;
-        padding: 8px;
+        font-size: 0.7rem; /* تصغير من 0.8rem */
+        padding: 6px; /* تصغير */
         background-color: #f8f9fa;
-        border-radius: 6px;
+        border-radius: 5px; /* تصغير */
         border-right: 2px solid var(--primary-color);
-        line-height: 1.3;
+        line-height: 1.2;
         width: 100%;
     }
     
@@ -450,19 +463,19 @@
         overflow: hidden;
         transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 8px;
+        border-radius: 6px; /* تصغير */
         margin: 0;
-        padding: 0 10px;
+        padding: 0 8px; /* تصغير */
         border: 1px solid transparent;
         width: 100%;
     }
     
     .admin-panel.active {
-        max-height: 700px;
-        padding: 12px 10px;
-        margin-top: 12px;
+        max-height: 600px; /* تصغير */
+        padding: 10px 8px; /* تصغير */
+        margin-top: 10px; /* تصغير */
         border-color: rgba(44, 90, 160, 0.2);
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); /* تصغير الظل */
     }
     
     .admin-panel-content {
@@ -479,41 +492,41 @@
     
     /* تحسين قسم كلمة المرور للجوال */
     .password-section {
-        margin-bottom: 12px;
-        padding-bottom: 12px;
+        margin-bottom: 10px; /* تصغير */
+        padding-bottom: 10px; /* تصغير */
         border-bottom: 1px dashed #ccc;
     }
     
     .admin-title {
         color: #2c5aa0;
-        font-size: 1rem;
-        margin-bottom: 10px;
+        font-size: 0.9rem; /* تصغير من 1rem */
+        margin-bottom: 8px; /* تصغير */
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 4px; /* تصغير */
         flex-wrap: wrap;
     }
     
     .admin-description {
         color: #666;
-        margin-bottom: 10px;
-        font-size: 0.85rem;
+        margin-bottom: 8px; /* تصغير */
+        font-size: 0.75rem; /* تصغير من 0.85rem */
     }
     
     .password-container {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        margin-bottom: 10px;
+        gap: 6px; /* تصغير */
+        margin-bottom: 8px; /* تصغير */
         width: 100%;
     }
     
     .password-input {
-        padding: 9px;
+        padding: 7px; /* تصغير */
         border: 2px solid #ddd;
-        border-radius: 5px;
-        font-size: 0.9rem;
+        border-radius: 4px; /* تصغير */
+        font-size: 0.8rem; /* تصغير */
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
@@ -527,20 +540,20 @@
     
     .password-buttons {
         display: flex;
-        gap: 7px;
+        gap: 5px; /* تصغير */
         justify-content: center;
         width: 100%;
     }
     
     .password-submit, .password-cancel {
-        padding: 8px 14px;
+        padding: 6px 10px; /* تصغير */
         border: none;
-        border-radius: 5px;
+        border-radius: 4px; /* تصغير */
         cursor: pointer;
         font-weight: 700;
-        font-size: 0.85rem;
+        font-size: 0.75rem; /* تصغير */
         transition: all 0.2s ease;
-        min-width: 80px;
+        min-width: 70px; /* تصغير */
         flex: 1;
     }
     
@@ -564,8 +577,8 @@
     
     .password-error {
         color: #c62828;
-        margin-top: 7px;
-        font-size: 0.8rem;
+        margin-top: 6px; /* تصغير */
+        font-size: 0.7rem; /* تصغير */
         display: none;
     }
     
@@ -581,27 +594,27 @@
     
     .date-title {
         color: #2c5aa0;
-        font-size: 1rem;
-        margin-bottom: 8px;
+        font-size: 0.9rem; /* تصغير */
+        margin-bottom: 6px; /* تصغير */
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 4px; /* تصغير */
     }
     
     .date-controls {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        margin-bottom: 10px;
+        gap: 6px; /* تصغير */
+        margin-bottom: 8px; /* تصغير */
         width: 100%;
     }
     
     .date-input {
-        padding: 9px;
+        padding: 7px; /* تصغير */
         border: 2px solid #ddd;
-        border-radius: 5px;
-        font-size: 0.9rem;
+        border-radius: 4px; /* تصغير */
+        font-size: 0.8rem; /* تصغير */
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
@@ -614,18 +627,18 @@
     }
     
     .date-btn {
-        padding: 9px;
+        padding: 7px; /* تصغير */
         border: none;
-        border-radius: 5px;
+        border-radius: 4px; /* تصغير */
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.85rem;
+        font-size: 0.75rem; /* تصغير */
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 4px; /* تصغير */
         background: linear-gradient(to right, var(--primary-color), #4a8af4);
         color: white;
         width: 100%;
@@ -638,31 +651,31 @@
     
     .selected-date-display {
         background: white;
-        padding: 7px 10px;
-        border-radius: 5px;
+        padding: 6px 8px; /* تصغير */
+        border-radius: 4px; /* تصغير */
         border: 2px solid var(--present-color);
-        margin-top: 10px;
+        margin-top: 8px; /* تصغير */
         display: inline-block;
         font-weight: 700;
         color: #333;
-        font-size: 0.85rem;
+        font-size: 0.75rem; /* تصغير */
     }
     
     /* تحسين مصفوفة التقييم للجوال */
     .evaluation-matrix {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        margin: 12px 0;
+        gap: 6px; /* تصغير */
+        margin: 10px 0; /* تصغير */
     }
     
     .matrix-item {
         background: white;
-        border-radius: 8px;
-        padding: 10px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        border-radius: 6px; /* تصغير */
+        padding: 8px; /* تصغير */
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* تصغير الظل */
         text-align: center;
-        border-top: 3px solid;
+        border-top: 2px solid; /* تصغير */
     }
     
     .matrix-1 {
@@ -679,23 +692,23 @@
     }
     
     .matrix-title {
-        font-size: 0.9rem;
+        font-size: 0.8rem; /* تصغير */
         font-weight: 700;
-        margin-bottom: 6px;
+        margin-bottom: 5px; /* تصغير */
         color: #333;
     }
     
     .matrix-count {
-        font-size: 1.6rem;
+        font-size: 1.3rem; /* تصغير */
         font-weight: 800;
-        margin: 5px 0;
+        margin: 4px 0; /* تصغير */
     }
     
     .matrix-percent {
-        font-size: 1.2rem;
+        font-size: 1rem; /* تصغير */
         font-weight: 700;
         color: #666;
-        margin-top: 5px;
+        margin-top: 4px; /* تصغير */
     }
     
     /* أنيميشن */
@@ -717,10 +730,10 @@
     }
     
     @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-12px); }
+        0% { opacity: 0; transform: translateY(-10px); }
         15% { opacity: 1; transform: translateY(0); }
         85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-12px); }
+        100% { opacity: 0; transform: translateY(-10px); }
     }
     
     @keyframes fadeOut {
@@ -735,16 +748,16 @@
     /* تحسينات إضافية للأجهزة الكبيرة */
     @media (min-width: 480px) {
         .container {
-            padding: 10px;
+            padding: 8px; /* تصغير */
         }
         
         h2 {
-            font-size: 1.3rem;
+            font-size: 1.1rem; /* تصغير */
         }
         
         .summary-box {
             grid-template-columns: repeat(4, 1fr);
-            padding: 12px;
+            padding: 10px; /* تصغير */
         }
         
         .evaluation-matrix {
@@ -761,7 +774,7 @@
         }
         
         .category-controls {
-            min-width: 220px;
+            min-width: 180px; /* تصغير */
             flex: 1;
         }
         
@@ -770,7 +783,7 @@
         }
         
         .password-input {
-            min-width: 160px;
+            min-width: 130px; /* تصغير */
         }
         
         .password-buttons {
@@ -783,150 +796,164 @@
         
         .date-btn {
             width: auto;
-            min-width: 120px;
+            min-width: 100px; /* تصغير */
         }
         
         .export {
-            font-size: 1rem;
-            padding: 14px 20px;
+            font-size: 0.9rem; /* تصغير */
+            padding: 12px 16px; /* تصغير */
         }
         
         .status-icon {
-            width: 42px;
-            height: 42px;
-            font-size: 1.5rem;
+            width: 34px; /* تصغير */
+            height: 34px;
+            font-size: 1.2rem; /* تصغير */
         }
         
         .table-wrapper {
-            padding: 0 5px;
-            margin-left: -5px;
-            margin-right: -5px;
+            padding: 0 4px; /* تصغير */
+            margin-left: -4px;
+            margin-right: -4px;
         }
         
         table {
-            min-width: 650px;
+            min-width: 550px; /* تصغير */
         }
     }
     
     @media (min-width: 768px) {
         .container {
-            padding: 15px;
+            padding: 12px; /* تصغير */
             max-width: 95%;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 8px; /* تصغير */
+            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.08); /* تصغير الظل */
             border: 1px solid var(--border-color);
+            transform: scale(0.9); /* تصغير إضافي */
         }
         
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.3rem; /* تصغير */
         }
         
         .status-icon {
-            width: 45px;
-            height: 45px;
-            font-size: 1.6rem;
+            width: 38px; /* تصغير */
+            height: 38px;
+            font-size: 1.3rem; /* تصغير */
         }
         
         .student-name {
-            font-size: 1rem;
+            font-size: 0.9rem; /* تصغير */
         }
         
         .controls-container {
-            gap: 12px;
+            gap: 10px; /* تصغير */
         }
         
         .category-controls {
-            padding: 12px;
+            padding: 10px; /* تصغير */
         }
         
         .control-title {
-            font-size: 1.1rem;
+            font-size: 1rem; /* تصغير */
         }
         
         .status-btn {
-            min-width: 110px;
-            padding: 9px 12px;
-            font-size: 0.85rem;
+            min-width: 90px; /* تصغير */
+            padding: 7px 10px; /* تصغير */
+            font-size: 0.75rem; /* تصغير */
         }
         
         table {
-            font-size: 0.85rem;
-            min-width: 700px;
+            font-size: 0.75rem; /* تصغير */
+            min-width: 600px; /* تصغير */
         }
         
         th, td {
-            padding: 10px 6px;
+            padding: 8px 5px; /* تصغير */
         }
     }
     
     @media (min-width: 1024px) {
         .container {
-            max-width: 1200px;
-            padding: 20px;
+            max-width: 1100px; /* تصغير */
+            padding: 16px; /* تصغير */
+            transform: scale(0.85); /* تصغير إضافي */
         }
         
         table {
-            min-width: 750px;
-            font-size: 0.9rem;
+            min-width: 650px; /* تصغير */
+            font-size: 0.8rem; /* تصغير */
         }
         
         th, td {
-            padding: 12px 8px;
+            padding: 10px 6px; /* تصغير */
         }
         
         .evaluation-cell {
-            min-width: 60px;
+            min-width: 50px; /* تصغير */
         }
         
         .status-icon {
-            width: 50px;
-            height: 50px;
-            font-size: 1.8rem;
+            width: 42px; /* تصغير */
+            height: 42px;
+            font-size: 1.4rem; /* تصغير */
         }
         
         .status-label {
-            font-size: 0.85rem;
+            font-size: 0.75rem; /* تصغير */
         }
     }
     
     /* تحسينات للشاشات الطويلة */
     @media (max-height: 700px) {
         .summary-box {
-            padding: 8px;
-            gap: 6px;
+            padding: 6px; /* تصغير */
+            gap: 5px; /* تصغير */
         }
         
         .evaluation-matrix {
-            margin: 10px 0;
-            gap: 6px;
+            margin: 8px 0; /* تصغير */
+            gap: 5px; /* تصغير */
         }
         
         .controls-container {
-            margin: 12px 0;
-            gap: 8px;
+            margin: 10px 0; /* تصغير */
+            gap: 6px; /* تصغير */
         }
         
         .export-container {
-            margin-top: 12px;
-            padding-top: 10px;
+            margin-top: 10px; /* تصغير */
+            padding-top: 8px; /* تصغير */
+        }
+        
+        body {
+            zoom: 0.85;
+            transform: scale(0.85);
         }
     }
     
     /* منع التكبير التلقائي على iOS */
     input, textarea, select {
-        font-size: 16px !important;
+        font-size: 14px !important; /* تصغير */
     }
     
     /* تحسين التمرير على iOS */
     .table-wrapper {
         -webkit-overflow-scrolling: touch;
     }
+    
+    /* تحسين إضافي للتصغير */
+    .small-scale {
+        transform: scale(0.85);
+        transform-origin: top center;
+        width: 100%;
+    }
 </style>
 </head>
 <body>
 
-<div class="container" id="captureArea">
-    <h2><i class="fas fa-chart-bar" style="margin-left: 6px;"></i> سجل التقويم الشامل للطلاب</h2>
+<div class="container small-scale" id="captureArea">
+    <h2><i class="fas fa-chart-bar" style="margin-left: 4px;"></i> سجل التقويم الشامل للطلاب</h2>
     
     <div class="summary-box">
         <div class="summary-item">
@@ -953,19 +980,19 @@
             <div class="matrix-title">المهام الأدائية</div>
             <div class="matrix-count" id="category1-count">100%</div>
             <div class="matrix-percent" id="category1-percent">(16/16)</div>
-            <div style="font-size: 0.75rem; color: #666;">Assignments & Projects</div>
+            <div style="font-size: 0.65rem; color: #666;">Assignments & Projects</div>
         </div>
         <div class="matrix-item matrix-2">
             <div class="matrix-title">المشاركة والتفاعل</div>
             <div class="matrix-count" id="category2-count">100%</div>
             <div class="matrix-percent" id="category2-percent">(16/16)</div>
-            <div style="font-size: 0.75rem; color: #666;">Participation & Interaction</div>
+            <div style="font-size: 0.65rem; color: #666;">Participation & Interaction</div>
         </div>
         <div class="matrix-item matrix-3">
             <div class="matrix-title">الحضور</div>
             <div class="matrix-count" id="category3-count">100%</div>
             <div class="matrix-percent" id="category3-percent">(8/8)</div>
-            <div style="font-size: 0.75rem; color: #666;">سجل الحضور اليومي</div>
+            <div style="font-size: 0.65rem; color: #666;">سجل الحضور اليومي</div>
         </div>
     </div>
 
@@ -1091,7 +1118,7 @@
     </div>
     
     <div class="footer-note">
-        <i class="fas fa-info-circle" style="margin-left: 5px;"></i> انقر على أيقونة أي تقييم للتبديل بين "صح" (أخضر)، "محايد" (رمادي)، "خطأ" (أحمر). الحضور يتبدل بين "حاضر" و"غائب" فقط.
+        <i class="fas fa-info-circle" style="margin-left: 4px;"></i> انقر على أيقونة أي تقييم للتبديل بين "صح" (أخضر)، "محايد" (رمادي)، "خطأ" (أحمر). الحضور يتبدل بين "حاضر" و"غائب" فقط.
     </div>
 </div>
 
@@ -1101,6 +1128,7 @@
     </button>
 </div>
 
+<!-- باقي JavaScript يبقى كما هو -->
 <script>
 // تخزين حالة التقييمات للطلاب
 let studentsData = {};
@@ -1732,22 +1760,22 @@ function showNotification(message, type) {
     notification.textContent = message;
     notification.style.cssText = `
         position: fixed;
-        top: 10px;
-        right: 8px;
-        left: 8px;
+        top: 8px;
+        right: 6px;
+        left: 6px;
         background: ${type === 'present' ? 'var(--present-color)' : type === 'neutral' ? 'var(--neutral-color)' : 'var(--absent-color)'};
         color: white;
-        padding: 9px 14px;
-        border-radius: 5px;
+        padding: 7px 11px;
+        border-radius: 4px;
         z-index: 1000;
         font-weight: bold;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.12);
         animation: fadeInOut 3s ease-in-out;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 7px;
+        gap: 6px;
         text-align: center;
     `;
     
@@ -1773,10 +1801,10 @@ function showNotification(message, type) {
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-12px); }
+        0% { opacity: 0; transform: translateY(-10px); }
         15% { opacity: 1; transform: translateY(0); }
         85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-12px); }
+        100% { opacity: 0; transform: translateY(-10px); }
     }
     @keyframes fadeOut {
         from { opacity: 1; }
@@ -1809,8 +1837,8 @@ async function exportPDF() {
         dateText = `تاريخ التقييم: اليوم (${new Date().toLocaleDateString('ar-SA')})`;
     }
     
-    dateElement.style.cssText = 'text-align: left; margin-bottom: 10px; color: #666; font-size: 0.85rem; padding: 7px 9px; background: #f8f9fa; border-radius: 5px; border-right: 2px solid #2c5aa0;';
-    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 5px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 5px;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
+    dateElement.style.cssText = 'text-align: left; margin-bottom: 8px; color: #666; font-size: 0.75rem; padding: 6px 7px; background: #f8f9fa; border-radius: 4px; border-right: 2px solid #2c5aa0;';
+    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 4px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 4px;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
     
     const captureArea = document.getElementById('captureArea');
     const originalContent = captureArea.innerHTML;
