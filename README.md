@@ -256,6 +256,25 @@
         background: linear-gradient(to right, var(--hover-absent), #c62828);
     }
     
+    .admin-btn {
+        background: linear-gradient(to right, #5d4037, #795548);
+        color: white;
+    }
+    
+    .admin-btn:hover {
+        background: linear-gradient(to right, #3e2723, #4e342e);
+    }
+    
+    .random-btn {
+        background: linear-gradient(to right, #f57c00, #ff9800);
+        color: white;
+        display: none; /* مخفي في البداية */
+    }
+    
+    .random-btn:hover {
+        background: linear-gradient(to right, #e65100, #ef6c00);
+    }
+    
     .export-container {
         text-align: center;
         margin-top: 40px;
@@ -303,6 +322,94 @@
     .student-name {
         font-size: 1.3rem;
         font-weight: 600;
+    }
+    
+    /* تصميم نافذة كلمة المرور */
+    .password-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .password-box {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .password-title {
+        color: #2c5aa0;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .password-input {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-family: 'Tajawal', sans-serif;
+        text-align: center;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
+    }
+    
+    .password-input:focus {
+        border-color: #2c5aa0;
+        outline: none;
+    }
+    
+    .password-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+    
+    .password-submit, .password-cancel {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        min-width: 120px;
+    }
+    
+    .password-submit {
+        background: linear-gradient(to right, #2c5aa0, #4a8af4);
+        color: white;
+    }
+    
+    .password-submit:hover {
+        background: linear-gradient(to right, #1e3f7a, #2c5aa0);
+    }
+    
+    .password-cancel {
+        background: linear-gradient(to right, #757575, #9e9e9e);
+        color: white;
+    }
+    
+    .password-cancel:hover {
+        background: linear-gradient(to right, #616161, #757575);
     }
     
     /* تصميم متجاوب */
@@ -367,6 +474,11 @@
     }
     
     /* أنيميشن للأيقونات */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
     @keyframes pulse {
         0% { transform: scale(1); }
         50% { transform: scale(1.1); }
@@ -399,6 +511,24 @@
 </style>
 </head>
 <body>
+
+<!-- نافذة إدخال كلمة المرور -->
+<div class="password-modal" id="passwordModal">
+    <div class="password-box">
+        <div class="password-title">
+            <i class="fas fa-lock"></i> التحقق من الهوية
+        </div>
+        <p style="color: #666; margin-bottom: 20px;">للدخول إلى لوحة الإدارة، يرجى إدخال كلمة المرور:</p>
+        <input type="password" class="password-input" id="passwordInput" placeholder="أدخل كلمة المرور هنا" autocomplete="off">
+        <div class="password-buttons">
+            <button class="password-submit" onclick="checkPassword()">تحقق</button>
+            <button class="password-cancel" onclick="closePasswordModal()">إلغاء</button>
+        </div>
+        <p id="passwordError" style="color: #c62828; margin-top: 15px; display: none;">
+            <i class="fas fa-exclamation-triangle"></i> كلمة المرور غير صحيحة
+        </p>
+    </div>
+</div>
 
 <div class="container" id="captureArea">
     <h2><i class="fas fa-users" style="margin-left: 15px;"></i> سجل حضور الطلاب - النظام الذكي</h2>
@@ -521,7 +651,10 @@
         <button class="status-btn absent-btn" onclick="setAllAbsent()">
             <i class="fas fa-user-slash"></i> تعيين الكل غائب
         </button>
-        <button class="status-btn" onclick="toggleRandom()" style="background: linear-gradient(to right, #f57c00, #ff9800); color: white;">
+        <button class="status-btn admin-btn" onclick="openAdminPanel()">
+            <i class="fas fa-cog"></i> إدارة
+        </button>
+        <button class="status-btn random-btn" id="randomBtn" onclick="toggleRandom()">
             <i class="fas fa-random"></i> تبديل عشوائي
         </button>
     </div>
@@ -546,6 +679,66 @@ const totalStudents = 8;
 for (let i = 1; i <= totalStudents; i++) {
     studentsStatus[i] = 'present';
 }
+
+// متغير للتحقق من صلاحية الدخول
+let isAdminAuthenticated = false;
+
+// فتح لوحة الإدارة
+function openAdminPanel() {
+    document.getElementById('passwordModal').style.display = 'flex';
+    document.getElementById('passwordInput').focus();
+    document.getElementById('passwordError').style.display = 'none';
+}
+
+// إغلاق نافذة كلمة المرور
+function closePasswordModal() {
+    document.getElementById('passwordModal').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+}
+
+// التحقق من كلمة المرور
+function checkPassword() {
+    const password = document.getElementById('passwordInput').value;
+    const errorElement = document.getElementById('passwordError');
+    
+    // كلمة المرور الصحيحة: Jassar1436
+    if (password === 'Jassar1436') {
+        // تم التحقق بنجاح
+        isAdminAuthenticated = true;
+        document.getElementById('randomBtn').style.display = 'flex';
+        closePasswordModal();
+        showNotification('تم التحقق من الهوية بنجاح! زر "تبديل عشوائي" متاح الآن.', 'present');
+    } else {
+        // كلمة مرور خاطئة
+        errorElement.style.display = 'block';
+        document.getElementById('passwordInput').value = '';
+        document.getElementById('passwordInput').focus();
+        
+        // تأثير اهتزاز
+        document.getElementById('passwordInput').style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            document.getElementById('passwordInput').style.animation = '';
+        }, 500);
+    }
+}
+
+// إضافة تأثير اهتزاز للإدخال
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+`;
+document.head.appendChild(shakeStyle);
+
+// السماح بإدخال كلمة المرور عند الضغط على Enter
+document.getElementById('passwordInput').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        checkPassword();
+    }
+});
 
 // تحديث الإحصائيات
 function updateStatistics() {
@@ -678,6 +871,13 @@ function setAllAbsent() {
 
 // تبديل عشوائي لحالات بعض الطلاب
 function toggleRandom() {
+    // التحقق من صلاحية الدخول
+    if (!isAdminAuthenticated) {
+        showNotification('يجب التحقق من الهوية أولاً!', 'absent');
+        openAdminPanel();
+        return;
+    }
+    
     // تغيير 3-4 طلاب عشوائيًا
     const changes = Math.floor(Math.random() * 3) + 2; // بين 2 و 4 تغييرات
     
