@@ -37,7 +37,7 @@
         font-family: 'Tajawal', sans-serif;
         background: linear-gradient(135deg, #f6f8fc 0%, #e9f2ff 100%);
         margin: 0;
-        padding: 10px;
+        padding: 0;
         direction: rtl;
         min-height: 100vh;
         overflow-x: hidden;
@@ -45,11 +45,11 @@
     
     .container {
         max-width: 100%;
-        margin: 10px auto;
+        margin: 0 auto;
         background: white;
-        padding: 15px;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        padding: 12px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
         border: 1px solid var(--border-color);
         overflow: hidden;
     }
@@ -58,49 +58,50 @@
         margin-top: 0;
         text-align: center;
         color: var(--primary-color);
-        font-size: 1.6rem;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #f0f0f0;
-        margin-bottom: 20px;
+        font-size: 1.4rem;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 16px;
         position: relative;
         word-break: break-word;
+        line-height: 1.4;
     }
     
     h2:after {
         content: '';
         position: absolute;
-        bottom: -2px;
+        bottom: -1px;
         right: 50%;
         transform: translateX(50%);
-        width: 120px;
-        height: 4px;
+        width: 100px;
+        height: 3px;
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
-        border-radius: 4px;
+        border-radius: 3px;
     }
     
     .summary-box {
         background: linear-gradient(to right, rgba(44, 90, 160, 0.1), rgba(74, 138, 244, 0.1));
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 20px;
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 16px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        border: 2px solid rgba(44, 90, 160, 0.2);
+        gap: 10px;
+        border: 1px solid rgba(44, 90, 160, 0.2);
     }
     
     .summary-item {
         text-align: center;
-        padding: 12px;
+        padding: 10px 6px;
         border-radius: 8px;
         background: white;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
     }
     
     .summary-count {
-        font-size: 2rem;
+        font-size: 1.7rem;
         font-weight: 700;
-        margin-bottom: 5px;
+        margin-bottom: 4px;
     }
     
     .present-count {
@@ -112,18 +113,19 @@
     }
     
     .summary-label {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
         color: #555;
+        line-height: 1.2;
     }
     
-    /* تصميم الجدول الجديد - متجاوب تمامًا */
+    /* تصميم الجدول - متجاوب تمامًا */
     .table-wrapper {
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin-top: 15px;
-        border-radius: 12px;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+        margin-top: 12px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         border: 1px solid #eee;
     }
     
@@ -131,22 +133,23 @@
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
-        min-width: 850px;
-        font-size: 0.95rem;
+        min-width: 750px;
+        font-size: 0.85rem;
     }
     
     th, td {
-        padding: 12px 8px;
+        padding: 10px 6px;
         text-align: center;
         border: 1px solid var(--border-color);
+        line-height: 1.3;
     }
     
     th {
         background: linear-gradient(to right, #2c5aa0, #3a6bc5);
         color: white;
         font-weight: 700;
-        font-size: 1rem;
-        letter-spacing: 0.5px;
+        font-size: 0.9rem;
+        letter-spacing: 0.3px;
         white-space: nowrap;
     }
     
@@ -164,17 +167,18 @@
     
     .sub-header {
         background: rgba(255, 255, 255, 0.15);
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         font-weight: 500;
         white-space: nowrap;
     }
     
     .student-name {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 600;
         text-align: right;
-        padding-right: 10px;
-        min-width: 120px;
+        padding-right: 8px;
+        min-width: 100px;
+        word-break: break-word;
     }
     
     tr:nth-child(even) {
@@ -183,25 +187,25 @@
     
     tr:hover {
         background-color: #f0f7ff;
-        transition: background-color 0.3s;
+        transition: background-color 0.2s;
     }
     
     /* تصميم خلايا التقييم - مصغرة للجوال */
     .evaluation-cell {
         text-align: center;
-        padding: 8px 5px;
-        min-width: 80px;
+        padding: 6px 4px;
+        min-width: 70px;
     }
     
     .status-icon {
-        font-size: 2rem;
+        font-size: 1.6rem;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         display: inline-block;
-        padding: 6px;
+        padding: 5px;
         border-radius: 50%;
-        width: 55px;
-        height: 55px;
+        width: 45px;
+        height: 45px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -209,52 +213,53 @@
     }
     
     .status-icon:hover {
-        transform: scale(1.1);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        transform: scale(1.08);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
     
     /* الحالة الحاضرة - حاضر / صح / ممتاز */
     .present-icon {
         color: var(--present-color);
-        background-color: rgba(46, 125, 50, 0.1);
-        border: 2px solid rgba(46, 125, 50, 0.3);
+        background-color: rgba(46, 125, 50, 0.08);
+        border: 2px solid rgba(46, 125, 50, 0.2);
     }
     
     .present-icon:hover {
-        background-color: rgba(46, 125, 50, 0.2);
-        border-color: rgba(46, 125, 50, 0.5);
+        background-color: rgba(46, 125, 50, 0.15);
+        border-color: rgba(46, 125, 50, 0.4);
     }
     
     /* الحالة الغائبة - غائب / خطأ / ضعيف */
     .absent-icon {
         color: var(--absent-color);
-        background-color: rgba(198, 40, 40, 0.1);
-        border: 2px solid rgba(198, 40, 40, 0.3);
+        background-color: rgba(198, 40, 40, 0.08);
+        border: 2px solid rgba(198, 40, 40, 0.2);
     }
     
     .absent-icon:hover {
-        background-color: rgba(198, 40, 40, 0.2);
-        border-color: rgba(198, 40, 40, 0.5);
+        background-color: rgba(198, 40, 40, 0.15);
+        border-color: rgba(198, 40, 40, 0.4);
     }
     
     /* الحالة المحايدة - رمادية (للتقييمات التي ليست صح ولا خطأ) */
     .neutral-icon {
         color: var(--neutral-color);
-        background-color: rgba(117, 117, 117, 0.1);
-        border: 2px solid rgba(117, 117, 117, 0.3);
+        background-color: rgba(117, 117, 117, 0.08);
+        border: 2px solid rgba(117, 117, 117, 0.2);
     }
     
     .neutral-icon:hover {
-        background-color: rgba(117, 117, 117, 0.2);
-        border-color: rgba(117, 117, 117, 0.5);
+        background-color: rgba(117, 117, 117, 0.15);
+        border-color: rgba(117, 117, 117, 0.4);
     }
     
     .status-label {
         display: block;
-        margin-top: 6px;
+        margin-top: 4px;
         font-weight: 700;
-        font-size: 0.9rem;
-        min-height: 22px;
+        font-size: 0.8rem;
+        min-height: 18px;
+        line-height: 1.2;
     }
     
     .present-label {
@@ -273,66 +278,66 @@
     .controls-container {
         display: flex;
         flex-direction: column;
-        gap: 15px;
-        margin: 25px 0;
+        gap: 12px;
+        margin: 20px 0;
     }
     
     .category-controls {
         background: white;
-        border-radius: 12px;
-        padding: 15px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        border-radius: 10px;
+        padding: 12px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
         flex: 1;
-        border: 2px solid rgba(44, 90, 160, 0.1);
+        border: 1px solid rgba(44, 90, 160, 0.1);
     }
     
     .control-title {
         color: var(--primary-color);
-        font-size: 1.2rem;
-        margin-bottom: 12px;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
         text-align: center;
-        padding-bottom: 8px;
+        padding-bottom: 6px;
         border-bottom: 1px solid #f0f0f0;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 6px;
         flex-wrap: wrap;
     }
     
     .category-buttons {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
         justify-content: center;
     }
     
     .status-btn {
-        padding: 10px 15px;
+        padding: 8px 12px;
         border: none;
-        border-radius: 8px;
+        border-radius: 6px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
-        min-width: 130px;
+        gap: 5px;
+        min-width: 110px;
         flex: 1;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
     }
     
     .status-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
     }
     
     .status-btn:active {
         transform: translateY(0);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
     }
     
     .present-btn {
@@ -410,74 +415,74 @@
     
     .export-container {
         text-align: center;
-        margin-top: 25px;
-        padding-top: 20px;
-        border-top: 2px dashed #ddd;
+        margin-top: 20px;
+        padding-top: 16px;
+        border-top: 1px dashed #ddd;
     }
     
     .export {
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         color: white;
-        padding: 16px 25px;
-        font-size: 1.1rem;
-        border-radius: 10px;
+        padding: 14px 20px;
+        font-size: 1rem;
+        border-radius: 8px;
         width: 100%;
-        max-width: 320px;
-        box-shadow: 0 6px 15px rgba(42, 91, 173, 0.25);
+        max-width: 280px;
+        box-shadow: 0 5px 12px rgba(42, 91, 173, 0.2);
         border: none;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
     }
     
     .export:hover {
         background: linear-gradient(to right, #1e3f7a, #2c5aa0);
-        box-shadow: 0 10px 20px rgba(42, 91, 173, 0.35);
+        box-shadow: 0 8px 15px rgba(42, 91, 173, 0.3);
         transform: translateY(-2px);
     }
     
     .footer-note {
         text-align: center;
-        margin-top: 20px;
+        margin-top: 16px;
         color: #666;
-        font-size: 0.9rem;
-        padding: 12px;
+        font-size: 0.85rem;
+        padding: 10px;
         background-color: #f8f9fa;
-        border-radius: 10px;
-        border-right: 4px solid var(--primary-color);
-        line-height: 1.5;
+        border-radius: 8px;
+        border-right: 3px solid var(--primary-color);
+        line-height: 1.4;
     }
     
     /* تصميم قسم الإدارة */
     .admin-panel {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.6s ease, padding 0.6s ease, margin 0.6s ease;
+        transition: max-height 0.5s ease, padding 0.5s ease, margin 0.5s ease;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 12px;
+        border-radius: 10px;
         margin: 0;
-        padding: 0 15px;
-        border: 2px solid transparent;
+        padding: 0 12px;
+        border: 1px solid transparent;
     }
     
     .admin-panel.active {
-        max-height: 1000px;
-        padding: 20px 15px;
-        margin-top: 20px;
-        border-color: rgba(44, 90, 160, 0.3);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        max-height: 800px;
+        padding: 16px 12px;
+        margin-top: 16px;
+        border-color: rgba(44, 90, 160, 0.2);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
     }
     
     .admin-panel-content {
         text-align: center;
         opacity: 0;
-        transform: translateY(-8px);
-        transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
+        transform: translateY(-6px);
+        transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s;
     }
     
     .admin-panel.active .admin-panel-content {
@@ -487,44 +492,44 @@
     
     /* تصميم قسم كلمة المرور */
     .password-section {
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        border-bottom: 2px dashed #ccc;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px dashed #ccc;
     }
     
     .admin-title {
         color: #2c5aa0;
-        font-size: 1.3rem;
-        margin-bottom: 15px;
+        font-size: 1.1rem;
+        margin-bottom: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 6px;
         flex-wrap: wrap;
     }
     
     .admin-description {
         color: #666;
-        margin-bottom: 15px;
-        font-size: 0.95rem;
+        margin-bottom: 12px;
+        font-size: 0.9rem;
     }
     
     .password-container {
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        margin-bottom: 15px;
+        gap: 10px;
+        margin-bottom: 12px;
     }
     
     .password-input {
-        padding: 12px;
+        padding: 10px;
         border: 2px solid #ddd;
-        border-radius: 8px;
-        font-size: 1rem;
+        border-radius: 6px;
+        font-size: 0.95rem;
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
-        transition: border-color 0.3s;
+        transition: border-color 0.2s;
     }
     
     .password-input:focus {
@@ -534,19 +539,19 @@
     
     .password-buttons {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         justify-content: center;
     }
     
     .password-submit, .password-cancel {
-        padding: 10px 20px;
+        padding: 8px 16px;
         border: none;
-        border-radius: 8px;
+        border-radius: 6px;
         cursor: pointer;
         font-weight: 700;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-        min-width: 100px;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        min-width: 90px;
         flex: 1;
     }
     
@@ -570,15 +575,15 @@
     
     .password-error {
         color: #c62828;
-        margin-top: 10px;
-        font-size: 0.9rem;
+        margin-top: 8px;
+        font-size: 0.85rem;
         display: none;
     }
     
     /* تصميم قسم تحديد التاريخ */
     .date-section {
         display: none;
-        animation: fadeIn 0.6s ease;
+        animation: fadeIn 0.5s ease;
     }
     
     .date-section.active {
@@ -587,30 +592,30 @@
     
     .date-title {
         color: #2c5aa0;
-        font-size: 1.2rem;
-        margin-bottom: 12px;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 6px;
     }
     
     .date-controls {
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        margin-bottom: 15px;
+        gap: 10px;
+        margin-bottom: 12px;
     }
     
     .date-input {
-        padding: 12px;
+        padding: 10px;
         border: 2px solid #ddd;
-        border-radius: 8px;
-        font-size: 1rem;
+        border-radius: 6px;
+        font-size: 0.95rem;
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
-        transition: border-color 0.3s;
+        transition: border-color 0.2s;
     }
     
     .date-input:focus {
@@ -619,18 +624,18 @@
     }
     
     .date-btn {
-        padding: 12px;
+        padding: 10px;
         border: none;
-        border-radius: 8px;
+        border-radius: 6px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 6px;
         background: linear-gradient(to right, var(--primary-color), #4a8af4);
         color: white;
         width: 100%;
@@ -643,31 +648,31 @@
     
     .selected-date-display {
         background: white;
-        padding: 10px 15px;
-        border-radius: 8px;
+        padding: 8px 12px;
+        border-radius: 6px;
         border: 2px solid var(--present-color);
-        margin-top: 15px;
+        margin-top: 12px;
         display: inline-block;
         font-weight: 700;
         color: #333;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
     
     /* مصفوفة التقييم للجوال */
     .evaluation-matrix {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        margin: 20px 0;
+        gap: 10px;
+        margin: 16px 0;
     }
     
     .matrix-item {
         background: white;
-        border-radius: 12px;
-        padding: 15px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        border-radius: 10px;
+        padding: 12px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
         text-align: center;
-        border-top: 4px solid;
+        border-top: 3px solid;
     }
     
     .matrix-1 {
@@ -684,48 +689,48 @@
     }
     
     .matrix-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         color: #333;
     }
     
     .matrix-count {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 800;
-        margin: 8px 0;
+        margin: 6px 0;
     }
     
     .matrix-percent {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: 700;
         color: #666;
-        margin-top: 8px;
+        margin-top: 6px;
     }
     
     /* أنيميشن */
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-8px); }
+        from { opacity: 0; transform: translateY(-6px); }
         to { opacity: 1; transform: translateY(0); }
     }
     
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
-        20%, 40%, 60%, 80% { transform: translateX(4px); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+        20%, 40%, 60%, 80% { transform: translateX(3px); }
     }
     
     @keyframes pulse {
         0% { transform: scale(1); }
-        50% { transform: scale(1.08); }
+        50% { transform: scale(1.06); }
         100% { transform: scale(1); }
     }
     
     @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-20px); }
+        0% { opacity: 0; transform: translateY(-15px); }
         15% { opacity: 1; transform: translateY(0); }
         85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-20px); }
+        100% { opacity: 0; transform: translateY(-15px); }
     }
     
     @keyframes fadeOut {
@@ -734,21 +739,27 @@
     }
     
     .status-icon.pulse {
-        animation: pulse 0.4s ease;
+        animation: pulse 0.3s ease;
     }
     
     /* تصميم متجاوب إضافي */
     @media (min-width: 480px) {
+        body {
+            padding: 8px;
+        }
+        
         .container {
-            padding: 20px;
+            padding: 16px;
+            border-radius: 10px;
         }
         
         h2 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
         
         .summary-box {
             grid-template-columns: repeat(4, 1fr);
+            padding: 16px;
         }
         
         .evaluation-matrix {
@@ -765,7 +776,7 @@
         }
         
         .category-controls {
-            min-width: 280px;
+            min-width: 240px;
             flex: 1;
         }
         
@@ -774,7 +785,7 @@
         }
         
         .password-input {
-            min-width: 200px;
+            min-width: 180px;
         }
         
         .password-buttons {
@@ -787,19 +798,85 @@
         
         .date-btn {
             width: auto;
-            min-width: 150px;
+            min-width: 130px;
         }
         
         .export {
-            font-size: 1.2rem;
-            padding: 18px 30px;
+            font-size: 1.1rem;
+            padding: 16px 24px;
+        }
+        
+        .status-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.8rem;
         }
     }
     
     @media (min-width: 768px) {
+        body {
+            padding: 15px;
+        }
+        
         .container {
-            padding: 25px;
+            padding: 20px;
             max-width: 95%;
+        }
+        
+        .status-icon {
+            width: 55px;
+            height: 55px;
+            font-size: 2rem;
+        }
+        
+        .student-name {
+            font-size: 1.1rem;
+        }
+        
+        .controls-container {
+            gap: 16px;
+        }
+        
+        .category-controls {
+            padding: 16px;
+        }
+        
+        .control-title {
+            font-size: 1.2rem;
+        }
+        
+        .status-btn {
+            min-width: 120px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+        }
+        
+        table {
+            font-size: 0.9rem;
+        }
+        
+        th, td {
+            padding: 12px 8px;
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .container {
+            max-width: 1200px;
+            padding: 24px;
+        }
+        
+        table {
+            min-width: 900px;
+            font-size: 0.95rem;
+        }
+        
+        th, td {
+            padding: 14px 10px;
+        }
+        
+        .evaluation-cell {
+            min-width: 80px;
         }
         
         .status-icon {
@@ -808,76 +885,28 @@
             font-size: 2.2rem;
         }
         
-        .student-name {
-            font-size: 1.2rem;
-        }
-        
-        .controls-container {
-            gap: 20px;
-        }
-        
-        .category-controls {
-            padding: 20px;
-        }
-        
-        .control-title {
-            font-size: 1.3rem;
-        }
-        
-        .status-btn {
-            min-width: 140px;
-            padding: 12px 18px;
-            font-size: 1rem;
-        }
-    }
-    
-    @media (min-width: 1024px) {
-        .container {
-            max-width: 1200px;
-            padding: 30px;
-        }
-        
-        table {
-            min-width: 1000px;
-            font-size: 1rem;
-        }
-        
-        th, td {
-            padding: 15px 10px;
-        }
-        
-        .evaluation-cell {
-            min-width: 90px;
-        }
-        
-        .status-icon {
-            width: 65px;
-            height: 65px;
-            font-size: 2.5rem;
-        }
-        
         .status-label {
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
     }
     
     /* شارة الحالة */
     .status-badge {
         display: inline-block;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.8rem;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 0.75rem;
         font-weight: 700;
-        margin-right: 8px;
+        margin-right: 6px;
     }
     
     .badge-present {
-        background-color: rgba(46, 125, 50, 0.15);
+        background-color: rgba(46, 125, 50, 0.12);
         color: var(--present-color);
     }
     
     .badge-absent {
-        background-color: rgba(198, 40, 40, 0.15);
+        background-color: rgba(198, 40, 40, 0.12);
         color: var(--absent-color);
     }
 </style>
@@ -885,7 +914,7 @@
 <body>
 
 <div class="container" id="captureArea">
-    <h2><i class="fas fa-chart-bar" style="margin-left: 10px;"></i> سجل التقويم الشامل للطلاب</h2>
+    <h2><i class="fas fa-chart-bar" style="margin-left: 8px;"></i> سجل التقويم الشامل للطلاب</h2>
     
     <div class="summary-box">
         <div class="summary-item">
@@ -912,19 +941,19 @@
             <div class="matrix-title">المهام الأدائية</div>
             <div class="matrix-count" id="category1-count">100%</div>
             <div class="matrix-percent" id="category1-percent">(16/16)</div>
-            <div style="font-size: 0.85rem; color: #666;">Assignments & Projects</div>
+            <div style="font-size: 0.8rem; color: #666;">Assignments & Projects</div>
         </div>
         <div class="matrix-item matrix-2">
             <div class="matrix-title">المشاركة والتفاعل</div>
             <div class="matrix-count" id="category2-count">100%</div>
             <div class="matrix-percent" id="category2-percent">(16/16)</div>
-            <div style="font-size: 0.85rem; color: #666;">Participation & Interaction</div>
+            <div style="font-size: 0.8rem; color: #666;">Participation & Interaction</div>
         </div>
         <div class="matrix-item matrix-3">
             <div class="matrix-title">الحضور</div>
             <div class="matrix-count" id="category3-count">100%</div>
             <div class="matrix-percent" id="category3-percent">(8/8)</div>
-            <div style="font-size: 0.85rem; color: #666;">سجل الحضور اليومي</div>
+            <div style="font-size: 0.8rem; color: #666;">سجل الحضور اليومي</div>
         </div>
     </div>
 
@@ -934,7 +963,7 @@
             <thead>
                 <tr>
                     <th rowspan="2" width="8%">الرقم</th>
-                    <th rowspan="2" width="25%">اسم الطالب</th>
+                    <th rowspan="2" width="22%">اسم الطالب</th>
                     <th colspan="3" class="category-header">المهام الأدائية</th>
                     <th colspan="2" class="category-2-header">المشاركة والتفاعل</th>
                     <th rowspan="2" width="12%" class="category-3-header">الحضور</th>
@@ -1054,7 +1083,7 @@
     </div>
     
     <div class="footer-note">
-        <i class="fas fa-info-circle" style="margin-left: 8px;"></i> انقر على أيقونة أي تقييم للتبديل بين "صح" (أخضر)، "محايد" (رمادي)، "خطأ" (أحمر). الحضور يتبدل بين "حاضر" و"غائب" فقط.
+        <i class="fas fa-info-circle" style="margin-left: 6px;"></i> انقر على أيقونة أي تقييم للتبديل بين "صح" (أخضر)، "محايد" (رمادي)، "خطأ" (أحمر). الحضور يتبدل بين "حاضر" و"غائب" فقط.
     </div>
 </div>
 
@@ -1124,26 +1153,37 @@ function createTable() {
             }
         };
         
-        // الحصول على أيقونة ونص التقييم الإجمالي
+        // الحصول على أيقونة ونص التقييم الإجمالي - تم تصحيح المشكلة هنا
         const getOverallPerformance = () => {
             const assignments = student.assignments;
             const projects = student.projects;
             
-            // إذا كان كلاهما "صح"
-            if (assignments === 'present' && projects === 'present') {
+            // حساب النقاط لكل حالة (صح=2, محايد=1, خطأ=0)
+            const getScore = (status) => {
+                if (status === 'present') return 2;
+                if (status === 'neutral') return 1;
+                return 0;
+            };
+            
+            const totalScore = getScore(assignments) + getScore(projects);
+            
+            // تحديد التقييم بناءً على النقاط الإجمالية (النقاط من 0 إلى 4)
+            if (totalScore === 4) { // صح + صح
                 return { icon: 'fa-star', text: 'ممتاز', class: 'present' };
-            } 
-            // إذا كان كلاهما "خطأ"
-            else if (assignments === 'absent' && projects === 'absent') {
-                return { icon: 'fa-times', text: 'ضعيف', class: 'absent' };
-            }
-            // إذا كان أحدهما "محايد" أو كلاهما
-            else if (assignments === 'neutral' || projects === 'neutral') {
-                return { icon: 'fa-minus', text: 'متوسط', class: 'neutral' };
-            }
-            // إذا كان مختلط (واحد صح والآخر خطأ)
-            else {
+            } else if (totalScore === 3) { // صح + محايد أو محايد + صح
                 return { icon: 'fa-check', text: 'جيد', class: 'present' };
+            } else if (totalScore === 2) { 
+                // محايد + محايد = متوسط
+                // صح + خطأ أو خطأ + صح = جيد (نفس الدرجة)
+                if (assignments === 'neutral' && projects === 'neutral') {
+                    return { icon: 'fa-minus', text: 'متوسط', class: 'neutral' };
+                } else {
+                    return { icon: 'fa-check', text: 'جيد', class: 'present' };
+                }
+            } else if (totalScore === 1) { // محايد + خطأ أو خطأ + محايد
+                return { icon: 'fa-minus', text: 'ضعيف', class: 'absent' };
+            } else { // خطأ + خطأ
+                return { icon: 'fa-times', text: 'ضعيف', class: 'absent' };
             }
         };
         
@@ -1431,26 +1471,37 @@ function updateStudentDisplay(studentId) {
         }
     };
     
-    // الحصول على أيقونة ونص التقييم الإجمالي
+    // الحصول على أيقونة ونص التقييم الإجمالي - نفس التصحيح هنا
     const getOverallPerformance = () => {
         const assignments = student.assignments;
         const projects = student.projects;
         
-        // إذا كان كلاهما "صح"
-        if (assignments === 'present' && projects === 'present') {
+        // حساب النقاط لكل حالة (صح=2, محايد=1, خطأ=0)
+        const getScore = (status) => {
+            if (status === 'present') return 2;
+            if (status === 'neutral') return 1;
+            return 0;
+        };
+        
+        const totalScore = getScore(assignments) + getScore(projects);
+        
+        // تحديد التقييم بناءً على النقاط الإجمالية (النقاط من 0 إلى 4)
+        if (totalScore === 4) { // صح + صح
             return { icon: 'fa-star', text: 'ممتاز', class: 'present' };
-        } 
-        // إذا كان كلاهما "خطأ"
-        else if (assignments === 'absent' && projects === 'absent') {
-            return { icon: 'fa-times', text: 'ضعيف', class: 'absent' };
-        }
-        // إذا كان أحدهما "محايد" أو كلاهما
-        else if (assignments === 'neutral' || projects === 'neutral') {
-            return { icon: 'fa-minus', text: 'متوسط', class: 'neutral' };
-        }
-        // إذا كان مختلط (واحد صح والآخر خطأ)
-        else {
+        } else if (totalScore === 3) { // صح + محايد أو محايد + صح
             return { icon: 'fa-check', text: 'جيد', class: 'present' };
+        } else if (totalScore === 2) { 
+            // محايد + محايد = متوسط
+            // صح + خطأ أو خطأ + صح = جيد (نفس الدرجة)
+            if (assignments === 'neutral' && projects === 'neutral') {
+                return { icon: 'fa-minus', text: 'متوسط', class: 'neutral' };
+            } else {
+                return { icon: 'fa-check', text: 'جيد', class: 'present' };
+            }
+        } else if (totalScore === 1) { // محايد + خطأ أو خطأ + محايد
+            return { icon: 'fa-minus', text: 'ضعيف', class: 'absent' };
+        } else { // خطأ + خطأ
+            return { icon: 'fa-times', text: 'ضعيف', class: 'absent' };
         }
     };
     
@@ -1469,7 +1520,7 @@ function updateStudentDisplay(studentId) {
             icon.classList.add('pulse');
             setTimeout(() => {
                 icon.classList.remove('pulse');
-            }, 400);
+            }, 300);
         }
     };
     
@@ -1500,7 +1551,7 @@ function setAllCategory(category, status) {
         // تحديث العرض مع تأثير متأخر
         setTimeout(() => {
             updateStudentDisplay(i);
-        }, i * 50);
+        }, i * 40);
     }
     
     // تحديث الإحصائيات بعد التحديث
@@ -1516,7 +1567,7 @@ function setAllCategory(category, status) {
             'absent': '"خطأ"'
         };
         showNotification(`تم تعيين جميع ${categoryNames[category]} كـ ${statusNames[status]}`, status);
-    }, totalStudents * 100);
+    }, totalStudents * 80);
 }
 
 // تعيين جميع الحضور
@@ -1527,7 +1578,7 @@ function setAllAttendance(status) {
         // تحديث العرض مع تأثير متأخر
         setTimeout(() => {
             updateStudentDisplay(i);
-        }, i * 60);
+        }, i * 50);
     }
     
     // تحديث الإحصائيات
@@ -1538,7 +1589,7 @@ function setAllAttendance(status) {
             'absent': 'غائبين'
         };
         showNotification(`تم تعيين جميع الطلاب كـ ${statusNames[status]}`, status);
-    }, totalStudents * 100);
+    }, totalStudents * 80);
 }
 
 // تبديل عشوائي لتقييمات بعض الطلاب
@@ -1564,7 +1615,7 @@ function toggleRandom() {
             } else {
                 toggleEvaluation(randomStudent, randomType);
             }
-        }, i * 300);
+        }, i * 250);
     }
     
     showNotification(`تم تبديل تقييمات ${changes} طلاب عشوائيًا`, 'present');
@@ -1673,22 +1724,22 @@ function showNotification(message, type) {
     notification.textContent = message;
     notification.style.cssText = `
         position: fixed;
-        top: 20px;
-        right: 15px;
-        left: 15px;
+        top: 15px;
+        right: 10px;
+        left: 10px;
         background: ${type === 'present' ? 'var(--present-color)' : type === 'neutral' ? 'var(--neutral-color)' : 'var(--absent-color)'};
         color: white;
-        padding: 12px 20px;
-        border-radius: 8px;
+        padding: 10px 16px;
+        border-radius: 6px;
         z-index: 1000;
         font-weight: bold;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        box-shadow: 0 5px 12px rgba(0,0,0,0.12);
         animation: fadeInOut 3s ease-in-out;
-        font-size: 1rem;
+        font-size: 0.95rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
         text-align: center;
     `;
     
@@ -1714,10 +1765,10 @@ function showNotification(message, type) {
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-20px); }
+        0% { opacity: 0; transform: translateY(-15px); }
         15% { opacity: 1; transform: translateY(0); }
         85% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-20px); }
+        100% { opacity: 0; transform: translateY(-15px); }
     }
     @keyframes fadeOut {
         from { opacity: 1; }
@@ -1750,8 +1801,8 @@ async function exportPDF() {
         dateText = `تاريخ التقييم: اليوم (${new Date().toLocaleDateString('ar-SA')})`;
     }
     
-    dateElement.style.cssText = 'text-align: left; margin-bottom: 15px; color: #666; font-size: 0.95rem; padding: 10px 12px; background: #f8f9fa; border-radius: 8px; border-right: 4px solid #2c5aa0;';
-    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 8px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 8px;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
+    dateElement.style.cssText = 'text-align: left; margin-bottom: 12px; color: #666; font-size: 0.9rem; padding: 8px 10px; background: #f8f9fa; border-radius: 6px; border-right: 3px solid #2c5aa0;';
+    dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 6px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 6px;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
     
     const captureArea = document.getElementById('captureArea');
     const originalContent = captureArea.innerHTML;
