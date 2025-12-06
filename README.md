@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -281,6 +280,10 @@ input[type="password"], input[type="text"], select {
     margin-top: 10px;
 }
 
+.starred-student {
+    background-color: #fffde7 !important;
+}
+
 @media print {
     button, .admin-panel, .status-filter, .class-tabs, .date-controls {
         display: none !important;
@@ -443,6 +446,9 @@ input[type="password"], input[type="text"], select {
                 <button onclick="randomAttendance()">🎲 تحضير عشوائي</button>
                 <button onclick="moveStudent()">↔️ نقل طالب</button>
                 <button onclick="resetAll()">🔄 إعادة تعيين</button>
+            </div>
+            <div style="text-align:center; margin-top:10px; font-size:12px; color:#666;">
+                ⭐ خاصية التحضير العشوائي: سيتم وضع ✓ لكل الخيارات للطلاب المتميزين (الذين لديهم نجمة)
             </div>
         </div>
         
@@ -1002,6 +1008,15 @@ function toggle(cell) {
 function toggleStar(cell) {
     if (adminActive) {
         cell.innerHTML = cell.innerHTML === "☆" ? "⭐" : "☆";
+        
+        // إضافة أو إزالة خلفية للطلاب المتميزين
+        const row = cell.closest('tr');
+        if (cell.innerHTML === "⭐") {
+            row.classList.add('starred-student');
+        } else {
+            row.classList.remove('starred-student');
+        }
+        
         saveAttendanceData();
     } else {
         alert('يجب تفعيل وضع الإدارة أولا');
@@ -1056,29 +1071,60 @@ function addStudent() {
     }
 }
 
-// تحضير عشوائي
+// تحضير عشوائي - المعدل للطلاب المتميزين
 function randomAttendance() {
     if (!adminActive) {
         alert('يجب تفعيل وضع الإدارة أولا');
         return;
     }
     
-    const confirmAction = confirm("هل تريد تعيين الحضور عشوائيا لجميع الطلاب؟");
+    const confirmAction = confirm("هل تريد تعيين الحضور عشوائيا لجميع الطلاب؟\n\nملاحظة: سيتم وضع ✓ لكل الخيارات للطلاب المتميزين (الذين لديهم نجمة ⭐)");
     if (!confirmAction) return;
     
-    document.querySelectorAll('td[onclick="toggle(this)"]').forEach(cell => {
-        cell.innerHTML = Math.random() > 0.3 ? "✔" : "✖";
-        if (cell.innerHTML === "✔") {
-            cell.classList.remove('absent');
-            cell.classList.add('present');
-        } else {
-            cell.classList.remove('present');
-            cell.classList.add('absent');
-        }
+    let totalStudents = 0;
+    let starredStudents = 0;
+    let regularStudents = 0;
+    
+    // الحصول على جميع الصفوف
+    const classSections = document.querySelectorAll('.class-section');
+    
+    classSections.forEach(section => {
+        const rows = section.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            totalStudents++;
+            
+            // التحقق مما إذا كان الطالب لديه نجمة (⭐)
+            const starCell = row.querySelector('.star-cell');
+            const hasStar = starCell && starCell.innerHTML === "⭐";
+            
+            // الحصول على جميع خلايا التقييم (الحضور، الواجبات، المشاريع، التطبيقات، المشاركة)
+            const attendanceCells = row.querySelectorAll('td[onclick="toggle(this)"]');
+            
+            attendanceCells.forEach(cell => {
+                if (hasStar) {
+                    // إذا كان الطالب لديه نجمة، ضع ✓ في كل الخيارات
+                    cell.innerHTML = "✔";
+                    cell.classList.remove('absent');
+                    cell.classList.add('present');
+                    starredStudents++;
+                } else {
+                    // إذا لم يكن لديه نجمة، ضع عشوائياً
+                    cell.innerHTML = Math.random() > 0.3 ? "✔" : "✖";
+                    if (cell.innerHTML === "✔") {
+                        cell.classList.remove('absent');
+                        cell.classList.add('present');
+                    } else {
+                        cell.classList.remove('present');
+                        cell.classList.add('absent');
+                    }
+                    regularStudents++;
+                }
+            });
+        });
     });
     
     saveAttendanceData();
-    alert("تم تعيين الحضور عشوائيا");
+    alert(`تم تعيين الحضور عشوائيا بنجاح!\n\nالإحصائيات:\n- إجمالي الطلاب: ${totalStudents}\n- الطلاب المتميزين (حصلوا على ✓ في كل الخيارات): ${starredStudents/5}\n- الطلاب العاديين (حصلوا على تقييم عشوائي): ${regularStudents/5}`);
 }
 
 // نقل طالب
@@ -1109,6 +1155,8 @@ function resetAll() {
     
     document.querySelectorAll('.star-cell').forEach(cell => {
         cell.innerHTML = "☆";
+        const row = cell.closest('tr');
+        row.classList.remove('starred-student');
     });
     
     saveAttendanceData();
