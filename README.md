@@ -1,10 +1,8 @@
 
-ك
-<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
 <title>سجل التقويم الشامل للطلاب</title>
 
 <!-- خطوط عربية -->
@@ -32,13 +30,17 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
     
     html, body {
         width: 100%;
         height: 100%;
         overflow-x: hidden;
-        font-size: 12px;
+        font-size: 14px;
+        -webkit-text-size-adjust: 100%;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
     
     body {
@@ -49,30 +51,81 @@
         direction: rtl;
         min-height: 100vh;
         overflow-x: hidden;
-        -webkit-text-size-adjust: 100%;
-        -webkit-tap-highlight-color: transparent;
         display: flex;
         justify-content: center;
         align-items: flex-start;
     }
     
     .container {
-        width: 21cm;
-        min-height: 29.7cm;
+        width: 100%;
+        max-width: 1200px;
         background: white;
         padding: 15px;
-        border-radius: 5px;
+        border-radius: 10px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         border: 1px solid #ddd;
         overflow: hidden;
         margin: 0 auto;
     }
     
-    /* تحسينات للشاشات الصغيرة */
-    @media screen and (max-width: 21cm) {
+    /* تحسينات للهواتف الصغيرة */
+    @media screen and (max-width: 480px) {
+        body {
+            padding: 5px;
+        }
+        
         .container {
-            width: 100%;
             padding: 10px;
+            border-radius: 8px;
+        }
+        
+        h2 {
+            font-size: 1.2rem;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+        }
+        
+        h2:after {
+            width: 60px;
+            height: 2px;
+        }
+        
+        .footer-note {
+            font-size: 0.7rem;
+            padding: 5px;
+            margin-top: 8px;
+        }
+        
+        .export {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            min-height: 40px;
+        }
+    }
+    
+    /* تحسينات للهواتف المتوسطة */
+    @media screen and (min-width: 481px) and (max-width: 768px) {
+        .container {
+            padding: 12px;
+        }
+        
+        h2 {
+            font-size: 1.3rem;
+        }
+    }
+    
+    /* تحسينات للأجهزة اللوحية */
+    @media screen and (min-width: 769px) and (max-width: 1024px) {
+        .container {
+            padding: 15px;
+            max-width: 95%;
+        }
+    }
+    
+    /* تحسينات للشاشات الكبيرة */
+    @media screen and (min-width: 1025px) {
+        .container {
+            max-width: 1200px;
         }
     }
     
@@ -81,22 +134,40 @@
             background: white !important;
             padding: 0 !important;
             margin: 0 !important;
+            zoom: 0.9;
         }
         
         .container {
             width: 100% !important;
-            min-height: auto !important;
+            max-width: 100% !important;
             box-shadow: none !important;
             border: none !important;
             padding: 5px !important;
+            border-radius: 0 !important;
         }
         
-        .export-container {
+        .export-container, .admin-btn, .random-btn {
             display: none !important;
         }
         
-        .admin-btn, .random-btn {
-            display: none !important;
+        .table-wrapper {
+            max-height: none !important;
+            overflow: visible !important;
+        }
+        
+        table {
+            min-width: 100% !important;
+            font-size: 10px !important;
+        }
+        
+        th, td {
+            padding: 3px 2px !important;
+        }
+        
+        .status-icon {
+            width: 22px !important;
+            height: 22px !important;
+            font-size: 0.9rem !important;
         }
     }
     
@@ -126,36 +197,52 @@
         border-radius: 2px;
     }
     
-    /* تحسين الجدول للجوال - بدون هيدر */
+    /* تحسين الجدول للجوال */
     .table-wrapper {
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         margin-top: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        border: 1px solid #eee;
-        margin-left: -1px;
-        margin-right: -1px;
-        padding: 0 1px;
-        max-height: 40vh;
-        overflow-y: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e0e0e0;
+        background: white;
+        position: relative;
+    }
+    
+    /* تخصيص شريط التمرير للجوال */
+    .table-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .table-wrapper::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+    
+    .table-wrapper::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+    
+    .table-wrapper::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
     }
     
     table {
         width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        min-width: 700px;
+        border-collapse: collapse;
+        min-width: 600px;
         font-size: 0.85rem;
     }
     
     th, td {
-        padding: 6px 3px;
+        padding: 8px 4px;
         text-align: center;
         border: 1px solid var(--border-color);
-        line-height: 1.1;
+        line-height: 1.2;
         white-space: nowrap;
+        transition: background-color 0.2s;
     }
     
     th {
@@ -167,14 +254,16 @@
         position: sticky;
         top: 0;
         z-index: 10;
+        min-width: 50px;
     }
     
     .student-name {
         font-size: 0.9rem;
         font-weight: 600;
         text-align: right;
-        padding-right: 4px;
-        min-width: 100px;
+        padding-right: 6px;
+        min-width: 90px;
+        max-width: 120px;
         word-break: break-word;
         white-space: normal;
     }
@@ -185,24 +274,24 @@
     
     tr:hover {
         background-color: #f0f7ff;
-        transition: background-color 0.2s;
     }
     
     /* تحسين خلايا التقييم للجوال */
     .evaluation-cell {
         text-align: center;
-        padding: 2px 1px;
+        padding: 4px 2px;
         min-width: 40px;
+        max-width: 60px;
     }
     
     /* خلايا خاصة للعناوين المتعددة الأسطر */
     .multiline-cell {
         min-width: 35px !important;
-        max-width: 45px !important;
+        max-width: 50px !important;
         line-height: 1.1 !important;
         white-space: normal !important;
         word-break: break-word !important;
-        padding: 1px !important;
+        padding: 2px 1px !important;
     }
     
     .multiline-header {
@@ -210,7 +299,7 @@
         line-height: 1.1 !important;
         white-space: normal !important;
         word-break: break-word !important;
-        padding: 4px 1px !important;
+        padding: 6px 2px !important;
     }
     
     .status-icon {
@@ -218,20 +307,26 @@
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-block;
-        padding: 3px;
+        padding: 4px;
         border-radius: 50%;
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto;
         touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
     }
     
     .status-icon:hover {
-        transform: scale(1.06);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transform: scale(1.08);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* تحسين للأجهزة التي باللمس */
+    .status-icon:active {
+        transform: scale(0.95);
     }
     
     /* الحالة الحاضرة - حاضر / صح / ممتاز */
@@ -272,11 +367,14 @@
     
     .status-label {
         display: block;
-        margin-top: 2px;
+        margin-top: 3px;
         font-weight: 700;
         font-size: 0.7rem;
-        min-height: 12px;
+        min-height: 14px;
         line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     .present-label {
@@ -291,6 +389,44 @@
         color: var(--neutral-color);
     }
     
+    /* زر الإدارة في الواجهة الرئيسية */
+    .admin-main-btn-container {
+        text-align: center;
+        margin: 15px 0;
+    }
+    
+    .admin-main-btn {
+        background: linear-gradient(to right, #5d4037, #795548);
+        color: white;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 250px;
+        box-shadow: 0 4px 10px rgba(93, 64, 55, 0.2);
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        font-family: 'Tajawal', sans-serif;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        touch-action: manipulation;
+        min-height: 50px;
+    }
+    
+    .admin-main-btn:hover {
+        background: linear-gradient(to right, #3e2723, #4e342e);
+        box-shadow: 0 6px 12px rgba(93, 64, 55, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .admin-main-btn:active {
+        transform: translateY(0);
+    }
+    
     /* تحسين أزرار التحكم للجوال */
     .controls-container {
         display: flex;
@@ -302,68 +438,68 @@
     
     .category-controls {
         background: white;
-        border-radius: 6px;
-        padding: 8px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         flex: 1;
         border: 1px solid rgba(44, 90, 160, 0.1);
         width: 100%;
-        display: none; /* إخفاء أقسام التحكم من الواجهة الرئيسية */
+        display: none;
     }
     
     .category-controls.admin-only {
-        display: block; /* إظهار الأقسام داخل لوحة الإدارة */
+        display: block;
     }
     
     .control-title {
         color: var(--primary-color);
         font-size: 0.95rem;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
         text-align: center;
-        padding-bottom: 4px;
+        padding-bottom: 6px;
         border-bottom: 1px solid #f0f0f0;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: 6px;
         flex-wrap: wrap;
     }
     
     .category-buttons {
         display: flex;
         flex-wrap: wrap;
-        gap: 4px;
+        gap: 6px;
         justify-content: center;
     }
     
     .status-btn {
-        padding: 5px 8px;
+        padding: 8px 10px;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 3px;
+        gap: 5px;
         min-width: 0;
         flex: 1;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         touch-action: manipulation;
-        min-height: 32px;
+        min-height: 36px;
+        -webkit-tap-highlight-color: transparent;
     }
     
     .status-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
     
     .status-btn:active {
         transform: translateY(0);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     }
     
     .present-btn {
@@ -416,29 +552,28 @@
     .attendance-controls {
         display: flex;
         flex-wrap: wrap;
-        gap: 4px;
+        gap: 6px;
         justify-content: center;
-        margin-top: 10px;
+        margin-top: 12px;
     }
     
     .export-container {
         text-align: center;
-        margin-top: 15px;
-        padding-top: 10px;
+        margin-top: 20px;
+        padding-top: 15px;
         border-top: 1px dashed #ddd;
         width: 100%;
-        padding-left: 3px;
-        padding-right: 3px;
     }
     
     .export {
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         color: white;
-        padding: 10px 14px;
-        font-size: 0.9rem;
-        border-radius: 5px;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+        border-radius: 8px;
         width: 100%;
-        box-shadow: 0 3px 8px rgba(42, 91, 173, 0.2);
+        max-width: 400px;
+        box-shadow: 0 4px 12px rgba(42, 91, 173, 0.25);
         border: none;
         cursor: pointer;
         font-weight: 700;
@@ -447,27 +582,32 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 8px;
         touch-action: manipulation;
-        min-height: 44px;
+        min-height: 50px;
+        -webkit-tap-highlight-color: transparent;
     }
     
     .export:hover {
         background: linear-gradient(to right, #1e3f7a, #2c5aa0);
-        box-shadow: 0 4px 9px rgba(42, 91, 173, 0.3);
+        box-shadow: 0 6px 15px rgba(42, 91, 173, 0.35);
         transform: translateY(-2px);
+    }
+    
+    .export:active {
+        transform: translateY(0);
     }
     
     .footer-note {
         text-align: center;
-        margin-top: 10px;
+        margin-top: 15px;
         color: #666;
-        font-size: 0.75rem;
-        padding: 6px;
+        font-size: 0.8rem;
+        padding: 8px 10px;
         background-color: #f8f9fa;
-        border-radius: 5px;
-        border-right: 2px solid var(--primary-color);
-        line-height: 1.2;
+        border-radius: 8px;
+        border-right: 3px solid var(--primary-color);
+        line-height: 1.4;
         width: 100%;
     }
     
@@ -477,19 +617,19 @@
         overflow: hidden;
         transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 6px;
+        border-radius: 10px;
         margin: 0;
-        padding: 0 8px;
+        padding: 0 10px;
         border: 1px solid transparent;
         width: 100%;
     }
     
     .admin-panel.active {
-        max-height: 800px;
-        padding: 10px 8px;
-        margin-top: 10px;
+        max-height: 1000px;
+        padding: 15px 10px;
+        margin-top: 15px;
         border-color: rgba(44, 90, 160, 0.2);
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
     
     .admin-panel-content {
@@ -506,69 +646,73 @@
     
     /* تحسين قسم كلمة المرور للجوال */
     .password-section {
-        margin-bottom: 10px;
-        padding-bottom: 10px;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
         border-bottom: 1px dashed #ccc;
     }
     
     .admin-title {
         color: #2c5aa0;
-        font-size: 0.95rem;
-        margin-bottom: 8px;
+        font-size: 1rem;
+        margin-bottom: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: 6px;
         flex-wrap: wrap;
     }
     
     .admin-description {
         color: #666;
-        margin-bottom: 8px;
-        font-size: 0.8rem;
+        margin-bottom: 10px;
+        font-size: 0.85rem;
+        line-height: 1.4;
     }
     
     .password-container {
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        margin-bottom: 8px;
+        gap: 8px;
+        margin-bottom: 10px;
         width: 100%;
     }
     
     .password-input {
-        padding: 6px;
+        padding: 10px;
         border: 2px solid #ddd;
-        border-radius: 4px;
-        font-size: 0.85rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
         transition: border-color 0.2s;
+        -webkit-appearance: none;
     }
     
     .password-input:focus {
         border-color: #2c5aa0;
         outline: none;
+        box-shadow: 0 0 0 2px rgba(44, 90, 160, 0.1);
     }
     
     .password-buttons {
         display: flex;
-        gap: 5px;
+        gap: 8px;
         justify-content: center;
         width: 100%;
     }
     
     .password-submit, .password-cancel {
-        padding: 6px 10px;
+        padding: 10px 15px;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
         font-weight: 700;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         transition: all 0.2s ease;
-        min-width: 70px;
+        min-width: 80px;
         flex: 1;
+        touch-action: manipulation;
     }
     
     .password-submit {
@@ -591,8 +735,8 @@
     
     .password-error {
         color: #c62828;
-        margin-top: 6px;
-        font-size: 0.75rem;
+        margin-top: 8px;
+        font-size: 0.8rem;
         display: none;
     }
     
@@ -608,54 +752,57 @@
     
     .date-title {
         color: #2c5aa0;
-        font-size: 0.95rem;
-        margin-bottom: 6px;
+        font-size: 1rem;
+        margin-bottom: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: 6px;
     }
     
     .date-controls {
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        margin-bottom: 8px;
+        gap: 8px;
+        margin-bottom: 12px;
         width: 100%;
     }
     
     .date-input {
-        padding: 6px;
+        padding: 10px;
         border: 2px solid #ddd;
-        border-radius: 4px;
-        font-size: 0.85rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
         transition: border-color 0.2s;
+        -webkit-appearance: none;
     }
     
     .date-input:focus {
         border-color: var(--primary-color);
         outline: none;
+        box-shadow: 0 0 0 2px rgba(44, 90, 160, 0.1);
     }
     
     .date-btn {
-        padding: 6px;
+        padding: 10px;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: 6px;
         background: linear-gradient(to right, var(--primary-color), #4a8af4);
         color: white;
         width: 100%;
+        touch-action: manipulation;
     }
     
     .date-btn:hover {
@@ -665,21 +812,21 @@
     
     .selected-date-display {
         background: white;
-        padding: 6px 8px;
-        border-radius: 4px;
+        padding: 10px 12px;
+        border-radius: 6px;
         border: 2px solid var(--present-color);
-        margin-top: 8px;
+        margin-top: 10px;
         display: inline-block;
         font-weight: 700;
         color: #333;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
     
     /* قسم التحكم في الإدارة */
     .management-controls {
         display: none;
-        margin-top: 15px;
-        padding-top: 10px;
+        margin-top: 20px;
+        padding-top: 15px;
         border-top: 1px dashed #ccc;
     }
     
@@ -690,13 +837,63 @@
     .management-grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 10px;
-        margin-top: 10px;
+        gap: 12px;
+        margin-top: 12px;
     }
     
     @media (min-width: 768px) {
         .management-grid {
             grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    /* تحسينات للأجهزة الصغيرة جداً */
+    @media screen and (max-width: 320px) {
+        html, body {
+            font-size: 12px;
+        }
+        
+        .container {
+            padding: 8px;
+        }
+        
+        h2 {
+            font-size: 1.1rem;
+        }
+        
+        .student-name {
+            font-size: 0.8rem;
+            min-width: 70px;
+            max-width: 90px;
+        }
+        
+        .status-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 0.9rem;
+        }
+        
+        .status-label {
+            font-size: 0.65rem;
+        }
+        
+        .admin-main-btn, .export {
+            font-size: 0.85rem;
+            padding: 10px 15px;
+        }
+    }
+    
+    /* تحسينات للأجهزة التي تدعم hover */
+    @media (hover: hover) {
+        .status-icon:hover, .status-btn:hover, .export:hover, .admin-main-btn:hover {
+            transform: translateY(-2px);
+        }
+    }
+    
+    /* تحسينات للأجهزة التي لا تدعم hover (الهواتف) */
+    @media (hover: none) {
+        .status-icon:active, .status-btn:active, .export:active, .admin-main-btn:active {
+            transform: scale(0.98);
         }
     }
     
@@ -734,124 +931,31 @@
         animation: pulse 0.3s ease;
     }
     
-    /* تحسينات إضافية للأجهزة الكبيرة */
-    @media (min-width: 480px) {
-        .controls-container {
-            flex-direction: row;
-            flex-wrap: wrap;
-        }
-        
-        .category-controls {
-            min-width: 180px;
-            flex: 1;
-        }
-        
-        .password-container {
-            flex-direction: row;
-        }
-        
-        .password-input {
-            min-width: 130px;
-        }
-        
-        .password-buttons {
-            flex: none;
-        }
-        
-        .date-controls {
-            flex-direction: row;
-        }
-        
-        .date-btn {
-            width: auto;
-            min-width: 100px;
-        }
-        
-        .export {
-            font-size: 0.95rem;
-            padding: 12px 16px;
-        }
-        
-        .status-icon {
-            width: 32px;
-            height: 32px;
-            font-size: 1.1rem;
-        }
-        
-        .table-wrapper {
-            padding: 0 4px;
-            margin-left: -4px;
-            margin-right: -4px;
-        }
-    }
-    
-    @media (min-width: 768px) {
-        .container {
-            padding: 20px;
-        }
-        
-        h2 {
-            font-size: 1.5rem;
-        }
-        
-        .status-icon {
-            width: 34px;
-            height: 34px;
-            font-size: 1.2rem;
-        }
-        
-        .student-name {
-            font-size: 1rem;
-        }
-        
-        .controls-container {
-            gap: 10px;
-        }
-        
-        .category-controls {
-            padding: 10px;
-        }
-        
-        .control-title {
-            font-size: 1rem;
-        }
-        
-        .status-btn {
-            min-width: 90px;
-            padding: 6px 10px;
-            font-size: 0.8rem;
-        }
-        
-        table {
-            font-size: 0.9rem;
-        }
-        
-        th, td {
-            padding: 7px 4px;
-        }
-    }
-    
-    /* تحسينات للشاشات الطويلة */
-    @media (max-height: 700px) {
-        .controls-container {
-            margin: 10px 0;
-            gap: 6px;
-        }
-        
-        .export-container {
-            margin-top: 12px;
-            padding-top: 8px;
-        }
-    }
-    
     /* منع التكبير التلقائي على iOS */
     input, textarea, select {
-        font-size: 14px !important;
+        font-size: 16px !important;
+        -webkit-appearance: none;
+        border-radius: 0;
     }
     
     /* تحسين التمرير على iOS */
     .table-wrapper {
         -webkit-overflow-scrolling: touch;
+    }
+    
+    /* إصلاح مشكلة الهواتف التي تخفي شريط العناوين */
+    @supports (-webkit-touch-callout: none) {
+        body {
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+    }
+    
+    /* إصلاح مشكلة iPhone X وما فوق */
+    @media screen and (max-width: 375px) and (max-height: 812px) {
+        body {
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
     }
 </style>
 </head>
@@ -880,66 +984,9 @@
         </table>
     </div>
     
-    <!-- أزرار التحكم حسب التصنيف - مخفية الآن -->
-    <div class="controls-container" style="display: none;">
-        <div class="category-controls">
-            <div class="control-title">
-                <i class="fas fa-tasks"></i> المهام الأدائية
-            </div>
-            <div class="category-buttons">
-                <button class="status-btn present-btn" onclick="setAllCategory('performance', 'present')">
-                    <i class="fas fa-check"></i> الكل "صح"
-                </button>
-                <button class="status-btn neutral-btn" onclick="setAllCategory('performance', 'neutral')">
-                    <i class="fas fa-minus"></i> الكل "محايد"
-                </button>
-                <button class="status-btn absent-btn" onclick="setAllCategory('performance', 'absent')">
-                    <i class="fas fa-times"></i> الكل "خطأ"
-                </button>
-            </div>
-        </div>
-        
-        <div class="category-controls">
-            <div class="control-title">
-                <i class="fas fa-comments"></i> المشاركة والتفاعل
-            </div>
-            <div class="category-buttons">
-                <button class="status-btn present-btn" onclick="setAllCategory('interaction', 'present')">
-                    <i class="fas fa-check"></i> الكل "صح"
-                </button>
-                <button class="status-btn neutral-btn" onclick="setAllCategory('interaction', 'neutral')">
-                    <i class="fas fa-minus"></i> الكل "محايد"
-                </button>
-                <button class="status-btn absent-btn" onclick="setAllCategory('interaction', 'absent')">
-                    <i class="fas fa-times"></i> الكل "خطأ"
-                </button>
-            </div>
-        </div>
-        
-        <div class="category-controls">
-            <div class="control-title">
-                <i class="fas fa-users"></i> الحضور والإدارة
-            </div>
-            <div class="category-buttons">
-                <button class="status-btn present-btn" onclick="setAllAttendance('present')">
-                    <i class="fas fa-user-check"></i> الكل حاضر
-                </button>
-                <button class="status-btn absent-btn" onclick="setAllAttendance('absent')">
-                    <i class="fas fa-user-slash"></i> الكل غائب
-                </button>
-                <button class="status-btn admin-btn" onclick="toggleAdminPanel()">
-                    <i class="fas fa-cog"></i> إدارة
-                </button>
-                <button class="status-btn random-btn" id="randomBtn" onclick="toggleRandom()">
-                    <i class="fas fa-random"></i> عشوائي
-                </button>
-            </div>
-        </div>
-    </div>
-    
     <!-- زر الإدارة فقط في الواجهة الرئيسية -->
-    <div style="text-align: center; margin: 15px 0;">
-        <button class="export" onclick="toggleAdminPanel()" style="background: linear-gradient(to right, #5d4037, #795548); max-width: 200px;">
+    <div class="admin-main-btn-container">
+        <button class="admin-main-btn" onclick="toggleAdminPanel()">
             <i class="fas fa-cog"></i> فتح لوحة الإدارة
         </button>
     </div>
@@ -954,7 +1001,7 @@
                 </div>
                 <p class="admin-description">للدخول إلى خيارات الإدارة المتقدمة، يرجى إدخال كلمة المرور:</p>
                 <div class="password-container">
-                    <input type="password" class="password-input" id="passwordInput" placeholder="أدخل كلمة المرور هنا" autocomplete="off">
+                    <input type="password" class="password-input" id="passwordInput" placeholder="أدخل كلمة المرور هنا" autocomplete="off" inputmode="text">
                     <div class="password-buttons">
                         <button class="password-submit" onclick="checkPassword()">تحقق</button>
                         <button class="password-cancel" onclick="toggleAdminPanel()">إلغاء</button>
@@ -1263,7 +1310,10 @@ function toggleAdminPanel() {
             document.getElementById('passwordSection').style.display = 'block';
             document.getElementById('managementControls').classList.remove('active');
             document.getElementById('dateSection').classList.remove('active');
-            document.getElementById('passwordInput').focus();
+            // تأخير التركيز حتى تكتمل الرسوم المتحركة
+            setTimeout(() => {
+                document.getElementById('passwordInput').focus();
+            }, 300);
         }
     }
 }
@@ -1291,7 +1341,7 @@ function checkPassword() {
         initializeDateField();
         
         // إظهار رسالة نجاح
-        showNotification('تم التحقق من الهوية بنجاح! خيارات الإدارة المتاحة الآن.', 'present');
+        showNotification('تم التحقق من الهوية بنجاح! خيارات الإدارة متاحة الآن.', 'present');
         
         // مسح حقل كلمة المرور
         document.getElementById('passwordInput').value = '';
@@ -1528,22 +1578,22 @@ function showNotification(message, type) {
     notification.textContent = message;
     notification.style.cssText = `
         position: fixed;
-        top: 8px;
-        right: 6px;
-        left: 6px;
+        top: 20px;
+        right: 10px;
+        left: 10px;
         background: ${type === 'present' ? 'var(--present-color)' : type === 'neutral' ? 'var(--neutral-color)' : 'var(--absent-color)'};
         color: white;
-        padding: 7px 11px;
-        border-radius: 4px;
-        z-index: 1000;
+        padding: 12px 15px;
+        border-radius: 8px;
+        z-index: 10000;
         font-weight: bold;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         animation: fadeInOut 3s ease-in-out;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 8px;
         text-align: center;
     `;
     
@@ -1589,7 +1639,7 @@ async function exportPDF() {
         dateText = `تاريخ التقييم: اليوم (${new Date().toLocaleDateString('ar-SA')})`;
     }
     
-    dateElement.style.cssText = 'text-align: left; margin-bottom: 8px; color: #666; font-size: 0.75rem; padding: 6px 7px; background: #f8f9fa; border-radius: 4px; border-right: 2px solid #2c5aa0;';
+    dateElement.style.cssText = 'text-align: left; margin-bottom: 10px; color: #666; font-size: 0.8rem; padding: 8px 10px; background: #f8f9fa; border-radius: 6px; border-right: 2px solid #2c5aa0;';
     dateElement.innerHTML = `<i class="far fa-calendar-alt" style="margin-left: 4px;"></i> ${dateText} - <i class="far fa-clock" style="margin-left: 4px;"></i> وقت التصدير: ${new Date().toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'})}`;
     
     const captureArea = document.getElementById('captureArea');
@@ -1607,46 +1657,100 @@ async function exportPDF() {
     
     // إزالة أي تأثيرات CSS قد تؤثر على التصدير
     const originalContainerWidth = captureArea.style.width;
-    const originalContainerMinHeight = captureArea.style.minHeight;
+    const originalContainerMaxWidth = captureArea.style.maxWidth;
+    const originalContainerPadding = captureArea.style.padding;
+    const originalContainerBoxShadow = captureArea.style.boxShadow;
+    const originalContainerBorder = captureArea.style.border;
+    const originalContainerBorderRadius = captureArea.style.borderRadius;
     
     // تعيين أبعاد A4 للتصدير
     captureArea.style.width = '21cm';
-    captureArea.style.minHeight = '29.7cm';
-    captureArea.style.padding = '15px';
+    captureArea.style.maxWidth = '21cm';
+    captureArea.style.padding = '20px';
     captureArea.style.boxShadow = 'none';
-    captureArea.style.border = 'none';
+    captureArea.style.border = '1px solid #ccc';
+    captureArea.style.borderRadius = '0';
+    
+    // تعيين خلفية بيضاء للتأكد من عدم وجود شفافية
+    captureArea.style.backgroundColor = 'white';
+    
+    // إخفاء عناصر قد تسبب مشاكل في التصدير
+    const adminMainBtnContainer = document.querySelector('.admin-main-btn-container');
+    const originalAdminBtnDisplay = adminMainBtnContainer.style.display;
+    adminMainBtnContainer.style.display = 'none';
+    
+    const exportContainer = document.querySelector('.export-container');
+    const originalExportDisplay = exportContainer.style.display;
+    exportContainer.style.display = 'none';
+    
+    const tableWrapper = document.querySelector('.table-wrapper');
+    const originalTableWrapperMaxHeight = tableWrapper.style.maxHeight;
+    tableWrapper.style.maxHeight = 'none';
+    tableWrapper.style.overflow = 'visible';
+    
+    // إضافة تأخير قصير لضمان تطبيق التغييرات
+    await new Promise(resolve => setTimeout(resolve, 300));
     
     const canvas = await html2canvas(captureArea, { 
         scale: 2,
         useCORS: true,
         backgroundColor: '#ffffff',
         scrollY: -window.scrollY,
-        width: 794, // 21cm في 96 DPI
-        height: 1123, // 29.7cm في 96 DPI
-        windowWidth: 794
+        windowWidth: 794, // 21cm في 96 DPI
+        windowHeight: 1123, // 29.7cm في 96 DPI
+        logging: false,
+        allowTaint: true,
+        removeContainer: true
     });
 
     // إعادة المحتوى الأصلي
     captureArea.removeChild(dateElement);
     captureArea.style.width = originalContainerWidth;
-    captureArea.style.minHeight = originalContainerMinHeight;
-    captureArea.style.padding = '';
-    captureArea.style.boxShadow = '';
-    captureArea.style.border = '';
+    captureArea.style.maxWidth = originalContainerMaxWidth;
+    captureArea.style.padding = originalContainerPadding;
+    captureArea.style.boxShadow = originalContainerBoxShadow;
+    captureArea.style.border = originalContainerBorder;
+    captureArea.style.borderRadius = originalContainerBorderRadius;
+    captureArea.style.backgroundColor = '';
+    
+    // إعادة عرض العناصر المخفية
+    adminMainBtnContainer.style.display = originalAdminBtnDisplay;
+    exportContainer.style.display = originalExportDisplay;
+    tableWrapper.style.maxHeight = originalTableWrapperMaxHeight;
+    tableWrapper.style.overflow = 'auto';
     
     // إعادة فتح لوحة الإدارة إذا كانت مفتوحة
     if (wasAdminPanelOpen) {
         adminPanel.classList.add('active');
     }
     
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
+    const imgData = canvas.toDataURL("image/png", 1.0);
+    const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+    });
 
     const imgWidth = 190; // A4 width in mm minus margins
+    const pageHeight = 297; // A4 height in mm
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    // إضافة الصورة إلى PDF
-    pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+    
+    // حساب عدد الصفحات المطلوبة
+    let heightLeft = imgHeight;
+    let position = 10; // هامش علوي
+    const pageWidth = 210; // عرض A4
+    
+    // إضافة الصفحة الأولى
+    pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight - 20; // 20mm للهوامش العلوية والسفلية
+    
+    // إضافة صفحات إضافية إذا لزم الأمر
+    while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight - 20;
+    }
     
     // إعداد اسم الملف بناءً على التاريخ المحدد
     let fileName = 'سجل-التقييم-الشامل';
@@ -1672,6 +1776,24 @@ async function exportPDF() {
 document.addEventListener('DOMContentLoaded', function() {
     initializeStudentsData();
     createTable();
+    
+    // تحسين تجربة الهواتف
+    if ('ontouchstart' in window) {
+        // إضافة فئة للجسم للإشارة إلى أن الجهاز يدعم اللمس
+        document.body.classList.add('touch-device');
+        
+        // تحسين تجربة اللمس للأيقونات
+        const statusIcons = document.querySelectorAll('.status-icon');
+        statusIcons.forEach(icon => {
+            icon.addEventListener('touchstart', function(e) {
+                this.classList.add('active');
+            }, { passive: true });
+            
+            icon.addEventListener('touchend', function(e) {
+                this.classList.remove('active');
+            }, { passive: true });
+        });
+    }
 });
 
 // إضافة خاصية لمنع التكبير على الهواتف
@@ -1690,6 +1812,38 @@ document.addEventListener('touchend', function(e) {
     }
     lastTouchEnd = now;
 }, false);
+
+// إصلاح مشكلة iOS مع input type="date"
+if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+    const dateInput = document.getElementById('attendanceDate');
+    if (dateInput) {
+        dateInput.addEventListener('focus', function() {
+            this.type = 'text';
+            setTimeout(() => {
+                this.type = 'date';
+            }, 100);
+        });
+    }
+}
+
+// إضافة listener لتحسين تجربة الجوال
+window.addEventListener('resize', function() {
+    // إعادة حساب ارتفاع الجدول عند تغيير حجم الشاشة
+    const tableWrapper = document.querySelector('.table-wrapper');
+    if (window.innerHeight < 700) {
+        tableWrapper.style.maxHeight = '30vh';
+    } else {
+        tableWrapper.style.maxHeight = '40vh';
+    }
+});
+
+// تشغيل مرة واحدة عند التحميل
+setTimeout(function() {
+    const tableWrapper = document.querySelector('.table-wrapper');
+    if (window.innerHeight < 700) {
+        tableWrapper.style.maxHeight = '30vh';
+    }
+}, 500);
 
 </script>
 
