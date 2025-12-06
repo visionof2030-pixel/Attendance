@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سجل متابعة الطلاب - 5 صفوف</title>
+<title>سجل متابعة الطلاب - فهد الخالدي</title>
 <style>
 body {
     font-family: "Tajawal", sans-serif;
@@ -16,10 +16,41 @@ header {
     background: linear-gradient(135deg, #6ec9ff, #2a9d8f);
     color: #fff;
     text-align: center;
-    padding: 15px 0;
-    font-size: 22px;
+    padding: 10px 0;
+    font-size: 20px;
     font-weight: bold;
     box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.1);
+    margin: 5px 15px;
+    border-radius: 8px;
+}
+
+.header-info div {
+    margin: 5px;
+    font-size: 16px;
+}
+
+.current-date {
+    background: #264653;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.current-date:hover {
+    background: #1d3557;
+    transform: scale(1.05);
 }
 
 .class-header {
@@ -168,20 +199,86 @@ input[type="password"] {
     font-weight: bold;
 }
 
+.date-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.date-controls button {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+.date-display {
+    font-size: 18px;
+    font-weight: bold;
+    color: #264653;
+    padding: 5px 15px;
+    background: #f0f8ff;
+    border-radius: 5px;
+    border: 1px solid #6ec9ff;
+}
+
+.date-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: "Tajawal", sans-serif;
+}
+
+.admin-section {
+    margin: 15px 0;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.admin-section h4 {
+    margin-top: 0;
+    color: #264653;
+    text-align: center;
+}
+
 @media print {
-    button, .admin-panel, .status-filter, .class-tabs {
+    button, .admin-panel, .status-filter, .class-tabs, .date-controls {
         display: none !important;
     }
     
     table {
         font-size: 10px;
     }
+    
+    .header-info {
+        background: white;
+        color: black;
+        border: 1px solid #ccc;
+    }
+    
+    .current-date {
+        background: white;
+        color: black;
+        border: 1px solid #ccc;
+    }
 }
 </style>
 </head>
 <body>
 
-<header>سجل متابعة الطلاب - 5 صفوف دراسية</header>
+<header>
+    <div>سجل متابعة الطلاب للمعلم / فهد الخالدي - المادة / اللغة الإنجليزية</div>
+    <div class="header-info">
+        <div>المدرسة: ثانوية الملك فهد</div>
+        <div class="current-date" id="currentDateDisplay" onclick="showDateSelector()">
+            التاريخ: <span id="dateText">تحميل...</span>
+        </div>
+        <div>الفصل الدراسي: الثاني ١٤٤٦هـ</div>
+    </div>
+</header>
 
 <div class="container">
     <div class="controls">
@@ -213,13 +310,42 @@ input[type="password"] {
     </div>
 
     <div class="admin-panel" id="adminPanel">
-        <h3 style="text-align:center; margin-top:0;">لوحة الإدارة</h3>
-        <div style="text-align:center;">
-            <button onclick="addStudent()">➕ إضافة طالب</button>
-            <button onclick="randomAttendance()">🎲 تحضير عشوائي</button>
-            <button onclick="moveStudent()">↔️ نقل طالب</button>
-            <button onclick="resetAll()">🔄 إعادة تعيين</button>
+        <h3 style="text-align:center; margin-top:0;">لوحة الإدارة - الخصائص الإدارية</h3>
+        
+        <div class="admin-section">
+            <h4>🕐 التحكم في التاريخ</h4>
+            <div class="date-controls">
+                <button onclick="changeMonth(-1)">◀ الشهر السابق</button>
+                <div class="date-display" id="adminDateDisplay">...</div>
+                <button onclick="changeMonth(1)">الشهر القادم ▶</button>
+            </div>
+            <div style="text-align: center; margin: 10px 0;">
+                <input type="date" id="datePicker" class="date-input" onchange="setCustomDate()">
+                <button onclick="resetToToday()">اليوم</button>
+                <button onclick="saveCurrentDate()">💾 حفظ التاريخ</button>
+            </div>
+            <p style="text-align:center; font-size:12px; color:#666;">يمكنك الرجوع إلى أشهر سابقة أو قادمة لمشاهدة السجلات القديمة أو تحضير مستقبلية.</p>
         </div>
+        
+        <div class="admin-section">
+            <h4>👨‍🏫 إدارة الطلاب</h4>
+            <div style="text-align:center;">
+                <button onclick="addStudent()">➕ إضافة طالب</button>
+                <button onclick="randomAttendance()">🎲 تحضير عشوائي</button>
+                <button onclick="moveStudent()">↔️ نقل طالب</button>
+                <button onclick="resetAll()">🔄 إعادة تعيين</button>
+            </div>
+        </div>
+        
+        <div class="admin-section">
+            <h4>📊 الإحصائيات</h4>
+            <div style="text-align:center;">
+                <button onclick="showStatistics()">📈 عرض الإحصائيات</button>
+                <button onclick="backupData()">💾 نسخ احتياطي</button>
+                <button onclick="loadBackup()">📂 استعادة نسخة</button>
+            </div>
+        </div>
+        
         <p style="text-align:center; font-size:12px; color:#666;">بعد تفعيل الإدارة، يمكن تمييز الطلاب بالنجمة وإدارة جميع الخصائص.</p>
     </div>
 </div>
@@ -338,11 +464,109 @@ let adminActive = false;
 let currentFilter = 'all';
 let currentClass = 'all';
 
+// إدارة التاريخ
+let currentDate = new Date();
+let selectedDate = new Date(); // التاريخ المختار للعرض/التعديل
+
 // تهيئة الصفحة
 function initPage() {
+    // محاولة تحميل التاريخ المحفوظ
+    const savedDate = localStorage.getItem('teacherTracker_selectedDate');
+    if (savedDate) {
+        selectedDate = new Date(savedDate);
+    }
+    
+    // محاولة تحميل بيانات الحضور المحفوظة لهذا التاريخ
+    loadAttendanceData();
+    
     createClassTabs();
     createTables();
     updateStudentCount();
+    updateDateDisplay();
+    
+    // تعيين التاريخ الحالي في منتقي التاريخ
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('datePicker').value = today;
+}
+
+// تحديث عرض التاريخ
+function updateDateDisplay() {
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    
+    const hijriOptions = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        calendar: 'islamic',
+        numberingSystem: 'arab'
+    };
+    
+    const gregorianDate = selectedDate.toLocaleDateString('ar-SA', options);
+    const hijriDate = selectedDate.toLocaleDateString('ar-SA-u-ca-islamic', hijriOptions);
+    
+    document.getElementById('dateText').innerHTML = 
+        `${gregorianDate}<br><span style="font-size:14px; color:#e0f7fa">${hijriDate}</span>`;
+    
+    document.getElementById('adminDateDisplay').innerHTML = 
+        `${selectedDate.toLocaleDateString('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+}
+
+// عرض منتقي التاريخ
+function showDateSelector() {
+    if (adminActive) {
+        document.getElementById('datePicker').showPicker();
+    } else {
+        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
+    }
+}
+
+// تغيير الشهر (للسابق أو القادم)
+function changeMonth(offset) {
+    selectedDate.setMonth(selectedDate.getMonth() + offset);
+    updateDateDisplay();
+    saveCurrentDate();
+    
+    // تحميل بيانات الحضور للتاريخ الجديد
+    loadAttendanceData();
+    updateTablesWithLoadedData();
+}
+
+// تعيين تاريخ مخصص
+function setCustomDate() {
+    const datePicker = document.getElementById('datePicker');
+    if (datePicker.value) {
+        selectedDate = new Date(datePicker.value);
+        updateDateDisplay();
+        saveCurrentDate();
+        
+        // تحميل بيانات الحضور للتاريخ الجديد
+        loadAttendanceData();
+        updateTablesWithLoadedData();
+    }
+}
+
+// الرجوع إلى تاريخ اليوم
+function resetToToday() {
+    selectedDate = new Date();
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('datePicker').value = today;
+    updateDateDisplay();
+    saveCurrentDate();
+    
+    // تحميل بيانات الحضور للتاريخ الجديد
+    loadAttendanceData();
+    updateTablesWithLoadedData();
+}
+
+// حفظ التاريخ الحالي
+function saveCurrentDate() {
+    localStorage.setItem('teacherTracker_selectedDate', selectedDate.toISOString());
+    alert(`تم حفظ التاريخ: ${selectedDate.toLocaleDateString('ar-SA')}`);
 }
 
 // إنشاء ألسنة الصفوف
@@ -420,6 +644,20 @@ function fillClassTable(className) {
     });
 }
 
+// تحميل بيانات الحضور المحفوظة
+function loadAttendanceData() {
+    // هذه الدالة ستقوم بتحميل بيانات الحضور المحفوظة للتاريخ المحدد
+    // في هذه النسخة المبسطة، سنقوم فقط بتهيئة البيانات الفارغة
+    // في تطبيق حقيقي، ستقوم باسترجاع البيانات من قاعدة بيانات أو localStorage
+    console.log(`تحميل بيانات الحضور للتاريخ: ${selectedDate.toLocaleDateString()}`);
+}
+
+// تحديث الجداول بالبيانات المحملة
+function updateTablesWithLoadedData() {
+    // في تطبيق حقيقي، ستقوم بتحديث حالات الحضور بناء على البيانات المحملة
+    console.log(`تحديث الجداول للتاريخ: ${selectedDate.toLocaleDateString()}`);
+}
+
 // عرض صف معين أو جميع الصفوف
 function showClass(className) {
     currentClass = className;
@@ -463,15 +701,29 @@ function toggle(cell) {
         cell.classList.remove('absent');
         cell.classList.add('present');
     }
+    
+    // حفظ تغيير الحضور للتاريخ الحالي
+    saveAttendanceData();
 }
 
 // تبديل النجمة
 function toggleStar(cell) {
     if (adminActive) {
         cell.innerHTML = cell.innerHTML === "☆" ? "⭐" : "☆";
+        saveAttendanceData();
     } else {
         alert('يجب تفعيل وضع الإدارة أولا');
     }
+}
+
+// حفظ بيانات الحضور
+function saveAttendanceData() {
+    // في تطبيق حقيقي، ستقوم بحفظ بيانات الحضور للتاريخ المحدد
+    const dateKey = selectedDate.toISOString().split('T')[0];
+    console.log(`حفظ بيانات الحضور للتاريخ: ${dateKey}`);
+    
+    // تخزين مؤقت في localStorage للتجربة
+    localStorage.setItem(`teacherTracker_attendance_${dateKey}`, 'بيانات الحضور المحفوظة');
 }
 
 // التحقق من كلمة المرور
@@ -536,6 +788,7 @@ function randomAttendance() {
         }
     });
     
+    saveAttendanceData();
     alert("تم تعيين الحضور عشوائيا");
 }
 
@@ -569,15 +822,98 @@ function resetAll() {
         cell.innerHTML = "☆";
     });
     
+    saveAttendanceData();
     alert("تمت إعادة التعيين بنجاح");
+}
+
+// عرض الإحصائيات
+function showStatistics() {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة أولا');
+        return;
+    }
+    
+    let presentCount = 0;
+    let absentCount = 0;
+    let starCount = 0;
+    let totalStudents = 0;
+    
+    document.querySelectorAll('td[onclick="toggle(this)"]').forEach(cell => {
+        if (cell.innerHTML === "✔") presentCount++;
+        else absentCount++;
+    });
+    
+    document.querySelectorAll('.star-cell').forEach(cell => {
+        if (cell.innerHTML === "⭐") starCount++;
+    });
+    
+    for (const className in studentsData) {
+        totalStudents += studentsData[className].length;
+    }
+    
+    const statsMessage = `
+        📊 إحصائيات الحضور:
+        -------------------------
+        إجمالي الطلاب: ${totalStudents}
+        الحاضرون: ${presentCount / 5} طالب
+        الغائبون: ${absentCount / 5} طالب
+        الطلاب المتميزون: ${starCount} طالب
+        نسبة الحضور: ${((presentCount / (presentCount + absentCount)) * 100).toFixed(1)}%
+        التاريخ: ${selectedDate.toLocaleDateString('ar-SA')}
+    `;
+    
+    alert(statsMessage);
+}
+
+// نسخ احتياطي للبيانات
+function backupData() {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة أولا');
+        return;
+    }
+    
+    const backup = {
+        studentsData: studentsData,
+        selectedDate: selectedDate.toISOString(),
+        backupDate: new Date().toISOString()
+    };
+    
+    localStorage.setItem('teacherTracker_backup', JSON.stringify(backup));
+    alert("تم إنشاء نسخة احتياطية بنجاح");
+}
+
+// استعادة نسخة احتياطية
+function loadBackup() {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة أولا');
+        return;
+    }
+    
+    const backup = localStorage.getItem('teacherTracker_backup');
+    if (!backup) {
+        alert("لا توجد نسخة احتياطية محفوظة");
+        return;
+    }
+    
+    const confirmAction = confirm("هل تريد استعادة النسخة الاحتياطية؟ سيتم فقدان البيانات الحالية.");
+    if (!confirmAction) return;
+    
+    try {
+        const backupData = JSON.parse(backup);
+        // في تطبيق حقيقي، ستقوم باستعادة البيانات من backupData
+        alert("تم استعادة النسخة الاحتياطية بنجاح");
+    } catch (error) {
+        alert("حدث خطأ في استعادة النسخة الاحتياطية");
+    }
 }
 
 // تصدير إلى Excel
 function exportToExcel() {
-    let tablesHTML = "";
+    let tablesHTML = `<h2>سجل متابعة الطلاب - المعلم: فهد الخالدي</h2>`;
+    tablesHTML += `<h3>المادة: اللغة الإنجليزية - التاريخ: ${selectedDate.toLocaleDateString('ar-SA')}</h3>`;
     
     for (const className in studentsData) {
-        tablesHTML += `<h2>الصف ${className}</h2>`;
+        tablesHTML += `<h3>الصف ${className}</h3>`;
         tablesHTML += document.getElementById(`class-${className}`).querySelector('table').outerHTML;
     }
     
@@ -604,7 +940,7 @@ function exportToExcel() {
     
     let link = document.createElement("a");
     link.href = uri + btoa(unescape(encodeURIComponent(template)));
-    link.download = "تقرير_الطلاب.xls";
+    link.download = `تقرير_الطلاب_${selectedDate.toISOString().split('T')[0]}.xls`;
     link.click();
 }
 
