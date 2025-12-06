@@ -1,5 +1,6 @@
 
 ك
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
@@ -91,6 +92,10 @@
         }
         
         .export-container {
+            display: none !important;
+        }
+        
+        .admin-btn, .random-btn {
             display: none !important;
         }
     }
@@ -303,6 +308,11 @@
         flex: 1;
         border: 1px solid rgba(44, 90, 160, 0.1);
         width: 100%;
+        display: none; /* إخفاء أقسام التحكم من الواجهة الرئيسية */
+    }
+    
+    .category-controls.admin-only {
+        display: block; /* إظهار الأقسام داخل لوحة الإدارة */
     }
     
     .control-title {
@@ -402,6 +412,15 @@
         background: linear-gradient(to right, #e65100, #ef6c00);
     }
     
+    /* أزرار الحضور الخاصة بالإدارة */
+    .attendance-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
     .export-container {
         text-align: center;
         margin-top: 15px;
@@ -466,7 +485,7 @@
     }
     
     .admin-panel.active {
-        max-height: 500px;
+        max-height: 800px;
         padding: 10px 8px;
         margin-top: 10px;
         border-color: rgba(44, 90, 160, 0.2);
@@ -656,6 +675,31 @@
         font-size: 0.8rem;
     }
     
+    /* قسم التحكم في الإدارة */
+    .management-controls {
+        display: none;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px dashed #ccc;
+    }
+    
+    .management-controls.active {
+        display: block;
+    }
+    
+    .management-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    @media (min-width: 768px) {
+        .management-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
     /* أنيميشن */
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-5px); }
@@ -836,8 +880,8 @@
         </table>
     </div>
     
-    <!-- أزرار التحكم حسب التصنيف -->
-    <div class="controls-container">
+    <!-- أزرار التحكم حسب التصنيف - مخفية الآن -->
+    <div class="controls-container" style="display: none;">
         <div class="category-controls">
             <div class="control-title">
                 <i class="fas fa-tasks"></i> المهام الأدائية
@@ -893,6 +937,13 @@
         </div>
     </div>
     
+    <!-- زر الإدارة فقط في الواجهة الرئيسية -->
+    <div style="text-align: center; margin: 15px 0;">
+        <button class="export" onclick="toggleAdminPanel()" style="background: linear-gradient(to right, #5d4037, #795548); max-width: 200px;">
+            <i class="fas fa-cog"></i> فتح لوحة الإدارة
+        </button>
+    </div>
+    
     <!-- قسم الإدارة -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-panel-content">
@@ -912,6 +963,73 @@
                 <p class="password-error" id="passwordError">
                     <i class="fas fa-exclamation-triangle"></i> كلمة المرور غير صحيحة
                 </p>
+            </div>
+            
+            <!-- قسم التحكم في الإدارة (يظهر بعد التحقق) -->
+            <div class="management-controls" id="managementControls">
+                <div class="admin-title">
+                    <i class="fas fa-sliders-h"></i> أدوات التحكم المتقدمة
+                </div>
+                
+                <div class="management-grid">
+                    <!-- المهام الأدائية -->
+                    <div class="category-controls admin-only">
+                        <div class="control-title">
+                            <i class="fas fa-tasks"></i> المهام الأدائية
+                        </div>
+                        <div class="category-buttons">
+                            <button class="status-btn present-btn" onclick="setAllCategory('performance', 'present')">
+                                <i class="fas fa-check"></i> الكل "صح"
+                            </button>
+                            <button class="status-btn neutral-btn" onclick="setAllCategory('performance', 'neutral')">
+                                <i class="fas fa-minus"></i> الكل "محايد"
+                            </button>
+                            <button class="status-btn absent-btn" onclick="setAllCategory('performance', 'absent')">
+                                <i class="fas fa-times"></i> الكل "خطأ"
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- المشاركة والتفاعل -->
+                    <div class="category-controls admin-only">
+                        <div class="control-title">
+                            <i class="fas fa-comments"></i> المشاركة والتفاعل
+                        </div>
+                        <div class="category-buttons">
+                            <button class="status-btn present-btn" onclick="setAllCategory('interaction', 'present')">
+                                <i class="fas fa-check"></i> الكل "صح"
+                            </button>
+                            <button class="status-btn neutral-btn" onclick="setAllCategory('interaction', 'neutral')">
+                                <i class="fas fa-minus"></i> الكل "محايد"
+                            </button>
+                            <button class="status-btn absent-btn" onclick="setAllCategory('interaction', 'absent')">
+                                <i class="fas fa-times"></i> الكل "خطأ"
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- الحضور -->
+                    <div class="category-controls admin-only" style="grid-column: span 2;">
+                        <div class="control-title">
+                            <i class="fas fa-users"></i> التحكم في الحضور
+                        </div>
+                        <div class="attendance-controls">
+                            <button class="status-btn present-btn" onclick="setAllAttendance('present')" style="flex: 1;">
+                                <i class="fas fa-user-check"></i> تعيين الكل حاضر
+                            </button>
+                            <button class="status-btn absent-btn" onclick="setAllAttendance('absent')" style="flex: 1;">
+                                <i class="fas fa-user-slash"></i> تعيين الكل غائب
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- أزرار التحكم الإضافية -->
+                <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
+                    <button class="status-btn random-btn" id="randomBtnAdmin" onclick="toggleRandom()" style="flex: 1;">
+                        <i class="fas fa-random"></i> تبديل عشوائي
+                    </button>
+                </div>
             </div>
             
             <!-- قسم تحديد التاريخ -->
@@ -1114,33 +1232,36 @@ function resetToToday() {
 // فتح/إغلاق لوحة الإدارة
 function toggleAdminPanel() {
     const adminPanel = document.getElementById('adminPanel');
-    const adminBtn = document.querySelector('.admin-btn');
     
     if (adminPanel.classList.contains('active')) {
         // إغلاق لوحة الإدارة
         adminPanel.classList.remove('active');
-        adminBtn.innerHTML = '<i class="fas fa-cog"></i> إدارة';
-        adminBtn.style.background = 'linear-gradient(to right, #5d4037, #795548)';
         
         // إخفاء قسم التاريخ إذا كان ظاهرًا
         document.getElementById('dateSection').classList.remove('active');
+        document.getElementById('managementControls').classList.remove('active');
         
         // إعادة تعيين كلمة المرور
         document.getElementById('passwordInput').value = '';
         document.getElementById('passwordError').style.display = 'none';
+        
+        // إخفاء قسم التحكم إذا كان ظاهرًا
+        if (!isAdminAuthenticated) {
+            document.getElementById('passwordSection').style.display = 'block';
+        }
     } else {
         // فتح لوحة الإدارة
         adminPanel.classList.add('active');
-        adminBtn.innerHTML = '<i class="fas fa-times"></i> إغلاق الإدارة';
-        adminBtn.style.background = 'linear-gradient(to right, #757575, #9e9e9e)';
         
-        // إذا تم التحقق مسبقًا، إظهار قسم التاريخ مباشرة
+        // إذا تم التحقق مسبقًا، إظهار أقسام الإدارة مباشرة
         if (isAdminAuthenticated) {
             document.getElementById('passwordSection').style.display = 'none';
+            document.getElementById('managementControls').classList.add('active');
             document.getElementById('dateSection').classList.add('active');
             initializeDateField();
         } else {
             document.getElementById('passwordSection').style.display = 'block';
+            document.getElementById('managementControls').classList.remove('active');
             document.getElementById('dateSection').classList.remove('active');
             document.getElementById('passwordInput').focus();
         }
@@ -1153,22 +1274,24 @@ function checkPassword() {
     const errorElement = document.getElementById('passwordError');
     const passwordSection = document.getElementById('passwordSection');
     const dateSection = document.getElementById('dateSection');
+    const managementControls = document.getElementById('managementControls');
     
     // كلمة المرور الصحيحة: Jassar1436
     if (password === 'Jassar1436') {
         // تم التحقق بنجاح
         isAdminAuthenticated = true;
-        document.getElementById('randomBtn').style.display = 'flex';
+        document.getElementById('randomBtnAdmin').style.display = 'flex';
         
-        // إخفاء قسم كلمة المرور وإظهار قسم التاريخ
+        // إخفاء قسم كلمة المرور وإظهار أقسام الإدارة
         passwordSection.style.display = 'none';
+        managementControls.classList.add('active');
         dateSection.classList.add('active');
         
         // تهيئة حقل التاريخ
         initializeDateField();
         
         // إظهار رسالة نجاح
-        showNotification('تم التحقق من الهوية بنجاح! خيارات الإدارة متاحة الآن.', 'present');
+        showNotification('تم التحقق من الهوية بنجاح! خيارات الإدارة المتاحة الآن.', 'present');
         
         // مسح حقل كلمة المرور
         document.getElementById('passwordInput').value = '';
@@ -1475,6 +1598,13 @@ async function exportPDF() {
     // إضافة التاريخ أعلى المحتوى
     captureArea.insertBefore(dateElement, captureArea.firstChild);
     
+    // إغلاق لوحة الإدارة قبل التصوير
+    const adminPanel = document.getElementById('adminPanel');
+    const wasAdminPanelOpen = adminPanel.classList.contains('active');
+    if (wasAdminPanelOpen) {
+        adminPanel.classList.remove('active');
+    }
+    
     // إزالة أي تأثيرات CSS قد تؤثر على التصدير
     const originalContainerWidth = captureArea.style.width;
     const originalContainerMinHeight = captureArea.style.minHeight;
@@ -1503,6 +1633,11 @@ async function exportPDF() {
     captureArea.style.padding = '';
     captureArea.style.boxShadow = '';
     captureArea.style.border = '';
+    
+    // إعادة فتح لوحة الإدارة إذا كانت مفتوحة
+    if (wasAdminPanelOpen) {
+        adminPanel.classList.add('active');
+    }
     
     const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
