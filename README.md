@@ -13,43 +13,42 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, #6ec9ff, #2a9d8f);
+    background: linear-gradient(135deg, #1a5276, #2a9d8f);
     color: #fff;
     text-align: center;
-    padding: 10px 0;
-    font-size: 20px;
-    font-weight: bold;
+    padding: 12px 0;
     box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
 }
 
-.header-info {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 5px 10px;
-    background: rgba(255,255,255,0.1);
-    margin: 5px 15px;
-    border-radius: 8px;
+.header-main {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-.header-info div {
-    margin: 5px;
-    font-size: 16px;
+.header-sub {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.header-sub div {
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
 }
 
 .current-date {
-    background: #264653;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-weight: bold;
+    background: rgba(38, 70, 83, 0.8) !important;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .current-date:hover {
-    background: #1d3557;
+    background: rgba(29, 53, 87, 0.9) !important;
     transform: scale(1.05);
 }
 
@@ -102,7 +101,7 @@ button {
     padding: 8px 15px;
     border: none;
     border-radius: 5px;
-    background: #6ec9ff;
+    background: #1a5276;
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -126,9 +125,9 @@ button:hover {
     display: none;
     margin-top: 15px;
     padding: 15px;
-    border: 1px solid #6ec9ff;
+    border: 1px solid #1a5276;
     border-radius: 10px;
-    background: #e0f2ff;
+    background: #f0f8ff;
 }
 
 .star-cell {
@@ -159,12 +158,11 @@ button:hover {
     color: white;
 }
 
-input[type="password"] {
+input[type="password"], input[type="text"], select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 200px;
-    margin-left: 10px;
+    font-family: "Tajawal", sans-serif;
 }
 
 .class-tabs {
@@ -214,13 +212,13 @@ input[type="password"] {
 }
 
 .date-display {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     color: #264653;
     padding: 5px 15px;
     background: #f0f8ff;
     border-radius: 5px;
-    border: 1px solid #6ec9ff;
+    border: 1px solid #1a5276;
 }
 
 .date-input {
@@ -240,8 +238,39 @@ input[type="password"] {
 
 .admin-section h4 {
     margin-top: 0;
-    color: #264653;
+    color: #1a5276;
     text-align: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+.admin-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.admin-label {
+    font-weight: bold;
+    color: #264653;
+    min-width: 150px;
+}
+
+.admin-input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.semester-info {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #e8f5e9;
+    border-radius: 4px;
+    color: #2a9d8f;
+    font-weight: bold;
+    margin-left: 10px;
 }
 
 @media print {
@@ -253,14 +282,14 @@ input[type="password"] {
         font-size: 10px;
     }
     
-    .header-info {
+    .header-sub {
         background: white;
         color: black;
         border: 1px solid #ccc;
     }
     
     .current-date {
-        background: white;
+        background: white !important;
         color: black;
         border: 1px solid #ccc;
     }
@@ -270,13 +299,12 @@ input[type="password"] {
 <body>
 
 <header>
-    <div>سجل متابعة الطلاب للمعلم / فهد الخالدي - المادة / اللغة الإنجليزية</div>
-    <div class="header-info">
+    <div class="header-main">سجل متابعة الطلاب للمعلم / فهد الخالدي - المادة / اللغة الإنجليزية</div>
+    <div class="header-sub">
         <div>المدرسة: ثانوية الملك فهد</div>
         <div class="current-date" id="currentDateDisplay" onclick="showDateSelector()">
             التاريخ: <span id="dateText">تحميل...</span>
         </div>
-        <div>الفصل الدراسي: الثاني ١٤٤٦هـ</div>
     </div>
 </header>
 
@@ -305,12 +333,36 @@ input[type="password"] {
     <div class="student-count" id="studentCount">إجمالي الطلاب: 0</div>
     
     <div style="text-align: center; margin-top: 20px;">
-        <input type="password" id="adminPass" placeholder="ادخل كلمة المرور للإدارة">
+        <input type="password" id="adminPass" placeholder="ادخل كلمة المرور للإدارة" style="width: 200px;">
         <button onclick="checkAdmin()">🔓 فتح الإدارة</button>
     </div>
 
     <div class="admin-panel" id="adminPanel">
-        <h3 style="text-align:center; margin-top:0;">لوحة الإدارة - الخصائص الإدارية</h3>
+        <h3 style="text-align:center; margin-top:0; color: #1a5276;">لوحة الإدارة - الخصائص الإدارية</h3>
+        
+        <div class="admin-section">
+            <h4>🎓 إعدادات الفصل الدراسي</h4>
+            <div class="admin-row">
+                <div class="admin-label">الفصل الدراسي:</div>
+                <div class="admin-input">
+                    <select id="semesterSelect" onchange="updateSemester()" style="width: 100%;">
+                        <option value="1">الفصل الدراسي الأول</option>
+                        <option value="2" selected>الفصل الدراسي الثاني</option>
+                        <option value="3">الفصل الدراسي الصيفي</option>
+                    </select>
+                </div>
+            </div>
+            <div class="admin-row">
+                <div class="admin-label">السنة الدراسية:</div>
+                <div class="admin-input">
+                    <input type="text" id="academicYear" value="١٤٤٦هـ" style="width: 100%;">
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <button onclick="saveSemesterSettings()">💾 حفظ إعدادات الفصل</button>
+                <span class="semester-info" id="currentSemesterInfo">الفصل الثاني ١٤٤٦هـ</span>
+            </div>
+        </div>
         
         <div class="admin-section">
             <h4>🕐 التحكم في التاريخ</h4>
@@ -466,7 +518,13 @@ let currentClass = 'all';
 
 // إدارة التاريخ
 let currentDate = new Date();
-let selectedDate = new Date(); // التاريخ المختار للعرض/التعديل
+let selectedDate = new Date();
+
+// إعدادات الفصل الدراسي
+let semesterSettings = {
+    semester: "2",
+    academicYear: "١٤٤٦هـ"
+};
 
 // تهيئة الصفحة
 function initPage() {
@@ -474,6 +532,15 @@ function initPage() {
     const savedDate = localStorage.getItem('teacherTracker_selectedDate');
     if (savedDate) {
         selectedDate = new Date(savedDate);
+    }
+    
+    // محاولة تحميل إعدادات الفصل الدراسي
+    const savedSemester = localStorage.getItem('teacherTracker_semesterSettings');
+    if (savedSemester) {
+        semesterSettings = JSON.parse(savedSemester);
+        document.getElementById('semesterSelect').value = semesterSettings.semester;
+        document.getElementById('academicYear').value = semesterSettings.academicYear;
+        updateSemesterInfo();
     }
     
     // محاولة تحميل بيانات الحضور المحفوظة لهذا التاريخ
@@ -510,10 +577,37 @@ function updateDateDisplay() {
     const hijriDate = selectedDate.toLocaleDateString('ar-SA-u-ca-islamic', hijriOptions);
     
     document.getElementById('dateText').innerHTML = 
-        `${gregorianDate}<br><span style="font-size:14px; color:#e0f7fa">${hijriDate}</span>`;
+        `${gregorianDate}<br><span style="font-size:12px; color:#e0f7fa">${hijriDate}</span>`;
     
     document.getElementById('adminDateDisplay').innerHTML = 
         `${selectedDate.toLocaleDateString('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+}
+
+// تحديث معلومات الفصل الدراسي المعروضة
+function updateSemesterInfo() {
+    const semesterNames = {
+        "1": "الفصل الدراسي الأول",
+        "2": "الفصل الدراسي الثاني", 
+        "3": "الفصل الدراسي الصيفي"
+    };
+    
+    const semesterName = semesterNames[semesterSettings.semester] || "الفصل الدراسي";
+    document.getElementById('currentSemesterInfo').textContent = 
+        `${semesterName} ${semesterSettings.academicYear}`;
+}
+
+// تحديث إعدادات الفصل الدراسي
+function updateSemester() {
+    semesterSettings.semester = document.getElementById('semesterSelect').value;
+    semesterSettings.academicYear = document.getElementById('academicYear').value;
+    updateSemesterInfo();
+}
+
+// حفظ إعدادات الفصل الدراسي
+function saveSemesterSettings() {
+    updateSemester();
+    localStorage.setItem('teacherTracker_semesterSettings', JSON.stringify(semesterSettings));
+    alert(`تم حفظ إعدادات الفصل الدراسي: ${document.getElementById('currentSemesterInfo').textContent}`);
 }
 
 // عرض منتقي التاريخ
@@ -648,7 +742,6 @@ function fillClassTable(className) {
 function loadAttendanceData() {
     // هذه الدالة ستقوم بتحميل بيانات الحضور المحفوظة للتاريخ المحدد
     // في هذه النسخة المبسطة، سنقوم فقط بتهيئة البيانات الفارغة
-    // في تطبيق حقيقي، ستقوم باسترجاع البيانات من قاعدة بيانات أو localStorage
     console.log(`تحميل بيانات الحضور للتاريخ: ${selectedDate.toLocaleDateString()}`);
 }
 
@@ -860,6 +953,7 @@ function showStatistics() {
         الطلاب المتميزون: ${starCount} طالب
         نسبة الحضور: ${((presentCount / (presentCount + absentCount)) * 100).toFixed(1)}%
         التاريخ: ${selectedDate.toLocaleDateString('ar-SA')}
+        ${document.getElementById('currentSemesterInfo').textContent}
     `;
     
     alert(statsMessage);
@@ -875,6 +969,7 @@ function backupData() {
     const backup = {
         studentsData: studentsData,
         selectedDate: selectedDate.toISOString(),
+        semesterSettings: semesterSettings,
         backupDate: new Date().toISOString()
     };
     
@@ -910,7 +1005,8 @@ function loadBackup() {
 // تصدير إلى Excel
 function exportToExcel() {
     let tablesHTML = `<h2>سجل متابعة الطلاب - المعلم: فهد الخالدي</h2>`;
-    tablesHTML += `<h3>المادة: اللغة الإنجليزية - التاريخ: ${selectedDate.toLocaleDateString('ar-SA')}</h3>`;
+    tablesHTML += `<h3>المادة: اللغة الإنجليزية - ${document.getElementById('currentSemesterInfo').textContent}</h3>`;
+    tablesHTML += `<h3>التاريخ: ${selectedDate.toLocaleDateString('ar-SA')}</h3>`;
     
     for (const className in studentsData) {
         tablesHTML += `<h3>الصف ${className}</h3>`;
