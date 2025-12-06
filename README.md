@@ -1,4 +1,5 @@
 
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -183,17 +184,38 @@ function moveStudent() {
     alert("ميزة النقل من صف لآخر يمكن تخصيصها حسب الحاجة.");
 }
 
-// تصدير Excel
+// تصدير Excel بتنسيق عصري و RTL
 function exportToExcel() {
-    let table = document.getElementById("studentTable").outerHTML;
-    let uri = 'data:application/vnd.ms-excel;base64,';
-    let template = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
-    <head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Sheet1</x:Name>
-    <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
-    </head><body>${table}</body></html>`;
-    let link = document.createElement("a");
-    link.href = uri + btoa(unescape(encodeURIComponent(template)));
-    link.download = "تقرير_الطلاب.xls";
+    const table = document.getElementById("studentTable");
+    let tableHTML = `<table border="1" style="border-collapse:collapse; width:100%; font-family:Tajawal; text-align:center; direction:rtl;">
+        <thead style="background-color:#6ec9ff; color:#fff;">${table.tHead.innerHTML}</thead>
+        <tbody>${table.tBodies[0].innerHTML}</tbody>
+    </table>`;
+    
+    let template = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office" 
+          xmlns:x="urn:schemas-microsoft-com:office:excel" 
+          xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+        <!--[if gte mso 9]>
+        <xml>
+            <x:ExcelWorkbook>
+                <x:ExcelWorksheets>
+                    <x:ExcelWorksheet>
+                        <x:Name>تقرير الطلاب</x:Name>
+                        <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
+                    </x:ExcelWorksheet>
+                </x:ExcelWorksheets>
+            </x:ExcelWorkbook>
+        </xml>
+        <![endif]-->
+    </head>
+    <body>${tableHTML}</body>
+    </html>`;
+
+    const link = document.createElement("a");
+    link.href = 'data:application/vnd.ms-excel;base64,' + btoa(unescape(encodeURIComponent(template)));
+    link.download = 'تقرير_الطلاب.xls';
     link.click();
 }
 </script>
