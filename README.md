@@ -1,8 +1,9 @@
 
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=yes" />
+<meta name="viewport" content="width=device-width, initial-scale=0.6, maximum-scale=1, user-scalable=yes" />
 <title>سجل التقويم الشامل للطلاب</title>
 
 <!-- خطوط عربية -->
@@ -22,9 +23,6 @@
         --hover-present: #1b5e20;
         --hover-absent: #b71c1c;
         --hover-neutral: #424242;
-        --category-1: #5d4037;
-        --category-2: #0277bd;
-        --category-3: #6a1b9a;
         --light-bg: #f8f9fa;
         --border-color: #dee2e6;
     }
@@ -39,22 +37,22 @@
         width: 100%;
         height: 100%;
         overflow-x: hidden;
-        font-size: 18px; /* تكبير الخط العام بنسبة 30% تقريباً */
+        font-size: 10px; /* تصغير الخط العام بنسبة 50% */
     }
     
     body {
         font-family: 'Tajawal', sans-serif;
         background: linear-gradient(135deg, #f6f8fc 0%, #e9f2ff 100%);
         margin: 0;
-        padding: 8px;
+        padding: 3px;
         direction: rtl;
         min-height: 100vh;
         overflow-x: hidden;
         -webkit-text-size-adjust: 100%;
         -webkit-tap-highlight-color: transparent;
-        transform: scale(1.15); /* تكبير الصفحة 30% فعلياً */
+        transform: scale(0.85); /* تصغير الصفحة 50% فعلياً */
         transform-origin: top center;
-        width: 87%; /* تعويض للـ scale 1.15 (100/1.15 ≈ 87) */
+        width: 100%;
         margin: 0 auto;
     }
     
@@ -62,7 +60,7 @@
         width: 100%;
         margin: 0 auto;
         background: white;
-        padding: 12px;
+        padding: 6px;
         border-radius: 0;
         box-shadow: none;
         border: none;
@@ -72,11 +70,11 @@
     /* تحسينات للشاشات الصغيرة جداً */
     @media (max-width: 360px) {
         .container {
-            padding: 8px;
+            padding: 4px;
         }
         
         body {
-            padding: 4px;
+            padding: 2px;
         }
     }
     
@@ -84,14 +82,14 @@
         margin-top: 0;
         text-align: center;
         color: var(--primary-color);
-        font-size: 1.4rem; /* تكبير بنسبة 30% */
-        padding-bottom: 10px;
+        font-size: 1.1rem; /* تصغير بنسبة 50% */
+        padding-bottom: 6px;
         border-bottom: 1px solid #f0f0f0;
-        margin-bottom: 10px;
+        margin-bottom: 6px;
         position: relative;
         word-break: break-word;
         line-height: 1.2;
-        padding-top: 5px;
+        padding-top: 3px;
     }
     
     h2:after {
@@ -100,58 +98,21 @@
         bottom: -1px;
         right: 50%;
         transform: translateX(50%);
-        width: 80px;
-        height: 3px;
+        width: 50px;
+        height: 2px;
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         border-radius: 2px;
     }
     
-    .summary-box {
-        background: linear-gradient(to right, rgba(44, 90, 160, 0.1), rgba(74, 138, 244, 0.1));
-        border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 12px;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        border: 1px solid rgba(44, 90, 160, 0.2);
-    }
-    
-    .summary-item {
-        text-align: center;
-        padding: 8px 5px;
-        border-radius: 6px;
-        background: white;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-    }
-    
-    .summary-count {
-        font-size: 1.6rem; /* تكبير بنسبة 30% */
-        font-weight: 700;
-        margin-bottom: 3px;
-    }
-    
-    .present-count {
-        color: var(--present-color);
-    }
-    
-    .absent-count {
-        color: var(--absent-color);
-    }
-    
-    .summary-label {
-        font-size: 0.9rem; /* تكبير بنسبة 30% */
-        color: #555;
-        line-height: 1.1;
-    }
+    /* إزالة مصفوفة التقييم (تم حذفها بالكامل) */
     
     /* تحسين الجدول للجوال - بدون هيدر */
     .table-wrapper {
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin-top: 12px;
-        border-radius: 8px;
+        margin-top: 8px;
+        border-radius: 5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         border: 1px solid #eee;
         margin-left: -1px;
@@ -163,12 +124,12 @@
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
-        min-width: 600px;
-        font-size: 0.9rem; /* تكبير بنسبة 30% */
+        min-width: 400px; /* تصغير الجدول */
+        font-size: 0.65rem; /* تصغير بنسبة 50% */
     }
     
     th, td {
-        padding: 8px 4px;
+        padding: 4px 2px;
         text-align: center;
         border: 1px solid var(--border-color);
         line-height: 1.1;
@@ -179,16 +140,16 @@
         background: linear-gradient(to right, #2c5aa0, #3a6bc5);
         color: white;
         font-weight: 700;
-        font-size: 0.95rem; /* تكبير بنسبة 30% */
+        font-size: 0.7rem; /* تصغير بنسبة 50% */
         white-space: nowrap;
     }
     
     .student-name {
-        font-size: 1rem; /* تكبير بنسبة 30% */
+        font-size: 0.75rem; /* تصغير بنسبة 50% */
         font-weight: 600;
         text-align: right;
-        padding-right: 6px;
-        min-width: 90px;
+        padding-right: 3px;
+        min-width: 60px;
         word-break: break-word;
         white-space: normal;
     }
@@ -205,37 +166,37 @@
     /* تحسين خلايا التقييم للجوال */
     .evaluation-cell {
         text-align: center;
-        padding: 4px 2px;
-        min-width: 42px;
+        padding: 2px 1px;
+        min-width: 30px;
     }
     
     /* خلايا خاصة للعناوين المتعددة الأسطر */
     .multiline-cell {
-        min-width: 35px !important;
-        max-width: 45px !important;
-        line-height: 1.2 !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        padding: 2px 1px !important;
-    }
-    
-    .multiline-header {
-        font-size: 0.8rem !important;
+        min-width: 25px !important;
+        max-width: 35px !important;
         line-height: 1.1 !important;
         white-space: normal !important;
         word-break: break-word !important;
-        padding: 4px 1px !important;
+        padding: 1px !important;
+    }
+    
+    .multiline-header {
+        font-size: 0.6rem !important;
+        line-height: 1 !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        padding: 3px 1px !important;
     }
     
     .status-icon {
-        font-size: 1.3rem; /* تكبير بنسبة 30% */
+        font-size: 0.9rem; /* تصغير بنسبة 50% */
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-block;
-        padding: 4px;
+        padding: 2px;
         border-radius: 50%;
-        width: 38px;
-        height: 38px;
+        width: 26px;
+        height: 26px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -286,10 +247,10 @@
     
     .status-label {
         display: block;
-        margin-top: 3px;
+        margin-top: 2px;
         font-weight: 700;
-        font-size: 0.8rem; /* تكبير بنسبة 30% */
-        min-height: 14px;
+        font-size: 0.55rem; /* تصغير بنسبة 50% */
+        min-height: 10px;
         line-height: 1;
     }
     
@@ -309,15 +270,15 @@
     .controls-container {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin: 16px 0;
+        gap: 8px;
+        margin: 12px 0;
         width: 100%;
     }
     
     .category-controls {
         background: white;
-        border-radius: 8px;
-        padding: 10px;
+        border-radius: 5px;
+        padding: 6px;
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         flex: 1;
         border: 1px solid rgba(44, 90, 160, 0.1);
@@ -326,43 +287,43 @@
     
     .control-title {
         color: var(--primary-color);
-        font-size: 1.1rem; /* تكبير بنسبة 30% */
-        margin-bottom: 8px;
+        font-size: 0.8rem; /* تصغير بنسبة 50% */
+        margin-bottom: 5px;
         text-align: center;
-        padding-bottom: 5px;
+        padding-bottom: 3px;
         border-bottom: 1px solid #f0f0f0;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 3px;
         flex-wrap: wrap;
     }
     
     .category-buttons {
         display: flex;
         flex-wrap: wrap;
-        gap: 5px;
+        gap: 3px;
         justify-content: center;
     }
     
     .status-btn {
-        padding: 7px 10px;
+        padding: 4px 6px;
         border: none;
-        border-radius: 5px;
+        border-radius: 3px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.85rem; /* تكبير بنسبة 30% */
+        font-size: 0.6rem; /* تصغير بنسبة 50% */
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: 2px;
         min-width: 0;
         flex: 1;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
         touch-action: manipulation;
-        min-height: 40px;
+        min-height: 28px;
     }
     
     .status-btn:hover {
@@ -423,20 +384,20 @@
     
     .export-container {
         text-align: center;
-        margin-top: 16px;
-        padding-top: 10px;
+        margin-top: 10px;
+        padding-top: 6px;
         border-top: 1px dashed #ddd;
         width: 100%;
-        padding-left: 3px;
-        padding-right: 3px;
+        padding-left: 2px;
+        padding-right: 2px;
     }
     
     .export {
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         color: white;
-        padding: 12px 16px;
-        font-size: 1rem; /* تكبير بنسبة 30% */
-        border-radius: 6px;
+        padding: 8px 10px;
+        font-size: 0.75rem; /* تصغير بنسبة 50% */
+        border-radius: 4px;
         width: 100%;
         box-shadow: 0 3px 8px rgba(42, 91, 173, 0.2);
         border: none;
@@ -447,9 +408,9 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 4px;
         touch-action: manipulation;
-        min-height: 50px;
+        min-height: 36px;
     }
     
     .export:hover {
@@ -460,12 +421,12 @@
     
     .footer-note {
         text-align: center;
-        margin-top: 12px;
+        margin-top: 8px;
         color: #666;
-        font-size: 0.85rem; /* تكبير بنسبة 30% */
-        padding: 8px;
+        font-size: 0.6rem; /* تصغير بنسبة 50% */
+        padding: 5px;
         background-color: #f8f9fa;
-        border-radius: 6px;
+        border-radius: 4px;
         border-right: 2px solid var(--primary-color);
         line-height: 1.2;
         width: 100%;
@@ -477,17 +438,17 @@
         overflow: hidden;
         transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 8px;
+        border-radius: 5px;
         margin: 0;
-        padding: 0 8px;
+        padding: 0 5px;
         border: 1px solid transparent;
         width: 100%;
     }
     
     .admin-panel.active {
-        max-height: 600px;
-        padding: 12px 8px;
-        margin-top: 12px;
+        max-height: 400px;
+        padding: 8px 5px;
+        margin-top: 8px;
         border-color: rgba(44, 90, 160, 0.2);
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     }
@@ -506,41 +467,41 @@
     
     /* تحسين قسم كلمة المرور للجوال */
     .password-section {
-        margin-bottom: 12px;
-        padding-bottom: 12px;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
         border-bottom: 1px dashed #ccc;
     }
     
     .admin-title {
         color: #2c5aa0;
-        font-size: 1.1rem; /* تكبير بنسبة 30% */
-        margin-bottom: 10px;
+        font-size: 0.8rem; /* تصغير بنسبة 50% */
+        margin-bottom: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 3px;
         flex-wrap: wrap;
     }
     
     .admin-description {
         color: #666;
-        margin-bottom: 10px;
-        font-size: 0.9rem; /* تكبير بنسبة 30% */
+        margin-bottom: 6px;
+        font-size: 0.65rem; /* تصغير بنسبة 50% */
     }
     
     .password-container {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        margin-bottom: 10px;
+        gap: 5px;
+        margin-bottom: 6px;
         width: 100%;
     }
     
     .password-input {
-        padding: 8px;
+        padding: 5px;
         border: 2px solid #ddd;
-        border-radius: 5px;
-        font-size: 0.95rem; /* تكبير بنسبة 30% */
+        border-radius: 3px;
+        font-size: 0.7rem; /* تصغير بنسبة 50% */
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
@@ -554,20 +515,20 @@
     
     .password-buttons {
         display: flex;
-        gap: 6px;
+        gap: 4px;
         justify-content: center;
         width: 100%;
     }
     
     .password-submit, .password-cancel {
-        padding: 7px 12px;
+        padding: 5px 8px;
         border: none;
-        border-radius: 5px;
+        border-radius: 3px;
         cursor: pointer;
         font-weight: 700;
-        font-size: 0.85rem; /* تكبير بنسبة 30% */
+        font-size: 0.65rem; /* تصغير بنسبة 50% */
         transition: all 0.2s ease;
-        min-width: 80px;
+        min-width: 60px;
         flex: 1;
     }
     
@@ -591,8 +552,8 @@
     
     .password-error {
         color: #c62828;
-        margin-top: 8px;
-        font-size: 0.8rem; /* تكبير بنسبة 30% */
+        margin-top: 5px;
+        font-size: 0.6rem; /* تصغير بنسبة 50% */
         display: none;
     }
     
@@ -608,27 +569,27 @@
     
     .date-title {
         color: #2c5aa0;
-        font-size: 1.1rem; /* تكبير بنسبة 30% */
-        margin-bottom: 8px;
+        font-size: 0.8rem; /* تصغير بنسبة 50% */
+        margin-bottom: 5px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 3px;
     }
     
     .date-controls {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        margin-bottom: 10px;
+        gap: 5px;
+        margin-bottom: 6px;
         width: 100%;
     }
     
     .date-input {
-        padding: 8px;
+        padding: 5px;
         border: 2px solid #ddd;
-        border-radius: 5px;
-        font-size: 0.95rem; /* تكبير بنسبة 30% */
+        border-radius: 3px;
+        font-size: 0.7rem; /* تصغير بنسبة 50% */
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
@@ -641,18 +602,18 @@
     }
     
     .date-btn {
-        padding: 8px;
+        padding: 5px;
         border: none;
-        border-radius: 5px;
+        border-radius: 3px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.85rem; /* تكبير بنسبة 30% */
+        font-size: 0.65rem; /* تصغير بنسبة 50% */
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 3px;
         background: linear-gradient(to right, var(--primary-color), #4a8af4);
         color: white;
         width: 100%;
@@ -665,64 +626,14 @@
     
     .selected-date-display {
         background: white;
-        padding: 8px 10px;
-        border-radius: 5px;
+        padding: 5px 6px;
+        border-radius: 3px;
         border: 2px solid var(--present-color);
-        margin-top: 10px;
+        margin-top: 6px;
         display: inline-block;
         font-weight: 700;
         color: #333;
-        font-size: 0.85rem; /* تكبير بنسبة 30% */
-    }
-    
-    /* تحسين مصفوفة التقييم للجوال */
-    .evaluation-matrix {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        margin: 12px 0;
-    }
-    
-    .matrix-item {
-        background: white;
-        border-radius: 8px;
-        padding: 10px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-        text-align: center;
-        border-top: 2px solid;
-    }
-    
-    .matrix-1 {
-        border-color: var(--category-1);
-    }
-    
-    .matrix-2 {
-        border-color: var(--category-2);
-    }
-    
-    .matrix-3 {
-        border-color: var(--category-3);
-        grid-column: span 2;
-    }
-    
-    .matrix-title {
-        font-size: 1rem; /* تكبير بنسبة 30% */
-        font-weight: 700;
-        margin-bottom: 6px;
-        color: #333;
-    }
-    
-    .matrix-count {
-        font-size: 1.6rem; /* تكبير بنسبة 30% */
-        font-weight: 800;
-        margin: 5px 0;
-    }
-    
-    .matrix-percent {
-        font-size: 1.2rem; /* تكبير بنسبة 30% */
-        font-weight: 700;
-        color: #666;
-        margin-top: 5px;
+        font-size: 0.65rem; /* تصغير بنسبة 50% */
     }
     
     /* أنيميشن */
@@ -762,24 +673,11 @@
     /* تحسينات إضافية للأجهزة الكبيرة */
     @media (min-width: 480px) {
         .container {
-            padding: 12px;
+            padding: 8px;
         }
         
         h2 {
-            font-size: 1.5rem;
-        }
-        
-        .summary-box {
-            grid-template-columns: repeat(4, 1fr);
-            padding: 12px;
-        }
-        
-        .evaluation-matrix {
-            grid-template-columns: repeat(3, 1fr);
-        }
-        
-        .matrix-3 {
-            grid-column: span 1;
+            font-size: 1.2rem;
         }
         
         .controls-container {
@@ -788,7 +686,7 @@
         }
         
         .category-controls {
-            min-width: 200px;
+            min-width: 140px;
             flex: 1;
         }
         
@@ -797,7 +695,7 @@
         }
         
         .password-input {
-            min-width: 150px;
+            min-width: 100px;
         }
         
         .password-buttons {
@@ -810,143 +708,132 @@
         
         .date-btn {
             width: auto;
-            min-width: 120px;
+            min-width: 80px;
         }
         
         .export {
-            font-size: 1.1rem;
-            padding: 14px 18px;
+            font-size: 0.8rem;
+            padding: 9px 12px;
         }
         
         .status-icon {
-            width: 42px;
-            height: 42px;
-            font-size: 1.4rem;
+            width: 28px;
+            height: 28px;
+            font-size: 1rem;
         }
         
         .table-wrapper {
-            padding: 0 4px;
-            margin-left: -4px;
-            margin-right: -4px;
+            padding: 0 3px;
+            margin-left: -3px;
+            margin-right: -3px;
         }
         
         table {
-            min-width: 650px;
+            min-width: 450px;
         }
     }
     
     @media (min-width: 768px) {
         .container {
-            padding: 16px;
+            padding: 10px;
             max-width: 95%;
-            border-radius: 10px;
+            border-radius: 6px;
             box-shadow: 0 3px 9px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--border-color);
         }
         
         h2 {
-            font-size: 1.7rem;
+            font-size: 1.3rem;
         }
         
         .status-icon {
-            width: 46px;
-            height: 46px;
-            font-size: 1.5rem;
-        }
-        
-        .student-name {
+            width: 30px;
+            height: 30px;
             font-size: 1.1rem;
         }
         
+        .student-name {
+            font-size: 0.8rem;
+        }
+        
         .controls-container {
-            gap: 12px;
+            gap: 8px;
         }
         
         .category-controls {
-            padding: 12px;
+            padding: 8px;
         }
         
         .control-title {
-            font-size: 1.2rem;
+            font-size: 0.85rem;
         }
         
         .status-btn {
-            min-width: 100px;
-            padding: 8px 12px;
-            font-size: 0.9rem;
+            min-width: 70px;
+            padding: 5px 8px;
+            font-size: 0.65rem;
         }
         
         table {
-            font-size: 1rem;
-            min-width: 700px;
+            font-size: 0.7rem;
+            min-width: 500px;
         }
         
         th, td {
-            padding: 10px 6px;
+            padding: 5px 3px;
         }
     }
     
     @media (min-width: 1024px) {
         body {
-            width: 85%;
-            transform: scale(1.2); /* تكبير إضافي للشاشات الكبيرة */
+            transform: scale(0.9); /* تكبير طفيف للشاشات الكبيرة */
         }
         
         .container {
-            max-width: 1200px;
-            padding: 20px;
+            max-width: 1000px;
+            padding: 12px;
         }
         
         table {
-            min-width: 750px;
-            font-size: 1.1rem;
+            min-width: 550px;
+            font-size: 0.75rem;
         }
         
         th, td {
-            padding: 12px 8px;
+            padding: 6px 4px;
         }
         
         .evaluation-cell {
-            min-width: 55px;
+            min-width: 35px;
         }
         
         .status-icon {
-            width: 50px;
-            height: 50px;
-            font-size: 1.7rem;
+            width: 32px;
+            height: 32px;
+            font-size: 1.2rem;
         }
         
         .status-label {
-            font-size: 0.9rem;
+            font-size: 0.6rem;
         }
     }
     
     /* تحسينات للشاشات الطويلة */
     @media (max-height: 700px) {
-        .summary-box {
-            padding: 8px;
-            gap: 6px;
-        }
-        
-        .evaluation-matrix {
-            margin: 10px 0;
-            gap: 6px;
-        }
-        
         .controls-container {
-            margin: 12px 0;
-            gap: 8px;
+            margin: 8px 0;
+            gap: 5px;
         }
         
         .export-container {
-            margin-top: 12px;
-            padding-top: 8px;
+            margin-top: 8px;
+            padding-top: 5px;
         }
     }
     
     /* منع التكبير التلقائي على iOS */
     input, textarea, select {
-        font-size: 16px !important;
+        font-size: 12px !important;
     }
     
     /* تحسين التمرير على iOS */
@@ -960,47 +847,8 @@
 <div class="container" id="captureArea">
     <h2><i class="fas fa-chart-bar" style="margin-left: 4px;"></i> سجل التقويم الشامل للطلاب</h2>
     
-    <div class="summary-box">
-        <div class="summary-item">
-            <div class="summary-count present-count" id="present-count">8</div>
-            <div class="summary-label">طالب حاضر</div>
-        </div>
-        <div class="summary-item">
-            <div class="summary-count absent-count" id="absent-count">0</div>
-            <div class="summary-label">طالب غائب</div>
-        </div>
-        <div class="summary-item">
-            <div class="summary-count" style="color: #2c5aa0;" id="total-count">8</div>
-            <div class="summary-label">إجمالي الطلاب</div>
-        </div>
-        <div class="summary-item">
-            <div class="summary-count" style="color: #f57c00;" id="attendance-rate">100%</div>
-            <div class="summary-label">نسبة الحضور</div>
-        </div>
-    </div>
-
-    <!-- مصفوفة التقييم -->
-    <div class="evaluation-matrix">
-        <div class="matrix-item matrix-1">
-            <div class="matrix-title">المهام الأدائية</div>
-            <div class="matrix-count" id="category1-count">100%</div>
-            <div class="matrix-percent" id="category1-percent">(16/16)</div>
-            <div style="font-size: 0.75rem; color: #666;">Assignments & Projects</div>
-        </div>
-        <div class="matrix-item matrix-2">
-            <div class="matrix-title">المشاركة والتفاعل</div>
-            <div class="matrix-count" id="category2-count">100%</div>
-            <div class="matrix-percent" id="category2-percent">(16/16)</div>
-            <div style="font-size: 0.75rem; color: #666;">Participation & Interaction</div>
-        </div>
-        <div class="matrix-item matrix-3">
-            <div class="matrix-title">الحضور</div>
-            <div class="matrix-count" id="category3-count">100%</div>
-            <div class="matrix-percent" id="category3-percent">(8/8)</div>
-            <div style="font-size: 0.75rem; color: #666;">سجل الحضور اليومي</div>
-        </div>
-    </div>
-
+    <!-- تم إزالة مصفوفة التقييم بالكامل -->
+    
     <!-- الجدول المعدل - بدون خانة التقييم -->
     <div class="table-wrapper">
         <table>
@@ -1010,7 +858,6 @@
                     <th width="25%">اسم الطالب</th>
                     <th width="12%">الواجبات</th>
                     <th width="12%" class="multiline-header">المشاريع</th>
-                    <!-- تم إزالة خانة التقييم -->
                     <th width="12%" class="multiline-header">التطبيقات<br>والأنشطة</th>
                     <th width="12%">المشاركة</th>
                     <th width="10%">الحضور</th>
@@ -1401,9 +1248,6 @@ function toggleEvaluation(studentId, evaluationType) {
     // تحديث الواجهة
     updateStudentDisplay(studentId);
     
-    // تحديث الإحصائيات
-    updateStatistics();
-    
     // إشعار بصري
     const studentName = studentNames[studentId-1];
     const evaluationNames = {
@@ -1435,9 +1279,6 @@ function toggleAttendance(studentId) {
     
     // تحديث الواجهة
     updateStudentDisplay(studentId);
-    
-    // تحديث الإحصائيات
-    updateStatistics();
     
     // إشعار بصري
     const studentName = studentNames[studentId-1];
@@ -1520,7 +1361,6 @@ function setAllCategory(category, status) {
     
     // تحديث الإحصائيات بعد التحديث
     setTimeout(() => {
-        updateStatistics();
         const categoryNames = {
             'performance': 'المهام الأدائية',
             'interaction': 'المشاركة والتفاعل'
@@ -1547,7 +1387,6 @@ function setAllAttendance(status) {
     
     // تحديث الإحصائيات
     setTimeout(() => {
-        updateStatistics();
         const statusNames = {
             'present': 'حاضرين',
             'absent': 'غائبين'
@@ -1583,95 +1422,6 @@ function toggleRandom() {
     }
     
     showNotification(`تم تبديل تقييمات ${changes} طلاب عشوائيًا`, 'present');
-}
-
-// تحديث الإحصائيات
-function updateStatistics() {
-    let presentCount = 0;
-    let absentCount = 0;
-    
-    // حساب عدد الحاضرين والغائبين
-    for (let i = 1; i <= totalStudents; i++) {
-        if (studentsData[i].attendance === 'present') {
-            presentCount++;
-        } else {
-            absentCount++;
-        }
-    }
-    
-    // تحديث أرقام الإحصائيات
-    document.getElementById('present-count').textContent = presentCount;
-    document.getElementById('absent-count').textContent = absentCount;
-    document.getElementById('total-count').textContent = totalStudents;
-    
-    // حساب نسبة الحضور
-    const attendanceRate = Math.round((presentCount / totalStudents) * 100);
-    document.getElementById('attendance-rate').textContent = `${attendanceRate}%`;
-    
-    // تحديث إحصائيات التصنيفات
-    updateCategoryStatistics();
-}
-
-// تحديث إحصائيات التصنيفات
-function updateCategoryStatistics() {
-    // Performance Tasks
-    let performancePresent = 0;
-    let performanceNeutral = 0;
-    let performanceAbsent = 0;
-    let performanceTotal = totalStudents * 2; // assignments + projects لكل طالب
-    
-    for (let i = 1; i <= totalStudents; i++) {
-        if (studentsData[i].assignments === 'present') performancePresent++;
-        else if (studentsData[i].assignments === 'neutral') performanceNeutral++;
-        else performanceAbsent++;
-        
-        if (studentsData[i].projects === 'present') performancePresent++;
-        else if (studentsData[i].projects === 'neutral') performanceNeutral++;
-        else performanceAbsent++;
-    }
-    
-    // حساب النسبة بناءً على النقاط (صح=2, محايد=1, خطأ=0)
-    const performanceScore = (performancePresent * 2) + performanceNeutral;
-    const maxScore = performanceTotal * 2;
-    const performanceRate = Math.round((performanceScore / maxScore) * 100);
-    
-    document.getElementById('category1-count').textContent = `${performanceRate}%`;
-    document.getElementById('category1-percent').textContent = `(${performancePresent + performanceNeutral + performanceAbsent}/${performanceTotal})`;
-    
-    // Participation & Interaction
-    let interactionPresent = 0;
-    let interactionNeutral = 0;
-    let interactionAbsent = 0;
-    let interactionTotal = totalStudents * 2; // classroomApps + participation لكل طالب
-    
-    for (let i = 1; i <= totalStudents; i++) {
-        if (studentsData[i].classroomApps === 'present') interactionPresent++;
-        else if (studentsData[i].classroomApps === 'neutral') interactionNeutral++;
-        else interactionAbsent++;
-        
-        if (studentsData[i].participation === 'present') interactionPresent++;
-        else if (studentsData[i].participation === 'neutral') interactionNeutral++;
-        else interactionAbsent++;
-    }
-    
-    // حساب النسبة بناءً على النقاط
-    const interactionScore = (interactionPresent * 2) + interactionNeutral;
-    const interactionMaxScore = interactionTotal * 2;
-    const interactionRate = Math.round((interactionScore / interactionMaxScore) * 100);
-    
-    document.getElementById('category2-count').textContent = `${interactionRate}%`;
-    document.getElementById('category2-percent').textContent = `(${interactionPresent + interactionNeutral + interactionAbsent}/${interactionTotal})`;
-    
-    // الحضور
-    let attendancePresent = 0;
-    
-    for (let i = 1; i <= totalStudents; i++) {
-        if (studentsData[i].attendance === 'present') attendancePresent++;
-    }
-    
-    const attendanceRate = Math.round((attendancePresent / totalStudents) * 100);
-    document.getElementById('category3-count').textContent = `${attendanceRate}%`;
-    document.getElementById('category3-percent').textContent = `(${attendancePresent}/${totalStudents})`;
 }
 
 // إظهار إشعار مؤقت
@@ -1775,7 +1525,7 @@ async function exportPDF() {
     
     // إعادة التكبير
     document.body.style.transform = originalTransform;
-    document.body.style.width = '87%';
+    document.body.style.width = '100%';
     
     const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
@@ -1810,7 +1560,6 @@ async function exportPDF() {
 document.addEventListener('DOMContentLoaded', function() {
     initializeStudentsData();
     createTable();
-    updateStatistics();
 });
 
 // إضافة خاصية لمنع التكبير على الهواتف
