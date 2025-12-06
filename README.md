@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1, user-scalable=yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=yes" />
 <title>سجل التقويم الشامل للطلاب</title>
 
 <!-- خطوط عربية -->
@@ -27,7 +27,6 @@
         --category-3: #6a1b9a;
         --light-bg: #f8f9fa;
         --border-color: #dee2e6;
-        --scale-factor: 0.65; /* عامل تصغير بنسبة 65% */
     }
     
     * {
@@ -40,116 +39,44 @@
         width: 100%;
         height: 100%;
         overflow-x: hidden;
-        font-size: 14px; /* تصغير الخط العام */
+        font-size: 18px; /* تكبير الخط العام بنسبة 30% تقريباً */
     }
     
     body {
         font-family: 'Tajawal', sans-serif;
         background: linear-gradient(135deg, #f6f8fc 0%, #e9f2ff 100%);
         margin: 0;
-        padding: 4px; /* تصغير الهوامش */
+        padding: 8px;
         direction: rtl;
         min-height: 100vh;
         overflow-x: hidden;
         -webkit-text-size-adjust: 100%;
         -webkit-tap-highlight-color: transparent;
-        zoom: 0.9; /* تصغير إضافي للجسم */
-        transform: scale(0.95); /* تصغير إضافي */
+        transform: scale(1.15); /* تكبير الصفحة 30% فعلياً */
         transform-origin: top center;
-        transition: transform 0.3s ease;
+        width: 87%; /* تعويض للـ scale 1.15 (100/1.15 ≈ 87) */
+        margin: 0 auto;
     }
     
     .container {
         width: 100%;
         margin: 0 auto;
         background: white;
-        padding: 6px; /* تصغير الحشو */
+        padding: 12px;
         border-radius: 0;
         box-shadow: none;
         border: none;
         overflow: hidden;
-        transform: scale(0.95); /* تصغير إضافي */
-        transform-origin: top center;
-        transition: transform 0.3s ease, width 0.3s ease;
-    }
-    
-    /* تكبير الصفحة 30% دون التأثير على الخط */
-    body.zoomed-30 .container {
-        transform: scale(1.3) !important;
-        transform-origin: top center !important;
-        margin: 0 auto !important;
-        width: 77% !important; /* 100% / 1.3 = 77% تقريبًا */
-        min-height: auto !important;
-        padding: 0 !important;
-    }
-    
-    body.zoomed-30 .table-wrapper {
-        max-width: 100% !important;
-        overflow-x: visible !important;
-    }
-    
-    body.zoomed-30 table {
-        min-width: 550px !important;
-        font-size: 0.7rem !important; /* الحفاظ على حجم الخط الأصلي */
-    }
-    
-    body.zoomed-30 .student-name {
-        font-size: 0.8rem !important; /* الحفاظ على حجم الخط الأصلي */
-    }
-    
-    body.zoomed-30 .status-icon {
-        font-size: 1rem !important; /* الحفاظ على حجم الخط الأصلي */
-    }
-    
-    body.zoomed-30 .status-label {
-        font-size: 0.65rem !important; /* الحفاظ على حجم الخط الأصلي */
-    }
-    
-    body.zoomed-30 h2 {
-        font-size: 1rem !important; /* الحفاظ على حجم الخط الأصلي */
-    }
-    
-    body.zoomed-30 .summary-count {
-        font-size: 1.2rem !important; /* الحفاظ على حجم الخط الأصلي */
-    }
-    
-    body.zoomed-30 .summary-label {
-        font-size: 0.7rem !important; /* الحفاظ على حجم الخط الأصلي */
-    }
-    
-    body.zoomed-30 .status-btn {
-        font-size: 0.7rem !important; /* الحفاظ على حجم الخط الأصلي */
-    }
-    
-    body.zoomed-30 .export {
-        font-size: 0.85rem !important; /* الحفاظ على حجم الخط الأصلي */
-    }
-    
-    /* استجابة للشاشات الصغيرة */
-    @media (max-width: 768px) {
-        body.zoomed-30 .container {
-            transform: scale(1.2) !important;
-            width: 83% !important; /* 100% / 1.2 = 83% تقريبًا */
-        }
-    }
-    
-    @media (max-width: 480px) {
-        body.zoomed-30 .container {
-            transform: scale(1.1) !important;
-            width: 91% !important; /* 100% / 1.1 = 91% تقريبًا */
-        }
     }
     
     /* تحسينات للشاشات الصغيرة جداً */
     @media (max-width: 360px) {
         .container {
-            padding: 4px;
+            padding: 8px;
         }
         
         body {
-            padding: 2px;
-            zoom: 0.85;
-            transform: scale(0.9);
+            padding: 4px;
         }
     }
     
@@ -157,14 +84,14 @@
         margin-top: 0;
         text-align: center;
         color: var(--primary-color);
-        font-size: 1rem; /* تصغير من 1.2rem */
-        padding-bottom: 8px; /* تصغير */
+        font-size: 1.4rem; /* تكبير بنسبة 30% */
+        padding-bottom: 10px;
         border-bottom: 1px solid #f0f0f0;
-        margin-bottom: 8px; /* تصغير */
+        margin-bottom: 10px;
         position: relative;
         word-break: break-word;
         line-height: 1.2;
-        padding-top: 3px;
+        padding-top: 5px;
     }
     
     h2:after {
@@ -173,35 +100,35 @@
         bottom: -1px;
         right: 50%;
         transform: translateX(50%);
-        width: 60px; /* تصغير */
-        height: 2px;
+        width: 80px;
+        height: 3px;
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         border-radius: 2px;
     }
     
     .summary-box {
         background: linear-gradient(to right, rgba(44, 90, 160, 0.1), rgba(74, 138, 244, 0.1));
-        border-radius: 6px; /* تصغير */
-        padding: 8px; /* تصغير */
-        margin-bottom: 8px; /* تصغير */
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 12px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 6px; /* تصغير */
+        gap: 8px;
         border: 1px solid rgba(44, 90, 160, 0.2);
     }
     
     .summary-item {
         text-align: center;
-        padding: 6px 3px; /* تصغير */
-        border-radius: 4px; /* تصغير */
+        padding: 8px 5px;
+        border-radius: 6px;
         background: white;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); /* تصغير الظل */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
     
     .summary-count {
-        font-size: 1.2rem; /* تصغير من 1.5rem */
+        font-size: 1.6rem; /* تكبير بنسبة 30% */
         font-weight: 700;
-        margin-bottom: 2px;
+        margin-bottom: 3px;
     }
     
     .present-count {
@@ -213,7 +140,7 @@
     }
     
     .summary-label {
-        font-size: 0.7rem; /* تصغير من 0.8rem */
+        font-size: 0.9rem; /* تكبير بنسبة 30% */
         color: #555;
         line-height: 1.1;
     }
@@ -223,9 +150,9 @@
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin-top: 8px; /* تصغير */
-        border-radius: 6px; /* تصغير */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* تصغير الظل */
+        margin-top: 12px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         border: 1px solid #eee;
         margin-left: -1px;
         margin-right: -1px;
@@ -236,12 +163,12 @@
         width: 100%;
         border-collapse: separate;
         border-spacing: 0;
-        min-width: 520px; /* تصغير من 600px */
-        font-size: 0.7rem; /* تصغير من 0.8rem */
+        min-width: 600px;
+        font-size: 0.9rem; /* تكبير بنسبة 30% */
     }
     
     th, td {
-        padding: 6px 3px; /* تصغير من 8px 4px */
+        padding: 8px 4px;
         text-align: center;
         border: 1px solid var(--border-color);
         line-height: 1.1;
@@ -252,16 +179,16 @@
         background: linear-gradient(to right, #2c5aa0, #3a6bc5);
         color: white;
         font-weight: 700;
-        font-size: 0.75rem; /* تصغير من 0.85rem */
+        font-size: 0.95rem; /* تكبير بنسبة 30% */
         white-space: nowrap;
     }
     
     .student-name {
-        font-size: 0.8rem; /* تصغير من 0.9rem */
+        font-size: 1rem; /* تكبير بنسبة 30% */
         font-weight: 600;
         text-align: right;
-        padding-right: 4px; /* تصغير */
-        min-width: 70px; /* تصغير من 90px */
+        padding-right: 6px;
+        min-width: 90px;
         word-break: break-word;
         white-space: normal;
     }
@@ -278,19 +205,37 @@
     /* تحسين خلايا التقييم للجوال */
     .evaluation-cell {
         text-align: center;
-        padding: 3px 1px; /* تصغير */
-        min-width: 42px; /* تصغير من 50px */
+        padding: 4px 2px;
+        min-width: 42px;
+    }
+    
+    /* خلايا خاصة للعناوين المتعددة الأسطر */
+    .multiline-cell {
+        min-width: 35px !important;
+        max-width: 45px !important;
+        line-height: 1.2 !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        padding: 2px 1px !important;
+    }
+    
+    .multiline-header {
+        font-size: 0.8rem !important;
+        line-height: 1.1 !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        padding: 4px 1px !important;
     }
     
     .status-icon {
-        font-size: 1rem; /* تصغير من 1.3rem */
+        font-size: 1.3rem; /* تكبير بنسبة 30% */
         cursor: pointer;
         transition: all 0.2s ease;
         display: inline-block;
-        padding: 3px; /* تصغير */
+        padding: 4px;
         border-radius: 50%;
-        width: 30px; /* تصغير من 38px */
-        height: 30px; /* تصغير من 38px */
+        width: 38px;
+        height: 38px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -300,14 +245,14 @@
     
     .status-icon:hover {
         transform: scale(1.06);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* تصغير الظل */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     
     /* الحالة الحاضرة - حاضر / صح / ممتاز */
     .present-icon {
         color: var(--present-color);
         background-color: rgba(46, 125, 50, 0.08);
-        border: 1.5px solid rgba(46, 125, 50, 0.2); /* تصغير */
+        border: 1.5px solid rgba(46, 125, 50, 0.2);
     }
     
     .present-icon:hover {
@@ -319,7 +264,7 @@
     .absent-icon {
         color: var(--absent-color);
         background-color: rgba(198, 40, 40, 0.08);
-        border: 1.5px solid rgba(198, 40, 40, 0.2); /* تصغير */
+        border: 1.5px solid rgba(198, 40, 40, 0.2);
     }
     
     .absent-icon:hover {
@@ -331,7 +276,7 @@
     .neutral-icon {
         color: var(--neutral-color);
         background-color: rgba(117, 117, 117, 0.08);
-        border: 1.5px solid rgba(117, 117, 117, 0.2); /* تصغير */
+        border: 1.5px solid rgba(117, 117, 117, 0.2);
     }
     
     .neutral-icon:hover {
@@ -341,10 +286,10 @@
     
     .status-label {
         display: block;
-        margin-top: 2px; /* تصغير */
+        margin-top: 3px;
         font-weight: 700;
-        font-size: 0.65rem; /* تصغير من 0.75rem */
-        min-height: 14px; /* تصغير */
+        font-size: 0.8rem; /* تكبير بنسبة 30% */
+        min-height: 14px;
         line-height: 1;
     }
     
@@ -364,16 +309,16 @@
     .controls-container {
         display: flex;
         flex-direction: column;
-        gap: 8px; /* تصغير من 10px */
-        margin: 12px 0; /* تصغير من 16px */
+        gap: 10px;
+        margin: 16px 0;
         width: 100%;
     }
     
     .category-controls {
         background: white;
-        border-radius: 6px; /* تصغير */
-        padding: 8px; /* تصغير من 10px */
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* تصغير الظل */
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         flex: 1;
         border: 1px solid rgba(44, 90, 160, 0.1);
         width: 100%;
@@ -381,53 +326,53 @@
     
     .control-title {
         color: var(--primary-color);
-        font-size: 0.9rem; /* تصغير من 1rem */
-        margin-bottom: 6px; /* تصغير */
+        font-size: 1.1rem; /* تكبير بنسبة 30% */
+        margin-bottom: 8px;
         text-align: center;
-        padding-bottom: 4px; /* تصغير */
+        padding-bottom: 5px;
         border-bottom: 1px solid #f0f0f0;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px; /* تصغير */
+        gap: 5px;
         flex-wrap: wrap;
     }
     
     .category-buttons {
         display: flex;
         flex-wrap: wrap;
-        gap: 4px; /* تصغير من 5px */
+        gap: 5px;
         justify-content: center;
     }
     
     .status-btn {
-        padding: 5px 8px; /* تصغير من 7px 10px */
+        padding: 7px 10px;
         border: none;
-        border-radius: 4px; /* تصغير */
+        border-radius: 5px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.7rem; /* تصغير من 0.8rem */
+        font-size: 0.85rem; /* تكبير بنسبة 30% */
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 3px; /* تصغير */
+        gap: 4px;
         min-width: 0;
         flex: 1;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); /* تصغير الظل */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
         touch-action: manipulation;
-        min-height: 32px; /* تصغير من 40px */
+        min-height: 40px;
     }
     
     .status-btn:hover {
         transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* تصغير الظل */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     
     .status-btn:active {
         transform: translateY(0);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06); /* تصغير الظل */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     }
     
     .present-btn {
@@ -478,22 +423,22 @@
     
     .export-container {
         text-align: center;
-        margin-top: 12px; /* تصغير من 16px */
-        padding-top: 8px; /* تصغير */
+        margin-top: 16px;
+        padding-top: 10px;
         border-top: 1px dashed #ddd;
         width: 100%;
-        padding-left: 3px; /* تصغير */
-        padding-right: 3px; /* تصغير */
+        padding-left: 3px;
+        padding-right: 3px;
     }
     
     .export {
         background: linear-gradient(to right, #2c5aa0, #4a8af4);
         color: white;
-        padding: 10px 12px; /* تصغير من 12px 16px */
-        font-size: 0.85rem; /* تصغير من 0.95rem */
-        border-radius: 5px; /* تصغير */
+        padding: 12px 16px;
+        font-size: 1rem; /* تكبير بنسبة 30% */
+        border-radius: 6px;
         width: 100%;
-        box-shadow: 0 3px 8px rgba(42, 91, 173, 0.2); /* تصغير الظل */
+        box-shadow: 0 3px 8px rgba(42, 91, 173, 0.2);
         border: none;
         cursor: pointer;
         font-weight: 700;
@@ -502,25 +447,25 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 5px; /* تصغير */
+        gap: 6px;
         touch-action: manipulation;
-        min-height: 40px; /* تصغير من 50px */
+        min-height: 50px;
     }
     
     .export:hover {
         background: linear-gradient(to right, #1e3f7a, #2c5aa0);
-        box-shadow: 0 4px 9px rgba(42, 91, 173, 0.3); /* تصغير الظل */
+        box-shadow: 0 4px 9px rgba(42, 91, 173, 0.3);
         transform: translateY(-2px);
     }
     
     .footer-note {
         text-align: center;
-        margin-top: 10px; /* تصغير من 12px */
+        margin-top: 12px;
         color: #666;
-        font-size: 0.7rem; /* تصغير من 0.8rem */
-        padding: 6px; /* تصغير */
+        font-size: 0.85rem; /* تكبير بنسبة 30% */
+        padding: 8px;
         background-color: #f8f9fa;
-        border-radius: 5px; /* تصغير */
+        border-radius: 6px;
         border-right: 2px solid var(--primary-color);
         line-height: 1.2;
         width: 100%;
@@ -532,19 +477,19 @@
         overflow: hidden;
         transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 6px; /* تصغير */
+        border-radius: 8px;
         margin: 0;
-        padding: 0 8px; /* تصغير */
+        padding: 0 8px;
         border: 1px solid transparent;
         width: 100%;
     }
     
     .admin-panel.active {
-        max-height: 600px; /* تصغير */
-        padding: 10px 8px; /* تصغير */
-        margin-top: 10px; /* تصغير */
+        max-height: 600px;
+        padding: 12px 8px;
+        margin-top: 12px;
         border-color: rgba(44, 90, 160, 0.2);
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); /* تصغير الظل */
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     }
     
     .admin-panel-content {
@@ -561,41 +506,41 @@
     
     /* تحسين قسم كلمة المرور للجوال */
     .password-section {
-        margin-bottom: 10px; /* تصغير */
-        padding-bottom: 10px; /* تصغير */
+        margin-bottom: 12px;
+        padding-bottom: 12px;
         border-bottom: 1px dashed #ccc;
     }
     
     .admin-title {
         color: #2c5aa0;
-        font-size: 0.9rem; /* تصغير من 1rem */
-        margin-bottom: 8px; /* تصغير */
+        font-size: 1.1rem; /* تكبير بنسبة 30% */
+        margin-bottom: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px; /* تصغير */
+        gap: 5px;
         flex-wrap: wrap;
     }
     
     .admin-description {
         color: #666;
-        margin-bottom: 8px; /* تصغير */
-        font-size: 0.75rem; /* تصغير من 0.85rem */
+        margin-bottom: 10px;
+        font-size: 0.9rem; /* تكبير بنسبة 30% */
     }
     
     .password-container {
         display: flex;
         flex-direction: column;
-        gap: 6px; /* تصغير */
-        margin-bottom: 8px; /* تصغير */
+        gap: 8px;
+        margin-bottom: 10px;
         width: 100%;
     }
     
     .password-input {
-        padding: 7px; /* تصغير */
+        padding: 8px;
         border: 2px solid #ddd;
-        border-radius: 4px; /* تصغير */
-        font-size: 0.8rem; /* تصغير */
+        border-radius: 5px;
+        font-size: 0.95rem; /* تكبير بنسبة 30% */
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
@@ -609,20 +554,20 @@
     
     .password-buttons {
         display: flex;
-        gap: 5px; /* تصغير */
+        gap: 6px;
         justify-content: center;
         width: 100%;
     }
     
     .password-submit, .password-cancel {
-        padding: 6px 10px; /* تصغير */
+        padding: 7px 12px;
         border: none;
-        border-radius: 4px; /* تصغير */
+        border-radius: 5px;
         cursor: pointer;
         font-weight: 700;
-        font-size: 0.75rem; /* تصغير */
+        font-size: 0.85rem; /* تكبير بنسبة 30% */
         transition: all 0.2s ease;
-        min-width: 70px; /* تصغير */
+        min-width: 80px;
         flex: 1;
     }
     
@@ -646,8 +591,8 @@
     
     .password-error {
         color: #c62828;
-        margin-top: 6px; /* تصغير */
-        font-size: 0.7rem; /* تصغير */
+        margin-top: 8px;
+        font-size: 0.8rem; /* تكبير بنسبة 30% */
         display: none;
     }
     
@@ -663,27 +608,27 @@
     
     .date-title {
         color: #2c5aa0;
-        font-size: 0.9rem; /* تصغير */
-        margin-bottom: 6px; /* تصغير */
+        font-size: 1.1rem; /* تكبير بنسبة 30% */
+        margin-bottom: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px; /* تصغير */
+        gap: 5px;
     }
     
     .date-controls {
         display: flex;
         flex-direction: column;
-        gap: 6px; /* تصغير */
-        margin-bottom: 8px; /* تصغير */
+        gap: 8px;
+        margin-bottom: 10px;
         width: 100%;
     }
     
     .date-input {
-        padding: 7px; /* تصغير */
+        padding: 8px;
         border: 2px solid #ddd;
-        border-radius: 4px; /* تصغير */
-        font-size: 0.8rem; /* تصغير */
+        border-radius: 5px;
+        font-size: 0.95rem; /* تكبير بنسبة 30% */
         font-family: 'Tajawal', sans-serif;
         text-align: center;
         width: 100%;
@@ -696,18 +641,18 @@
     }
     
     .date-btn {
-        padding: 7px; /* تصغير */
+        padding: 8px;
         border: none;
-        border-radius: 4px; /* تصغير */
+        border-radius: 5px;
         cursor: pointer;
         font-weight: 700;
         font-family: 'Tajawal', sans-serif;
-        font-size: 0.75rem; /* تصغير */
+        font-size: 0.85rem; /* تكبير بنسبة 30% */
         transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px; /* تصغير */
+        gap: 5px;
         background: linear-gradient(to right, var(--primary-color), #4a8af4);
         color: white;
         width: 100%;
@@ -720,31 +665,31 @@
     
     .selected-date-display {
         background: white;
-        padding: 6px 8px; /* تصغير */
-        border-radius: 4px; /* تصغير */
+        padding: 8px 10px;
+        border-radius: 5px;
         border: 2px solid var(--present-color);
-        margin-top: 8px; /* تصغير */
+        margin-top: 10px;
         display: inline-block;
         font-weight: 700;
         color: #333;
-        font-size: 0.75rem; /* تصغير */
+        font-size: 0.85rem; /* تكبير بنسبة 30% */
     }
     
     /* تحسين مصفوفة التقييم للجوال */
     .evaluation-matrix {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 6px; /* تصغير */
-        margin: 10px 0; /* تصغير */
+        gap: 8px;
+        margin: 12px 0;
     }
     
     .matrix-item {
         background: white;
-        border-radius: 6px; /* تصغير */
-        padding: 8px; /* تصغير */
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* تصغير الظل */
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         text-align: center;
-        border-top: 2px solid; /* تصغير */
+        border-top: 2px solid;
     }
     
     .matrix-1 {
@@ -761,23 +706,23 @@
     }
     
     .matrix-title {
-        font-size: 0.8rem; /* تصغير */
+        font-size: 1rem; /* تكبير بنسبة 30% */
         font-weight: 700;
-        margin-bottom: 5px; /* تصغير */
+        margin-bottom: 6px;
         color: #333;
     }
     
     .matrix-count {
-        font-size: 1.3rem; /* تصغير */
+        font-size: 1.6rem; /* تكبير بنسبة 30% */
         font-weight: 800;
-        margin: 4px 0; /* تصغير */
+        margin: 5px 0;
     }
     
     .matrix-percent {
-        font-size: 1rem; /* تصغير */
+        font-size: 1.2rem; /* تكبير بنسبة 30% */
         font-weight: 700;
         color: #666;
-        margin-top: 4px; /* تصغير */
+        margin-top: 5px;
     }
     
     /* أنيميشن */
@@ -817,16 +762,16 @@
     /* تحسينات إضافية للأجهزة الكبيرة */
     @media (min-width: 480px) {
         .container {
-            padding: 8px; /* تصغير */
+            padding: 12px;
         }
         
         h2 {
-            font-size: 1.1rem; /* تصغير */
+            font-size: 1.5rem;
         }
         
         .summary-box {
             grid-template-columns: repeat(4, 1fr);
-            padding: 10px; /* تصغير */
+            padding: 12px;
         }
         
         .evaluation-matrix {
@@ -843,7 +788,7 @@
         }
         
         .category-controls {
-            min-width: 180px; /* تصغير */
+            min-width: 200px;
             flex: 1;
         }
         
@@ -852,7 +797,7 @@
         }
         
         .password-input {
-            min-width: 130px; /* تصغير */
+            min-width: 150px;
         }
         
         .password-buttons {
@@ -865,163 +810,154 @@
         
         .date-btn {
             width: auto;
-            min-width: 100px; /* تصغير */
+            min-width: 120px;
         }
         
         .export {
-            font-size: 0.9rem; /* تصغير */
-            padding: 12px 16px; /* تصغير */
+            font-size: 1.1rem;
+            padding: 14px 18px;
         }
         
         .status-icon {
-            width: 34px; /* تصغير */
-            height: 34px;
-            font-size: 1.2rem; /* تصغير */
+            width: 42px;
+            height: 42px;
+            font-size: 1.4rem;
         }
         
         .table-wrapper {
-            padding: 0 4px; /* تصغير */
+            padding: 0 4px;
             margin-left: -4px;
             margin-right: -4px;
         }
         
         table {
-            min-width: 550px; /* تصغير */
+            min-width: 650px;
         }
     }
     
     @media (min-width: 768px) {
         .container {
-            padding: 12px; /* تصغير */
+            padding: 16px;
             max-width: 95%;
-            border-radius: 8px; /* تصغير */
-            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.08); /* تصغير الظل */
+            border-radius: 10px;
+            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--border-color);
-            transform: scale(0.9); /* تصغير إضافي */
         }
         
         h2 {
-            font-size: 1.3rem; /* تصغير */
+            font-size: 1.7rem;
         }
         
         .status-icon {
-            width: 38px; /* تصغير */
-            height: 38px;
-            font-size: 1.3rem; /* تصغير */
+            width: 46px;
+            height: 46px;
+            font-size: 1.5rem;
         }
         
         .student-name {
-            font-size: 0.9rem; /* تصغير */
+            font-size: 1.1rem;
         }
         
         .controls-container {
-            gap: 10px; /* تصغير */
+            gap: 12px;
         }
         
         .category-controls {
-            padding: 10px; /* تصغير */
+            padding: 12px;
         }
         
         .control-title {
-            font-size: 1rem; /* تصغير */
+            font-size: 1.2rem;
         }
         
         .status-btn {
-            min-width: 90px; /* تصغير */
-            padding: 7px 10px; /* تصغير */
-            font-size: 0.75rem; /* تصغير */
+            min-width: 100px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
         }
         
         table {
-            font-size: 0.75rem; /* تصغير */
-            min-width: 600px; /* تصغير */
+            font-size: 1rem;
+            min-width: 700px;
         }
         
         th, td {
-            padding: 8px 5px; /* تصغير */
+            padding: 10px 6px;
         }
     }
     
     @media (min-width: 1024px) {
+        body {
+            width: 85%;
+            transform: scale(1.2); /* تكبير إضافي للشاشات الكبيرة */
+        }
+        
         .container {
-            max-width: 1100px; /* تصغير */
-            padding: 16px; /* تصغير */
-            transform: scale(0.85); /* تصغير إضافي */
+            max-width: 1200px;
+            padding: 20px;
         }
         
         table {
-            min-width: 650px; /* تصغير */
-            font-size: 0.8rem; /* تصغير */
+            min-width: 750px;
+            font-size: 1.1rem;
         }
         
         th, td {
-            padding: 10px 6px; /* تصغير */
+            padding: 12px 8px;
         }
         
         .evaluation-cell {
-            min-width: 50px; /* تصغير */
+            min-width: 55px;
         }
         
         .status-icon {
-            width: 42px; /* تصغير */
-            height: 42px;
-            font-size: 1.4rem; /* تصغير */
+            width: 50px;
+            height: 50px;
+            font-size: 1.7rem;
         }
         
         .status-label {
-            font-size: 0.75rem; /* تصغير */
+            font-size: 0.9rem;
         }
     }
     
     /* تحسينات للشاشات الطويلة */
     @media (max-height: 700px) {
         .summary-box {
-            padding: 6px; /* تصغير */
-            gap: 5px; /* تصغير */
+            padding: 8px;
+            gap: 6px;
         }
         
         .evaluation-matrix {
-            margin: 8px 0; /* تصغير */
-            gap: 5px; /* تصغير */
+            margin: 10px 0;
+            gap: 6px;
         }
         
         .controls-container {
-            margin: 10px 0; /* تصغير */
-            gap: 6px; /* تصغير */
+            margin: 12px 0;
+            gap: 8px;
         }
         
         .export-container {
-            margin-top: 10px; /* تصغير */
-            padding-top: 8px; /* تصغير */
-        }
-        
-        body {
-            zoom: 0.85;
-            transform: scale(0.85);
+            margin-top: 12px;
+            padding-top: 8px;
         }
     }
     
     /* منع التكبير التلقائي على iOS */
     input, textarea, select {
-        font-size: 14px !important; /* تصغير */
+        font-size: 16px !important;
     }
     
     /* تحسين التمرير على iOS */
     .table-wrapper {
         -webkit-overflow-scrolling: touch;
     }
-    
-    /* تحسين إضافي للتصغير */
-    .small-scale {
-        transform: scale(0.85);
-        transform-origin: top center;
-        width: 100%;
-    }
 </style>
 </head>
 <body>
 
-<div class="container small-scale" id="captureArea">
+<div class="container" id="captureArea">
     <h2><i class="fas fa-chart-bar" style="margin-left: 4px;"></i> سجل التقويم الشامل للطلاب</h2>
     
     <div class="summary-box">
@@ -1049,33 +985,33 @@
             <div class="matrix-title">المهام الأدائية</div>
             <div class="matrix-count" id="category1-count">100%</div>
             <div class="matrix-percent" id="category1-percent">(16/16)</div>
-            <div style="font-size: 0.65rem; color: #666;">Assignments & Projects</div>
+            <div style="font-size: 0.75rem; color: #666;">Assignments & Projects</div>
         </div>
         <div class="matrix-item matrix-2">
             <div class="matrix-title">المشاركة والتفاعل</div>
             <div class="matrix-count" id="category2-count">100%</div>
             <div class="matrix-percent" id="category2-percent">(16/16)</div>
-            <div style="font-size: 0.65rem; color: #666;">Participation & Interaction</div>
+            <div style="font-size: 0.75rem; color: #666;">Participation & Interaction</div>
         </div>
         <div class="matrix-item matrix-3">
             <div class="matrix-title">الحضور</div>
             <div class="matrix-count" id="category3-count">100%</div>
             <div class="matrix-percent" id="category3-percent">(8/8)</div>
-            <div style="font-size: 0.65rem; color: #666;">سجل الحضور اليومي</div>
+            <div style="font-size: 0.75rem; color: #666;">سجل الحضور اليومي</div>
         </div>
     </div>
 
-    <!-- الجدول المعدل - بدون هيدر -->
+    <!-- الجدول المعدل - بدون خانة التقييم -->
     <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
                     <th width="8%">الرقم</th>
-                    <th width="22%">اسم الطالب</th>
+                    <th width="25%">اسم الطالب</th>
                     <th width="12%">الواجبات</th>
-                    <th width="12%">المشاريع</th>
-                    <th width="12%">التقييم</th>
-                    <th width="12%">التطبيقات والأنشطة</th>
+                    <th width="12%" class="multiline-header">المشاريع</th>
+                    <!-- تم إزالة خانة التقييم -->
+                    <th width="12%" class="multiline-header">التطبيقات<br>والأنشطة</th>
                     <th width="12%">المشاركة</th>
                     <th width="10%">الحضور</th>
                 </tr>
@@ -1197,12 +1133,6 @@
     </button>
 </div>
 
-<div class="export-container" style="margin-top: 10px;">
-    <button class="export" onclick="toggleZoom()" style="background: linear-gradient(to right, #6a1b9a, #9c4dcc);" id="zoomBtn">
-        <i class="fas fa-search-plus"></i> تكبير الصفحة 30%
-    </button>
-</div>
-
 <script>
 // تخزين حالة التقييمات للطلاب
 let studentsData = {};
@@ -1263,73 +1193,32 @@ function createTable() {
             }
         };
         
-        // الحصول على أيقونة ونص التقييم الإجمالي
-        const getOverallPerformance = () => {
-            const assignments = student.assignments;
-            const projects = student.projects;
-            
-            // حساب النقاط لكل حالة (صح=2, محايد=1, خطأ=0)
-            const getScore = (status) => {
-                if (status === 'present') return 2;
-                if (status === 'neutral') return 1;
-                return 0;
-            };
-            
-            const totalScore = getScore(assignments) + getScore(projects);
-            
-            // تحديد التقييم بناءً على النقاط الإجمالية (النقاط من 0 إلى 4)
-            if (totalScore === 4) { // صح + صح
-                return { icon: 'fa-star', text: 'ممتاز', class: 'present' };
-            } else if (totalScore === 3) { // صح + محايد أو محايد + صح
-                return { icon: 'fa-check', text: 'جيد', class: 'present' };
-            } else if (totalScore === 2) { 
-                // محايد + محايد = متوسط
-                // صح + خطأ أو خطأ + صح = جيد (نفس الدرجة)
-                if (assignments === 'neutral' && projects === 'neutral') {
-                    return { icon: 'fa-minus', text: 'متوسط', class: 'neutral' };
-                } else {
-                    return { icon: 'fa-check', text: 'جيد', class: 'present' };
-                }
-            } else if (totalScore === 1) { // محايد + خطأ أو خطأ + محايد
-                return { icon: 'fa-minus', text: 'ضعيف', class: 'absent' };
-            } else { // خطأ + خطأ
-                return { icon: 'fa-times', text: 'ضعيف', class: 'absent' };
-            }
-        };
-        
         const attendanceInfo = getStatusInfo(student.attendance, 'attendance');
         const assignmentsInfo = getStatusInfo(student.assignments);
         const projectsInfo = getStatusInfo(student.projects);
         const classroomAppsInfo = getStatusInfo(student.classroomApps);
         const participationInfo = getStatusInfo(student.participation);
-        const performanceInfo = getOverallPerformance();
         
         row.innerHTML = `
             <td>${i}</td>
             <td class="student-name">${studentNames[i-1]}</td>
             
             <!-- Performance Tasks -->
-            <td class="evaluation-cell">
+            <td class="evaluation-cell multiline-cell">
                 <div class="status-icon ${assignmentsInfo.class}-icon" onclick="toggleEvaluation(${i}, 'assignments')" id="assignments-${i}">
                     <i class="fas ${assignmentsInfo.icon}"></i>
                 </div>
                 <span class="status-label ${assignmentsInfo.class}-label" id="label-assignments-${i}">${assignmentsInfo.text}</span>
             </td>
-            <td class="evaluation-cell">
+            <td class="evaluation-cell multiline-cell">
                 <div class="status-icon ${projectsInfo.class}-icon" onclick="toggleEvaluation(${i}, 'projects')" id="projects-${i}">
                     <i class="fas ${projectsInfo.icon}"></i>
                 </div>
                 <span class="status-label ${projectsInfo.class}-label" id="label-projects-${i}">${projectsInfo.text}</span>
             </td>
-            <td class="evaluation-cell">
-                <div class="status-icon ${performanceInfo.class}-icon" id="performance-${i}">
-                    <i class="fas ${performanceInfo.icon}"></i>
-                </div>
-                <span class="status-label ${performanceInfo.class}-label" id="label-performance-${i}">${performanceInfo.text}</span>
-            </td>
             
             <!-- Participation & Interaction -->
-            <td class="evaluation-cell">
+            <td class="evaluation-cell multiline-cell">
                 <div class="status-icon ${classroomAppsInfo.class}-icon" onclick="toggleEvaluation(${i}, 'classroomApps')" id="classroomApps-${i}">
                     <i class="fas ${classroomAppsInfo.icon}"></i>
                 </div>
@@ -1581,40 +1470,6 @@ function updateStudentDisplay(studentId) {
         }
     };
     
-    // الحصول على أيقونة ونص التقييم الإجمالي
-    const getOverallPerformance = () => {
-        const assignments = student.assignments;
-        const projects = student.projects;
-        
-        // حساب النقاط لكل حالة (صح=2, محايد=1, خطأ=0)
-        const getScore = (status) => {
-            if (status === 'present') return 2;
-            if (status === 'neutral') return 1;
-            return 0;
-        };
-        
-        const totalScore = getScore(assignments) + getScore(projects);
-        
-        // تحديد التقييم بناءً على النقاط الإجمالية (النقاط من 0 إلى 4)
-        if (totalScore === 4) { // صح + صح
-            return { icon: 'fa-star', text: 'ممتاز', class: 'present' };
-        } else if (totalScore === 3) { // صح + محايد أو محايد + صح
-            return { icon: 'fa-check', text: 'جيد', class: 'present' };
-        } else if (totalScore === 2) { 
-            // محايد + محايد = متوسط
-            // صح + خطأ أو خطأ + صح = جيد (نفس الدرجة)
-            if (assignments === 'neutral' && projects === 'neutral') {
-                return { icon: 'fa-minus', text: 'متوسط', class: 'neutral' };
-            } else {
-                return { icon: 'fa-check', text: 'جيد', class: 'present' };
-            }
-        } else if (totalScore === 1) { // محايد + خطأ أو خطأ + محايد
-            return { icon: 'fa-minus', text: 'ضعيف', class: 'absent' };
-        } else { // خطأ + خطأ
-            return { icon: 'fa-times', text: 'ضعيف', class: 'absent' };
-        }
-    };
-    
     // تحديث كل عنصر في الصف
     const updateElement = (id, info) => {
         const icon = document.getElementById(id);
@@ -1640,7 +1495,6 @@ function updateStudentDisplay(studentId) {
     updateElement(`projects-${studentId}`, getStatusInfo(student.projects));
     updateElement(`classroomApps-${studentId}`, getStatusInfo(student.classroomApps));
     updateElement(`participation-${studentId}`, getStatusInfo(student.participation));
-    updateElement(`performance-${studentId}`, getOverallPerformance());
 }
 
 // تعيين جميع تقييمات تصنيف معين
@@ -1871,37 +1725,6 @@ function showNotification(message, type) {
     }, 2500);
 }
 
-// دالة التكبير/التصغير 30%
-function toggleZoom() {
-    const body = document.body;
-    const zoomBtn = document.getElementById('zoomBtn');
-    
-    if (body.classList.contains('zoomed-30')) {
-        // إزالة التكبير
-        body.classList.remove('zoomed-30');
-        zoomBtn.innerHTML = '<i class="fas fa-search-plus"></i> تكبير الصفحة 30%';
-        zoomBtn.style.background = 'linear-gradient(to right, #6a1b9a, #9c4dcc)';
-        showNotification('تم تصغير الصفحة إلى الحجم الطبيعي', 'present');
-        
-        // إعادة تعيين التمرير
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-        // تطبيق التكبير
-        body.classList.add('zoomed-30');
-        zoomBtn.innerHTML = '<i class="fas fa-search-minus"></i> تصغير الصفحة إلى الحجم الطبيعي';
-        zoomBtn.style.background = 'linear-gradient(to right, #4a148c, #7b1fa2)';
-        showNotification('تم تكبير الصفحة بنسبة 30%', 'present');
-        
-        // تمرير لأسفل لعرض الصفحة المكبرة بالكامل
-        setTimeout(() => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 100);
-    }
-    
-    // تحديث حجم التصدير بعد التكبير
-    setTimeout(updateStatistics, 300);
-}
-
 // دالة تصدير PDF
 async function exportPDF() {
     const { jsPDF } = window.jspdf;
@@ -1935,12 +1758,10 @@ async function exportPDF() {
     // إضافة التاريخ أعلى المحتوى
     captureArea.insertBefore(dateElement, captureArea.firstChild);
     
-    // التحقق مما إذا كانت الصفحة مكبرة
-    const isZoomed = document.body.classList.contains('zoomed-30');
-    if (isZoomed) {
-        // إزالة التكبير مؤقتًا للتصدير
-        document.body.classList.remove('zoomed-30');
-    }
+    // إزالة التكبير مؤقتًا للتصدير للحصول على صورة أفضل
+    const originalTransform = document.body.style.transform;
+    document.body.style.transform = 'scale(1)';
+    document.body.style.width = '100%';
     
     const canvas = await html2canvas(captureArea, { 
         scale: 2,
@@ -1952,12 +1773,9 @@ async function exportPDF() {
     // إعادة المحتوى الأصلي
     captureArea.removeChild(dateElement);
     
-    // إعادة التكبير إذا كان مفعلاً
-    if (isZoomed) {
-        setTimeout(() => {
-            document.body.classList.add('zoomed-30');
-        }, 100);
-    }
+    // إعادة التكبير
+    document.body.style.transform = originalTransform;
+    document.body.style.width = '87%';
     
     const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
