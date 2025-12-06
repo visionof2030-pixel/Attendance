@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -43,13 +43,13 @@ header {
 
 .current-date {
     background: rgba(38, 70, 83, 0.8) !important;
-    cursor: pointer;
     transition: all 0.3s;
 }
 
-.current-date:hover {
-    background: rgba(29, 53, 87, 0.9) !important;
-    transform: scale(1.05);
+.date-info {
+    font-size: 12px;
+    color: #e0f7fa;
+    margin-top: 2px;
 }
 
 .class-header {
@@ -312,9 +312,10 @@ input[type="password"], input[type="text"], select {
     <div class="header-main">سجل متابعة الطلاب للمعلم / فهد الخالدي - المادة / اللغة الإنجليزية</div>
     <div class="header-sub">
         <div>المدرسة: سعيد بن العاص المتوسطة</div>
-        <div class="current-date" id="currentDateDisplay" onclick="showDateSelector()">
-            التاريخ الميلادي: <span id="gregorianDateText">تحميل...</span><br>
-            التاريخ الهجري: <span id="hijriDateText">تحميل...</span>
+        <div class="current-date">
+            <div>تاريخ اليوم:</div>
+            <div id="gregorianDateText">تحميل...</div>
+            <div class="date-info" id="hijriDateText">تحميل التاريخ الهجري...</div>
         </div>
     </div>
 </header>
@@ -324,6 +325,7 @@ input[type="password"], input[type="text"], select {
         <button onclick="exportToExcel()">📊 تصدير Excel</button>
         <button onclick="printPage()">🖨️ طباعة</button>
         <button onclick="showAllClasses()">👁️ عرض الكل</button>
+        <button onclick="showTodayAttendance()">📅 عرض تحضير اليوم</button>
     </div>
     
     <div class="class-tabs" id="classTabs">
@@ -376,7 +378,10 @@ input[type="password"], input[type="text"], select {
         </div>
         
         <div class="admin-section">
-            <h4>🕐 التحكم في التاريخ</h4>
+            <h4>🕐 التحكم في التاريخ (للتعديل فقط)</h4>
+            <div style="text-align:center; background:#ffebee; padding:10px; border-radius:5px; margin-bottom:10px;">
+                <strong>ملاحظة:</strong> يتم عرض تاريخ اليوم الحقيقي تلقائياً. هذه الأدوات تستخدم فقط لتعديل التاريخ عند الحاجة.
+            </div>
             <div class="date-controls">
                 <button onclick="changeMonth(-1)">◀ الشهر السابق</button>
                 <div class="date-display" id="adminDateDisplay">...</div>
@@ -384,8 +389,8 @@ input[type="password"], input[type="text"], select {
             </div>
             <div style="text-align: center; margin: 10px 0;">
                 <input type="date" id="datePicker" class="date-input" onchange="setCustomDate()">
-                <button onclick="resetToToday()">اليوم</button>
-                <button onclick="saveCurrentDate()">💾 حفظ التاريخ</button>
+                <button onclick="resetToToday()">🔄 الرجوع لليوم الحقيقي</button>
+                <button onclick="saveCurrentDate()">💾 حفظ التعديلات</button>
             </div>
             
             <div class="hijri-date-selector">
@@ -512,7 +517,7 @@ const studentsData = {
         "محمد اسحاق محمد اسلام عبدالحكيم",
         "محمد عبدالله ابو سعيد مياه",
         "حمد محمد اسماعيل امير حسين ابو بكر",
-        "حمد موسى ساليفو ديقوقا",
+        "حمد موسى ساليفو ديقوقa",
         "مشاري شيهو اسماعيل محمد بكر",
         "ياسر عبدالرحيم محمد علي سفر علي",
         "يوسف محمد عبد الرحمن علي"
@@ -569,8 +574,8 @@ let currentFilter = 'all';
 let currentClass = 'all';
 
 // إدارة التاريخ
-let currentDate = new Date();
-let selectedDate = new Date();
+let currentDate = new Date(); // تاريخ اليوم الحقيقي
+let selectedDate = new Date(); // التاريخ المعروض (يمكن تغييره من الإدارة)
 
 // إعدادات الفصل الدراسي
 let semesterSettings = {
@@ -595,11 +600,9 @@ const hijriMonths = [
 
 // تهيئة الصفحة
 function initPage() {
-    // محاولة تحميل التاريخ المحفوظ
-    const savedDate = localStorage.getItem('teacherTracker_selectedDate');
-    if (savedDate) {
-        selectedDate = new Date(savedDate);
-    }
+    // دائماً نبدأ بتاريخ اليوم الحقيقي
+    currentDate = new Date();
+    selectedDate = new Date(currentDate); // نبدأ بتاريخ اليوم
     
     // محاولة تحميل إعدادات الفصل الدراسي
     const savedSemester = localStorage.getItem('teacherTracker_semesterSettings');
@@ -610,14 +613,8 @@ function initPage() {
         updateSemesterInfo();
     }
     
-    // محاولة تحميل التاريخ الهجري المحفوظ
-    const savedHijriDate = localStorage.getItem('teacherTracker_hijriDate');
-    if (savedHijriDate) {
-        hijriDate = JSON.parse(savedHijriDate);
-    } else {
-        // حساب التاريخ الهجري الفعلي من التاريخ الميلادي
-        calculateHijriFromGregorian();
-    }
+    // حساب التاريخ الهجري الفعلي من التاريخ الميلادي
+    calculateHijriFromGregorian();
     
     // محاولة تحميل بيانات الحضور المحفوظة لهذا التاريخ
     loadAttendanceData();
@@ -647,7 +644,6 @@ function calculateHijriFromGregorian() {
             hijriDate.monthName = hijriMonths[hijri.month - 1];
         } else {
             // طريقة احتياطية إذا لم تكن المكتبة متوفرة
-            // هذه طريقة تقريبية ولا تعطي تاريخاً دقيقاً
             const fixedHijri = getApproximateHijriDate(selectedDate);
             hijriDate.day = fixedHijri.day;
             hijriDate.month = fixedHijri.month;
@@ -663,8 +659,6 @@ function calculateHijriFromGregorian() {
 
 // طريقة تقريبية لحساب التاريخ الهجري (بدون مكتبة)
 function getApproximateHijriDate(gregorianDate) {
-    // هذه طريقة تقريبية جداً وللاستخدام في حالة عدم وجود مكتبة
-    // الفرق التقريبي بين التقويمين: 622 سنة و 17 يوم
     const startHijri = new Date(622, 6, 16); // 16 يوليو 622م هو بداية الهجرة
     
     const diffTime = gregorianDate - startHijri;
@@ -710,6 +704,13 @@ function updateDateDisplay() {
     // تحديث عرض التاريخ في لوحة الإدارة
     document.getElementById('adminDateDisplay').innerHTML = 
         `${selectedDate.toLocaleDateString('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+    
+    // إضافة مؤشر إذا لم يكن تاريخ اليوم
+    const today = new Date();
+    const isToday = selectedDate.toDateString() === today.toDateString();
+    if (!isToday) {
+        document.getElementById('gregorianDateText').innerHTML += ' <span style="color:#ffcc00; font-size:11px;">(غير تاريخ اليوم)</span>';
+    }
 }
 
 // تحديث حقول التاريخ الهجري في واجهة الإدارة
@@ -773,17 +774,13 @@ function resetHijriToToday() {
     alert(`تم الرجوع إلى التاريخ الهجري الفعلي: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
 }
 
-// عرض منتقي التاريخ
-function showDateSelector() {
-    if (adminActive) {
-        document.getElementById('datePicker').showPicker();
-    } else {
-        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
-    }
-}
-
 // تغيير الشهر (للسابق أو القادم)
 function changeMonth(offset) {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
+        return;
+    }
+    
     selectedDate.setMonth(selectedDate.getMonth() + offset);
     
     // تحديث التاريخ الهجري بناءً على التاريخ الميلادي الجديد
@@ -791,7 +788,6 @@ function changeMonth(offset) {
     
     updateDateDisplay();
     updateHijriFields();
-    saveCurrentDate();
     
     // تحميل بيانات الحضور للتاريخ الجديد
     loadAttendanceData();
@@ -800,6 +796,11 @@ function changeMonth(offset) {
 
 // تعيين تاريخ مخصص
 function setCustomDate() {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
+        return;
+    }
+    
     const datePicker = document.getElementById('datePicker');
     if (datePicker.value) {
         selectedDate = new Date(datePicker.value);
@@ -809,7 +810,6 @@ function setCustomDate() {
         
         updateDateDisplay();
         updateHijriFields();
-        saveCurrentDate();
         
         // تحميل بيانات الحضور للتاريخ الجديد
         loadAttendanceData();
@@ -817,9 +817,14 @@ function setCustomDate() {
     }
 }
 
-// الرجوع إلى تاريخ اليوم
+// الرجوع إلى تاريخ اليوم الحقيقي
 function resetToToday() {
-    selectedDate = new Date();
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
+        return;
+    }
+    
+    selectedDate = new Date(); // الرجوع لتاريخ اليوم الحقيقي
     
     // تحديث التاريخ الهجري بناءً على التاريخ الميلادي الجديد
     calculateHijriFromGregorian();
@@ -829,18 +834,35 @@ function resetToToday() {
     
     updateDateDisplay();
     updateHijriFields();
-    saveCurrentDate();
     
     // تحميل بيانات الحضور للتاريخ الجديد
     loadAttendanceData();
     updateTablesWithLoadedData();
+    
+    alert("تم الرجوع إلى تاريخ اليوم الحقيقي");
 }
 
 // حفظ التاريخ الحالي
 function saveCurrentDate() {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة لحفظ التاريخ');
+        return;
+    }
+    
     localStorage.setItem('teacherTracker_selectedDate', selectedDate.toISOString());
     localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
     alert(`تم حفظ التاريخ الميلادي: ${selectedDate.toLocaleDateString('ar-SA')}\nوالهجري: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
+}
+
+// عرض تحضير اليوم
+function showTodayAttendance() {
+    // تحميل بيانات اليوم الحقيقي
+    selectedDate = new Date();
+    calculateHijriFromGregorian();
+    updateDateDisplay();
+    loadAttendanceData();
+    updateTablesWithLoadedData();
+    alert("تم عرض تحضير تاريخ اليوم الحقيقي");
 }
 
 // إنشاء ألسنة الصفوف
@@ -1214,7 +1236,8 @@ function exportToExcel() {
     
     let link = document.createElement("a");
     link.href = uri + btoa(unescape(encodeURIComponent(template)));
-    link.download = `تقرير_الطلاب_${selectedDate.toISOString().split('T')[0]}.xls`;
+    const dateStr = selectedDate.toISOString().split('T')[0];
+    link.download = `تقرير_حضور_${dateStr}.xls`;
     link.click();
 }
 
