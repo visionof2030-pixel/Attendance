@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -273,6 +273,14 @@ input[type="password"], input[type="text"], select {
     margin-left: 10px;
 }
 
+.hijri-date-selector {
+    background: #fff8e1;
+    border: 1px solid #ffd54f;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
 @media print {
     button, .admin-panel, .status-filter, .class-tabs, .date-controls {
         display: none !important;
@@ -295,15 +303,18 @@ input[type="password"], input[type="text"], select {
     }
 }
 </style>
+<!-- مكتبة ummAlQura لحساب التاريخ الهجري -->
+<script src="https://cdn.jsdelivr.net/npm/hijri-date/lib/simple.umd.min.js"></script>
 </head>
 <body>
 
 <header>
     <div class="header-main">سجل متابعة الطلاب للمعلم / فهد الخالدي - المادة / اللغة الإنجليزية</div>
     <div class="header-sub">
-        <div>المدرسة: ثانوية الملك فهد</div>
+        <div>المدرسة: سعيد بن العاص المتوسطة</div>
         <div class="current-date" id="currentDateDisplay" onclick="showDateSelector()">
-            التاريخ: <span id="dateText">تحميل...</span>
+            التاريخ الميلادي: <span id="gregorianDateText">تحميل...</span><br>
+            التاريخ الهجري: <span id="hijriDateText">تحميل...</span>
         </div>
     </div>
 </header>
@@ -376,6 +387,47 @@ input[type="password"], input[type="text"], select {
                 <button onclick="resetToToday()">اليوم</button>
                 <button onclick="saveCurrentDate()">💾 حفظ التاريخ</button>
             </div>
+            
+            <div class="hijri-date-selector">
+                <h5 style="text-align:center; color: #d84315;">التاريخ الهجري (يمكن تعديله يدوياً)</h5>
+                <div class="admin-row">
+                    <div class="admin-label">اليوم:</div>
+                    <div class="admin-input">
+                        <input type="number" id="hijriDay" min="1" max="30" style="width: 70px;">
+                    </div>
+                </div>
+                <div class="admin-row">
+                    <div class="admin-label">الشهر:</div>
+                    <div class="admin-input">
+                        <select id="hijriMonth" style="width: 100%;">
+                            <option value="1">محرم</option>
+                            <option value="2">صفر</option>
+                            <option value="3">ربيع الأول</option>
+                            <option value="4">ربيع الثاني</option>
+                            <option value="5">جمادى الأولى</option>
+                            <option value="6">جمادى الآخرة</option>
+                            <option value="7">رجب</option>
+                            <option value="8">شعبان</option>
+                            <option value="9">رمضان</option>
+                            <option value="10">شوال</option>
+                            <option value="11">ذو القعدة</option>
+                            <option value="12">ذو الحجة</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="admin-row">
+                    <div class="admin-label">السنة:</div>
+                    <div class="admin-input">
+                        <input type="number" id="hijriYear" min="1300" max="1500" style="width: 100px;">
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 10px;">
+                    <button onclick="updateHijriDate()">🔄 تحديث التاريخ الهجري</button>
+                    <button onclick="resetHijriToToday()">🔄 الرجوع للتاريخ الفعلي</button>
+                </div>
+                <p style="text-align:center; font-size:11px; color:#666;">ملاحظة: التاريخ الهجري المحسوب تلقائياً، ويمكنك تعديله يدوياً إذا لزم الأمر.</p>
+            </div>
+            
             <p style="text-align:center; font-size:12px; color:#666;">يمكنك الرجوع إلى أشهر سابقة أو قادمة لمشاهدة السجلات القديمة أو تحضير مستقبلية.</p>
         </div>
         
@@ -526,6 +578,21 @@ let semesterSettings = {
     academicYear: "١٤٤٦هـ"
 };
 
+// التاريخ الهجري
+let hijriDate = {
+    day: 1,
+    month: 1,
+    year: 1446,
+    monthName: "محرم"
+};
+
+// أسماء الأشهر الهجرية
+const hijriMonths = [
+    "محرم", "صفر", "ربيع الأول", "ربيع الثاني", 
+    "جمادى الأولى", "جمادى الآخرة", "رجب", "شعبان", 
+    "رمضان", "شوال", "ذو القعدة", "ذو الحجة"
+];
+
 // تهيئة الصفحة
 function initPage() {
     // محاولة تحميل التاريخ المحفوظ
@@ -543,6 +610,15 @@ function initPage() {
         updateSemesterInfo();
     }
     
+    // محاولة تحميل التاريخ الهجري المحفوظ
+    const savedHijriDate = localStorage.getItem('teacherTracker_hijriDate');
+    if (savedHijriDate) {
+        hijriDate = JSON.parse(savedHijriDate);
+    } else {
+        // حساب التاريخ الهجري الفعلي من التاريخ الميلادي
+        calculateHijriFromGregorian();
+    }
+    
     // محاولة تحميل بيانات الحضور المحفوظة لهذا التاريخ
     loadAttendanceData();
     
@@ -554,33 +630,93 @@ function initPage() {
     // تعيين التاريخ الحالي في منتقي التاريخ
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('datePicker').value = today;
+    
+    // تحديث حقول التاريخ الهجري
+    updateHijriFields();
+}
+
+// حساب التاريخ الهجري من التاريخ الميلادي
+function calculateHijriFromGregorian() {
+    try {
+        // استخدام مكتبة ummAlQura لحساب التاريخ الهجري
+        if (typeof HijriDate !== 'undefined') {
+            const hijri = new HijriDate(selectedDate);
+            hijriDate.day = hijri.date;
+            hijriDate.month = hijri.month;
+            hijriDate.year = hijri.year;
+            hijriDate.monthName = hijriMonths[hijri.month - 1];
+        } else {
+            // طريقة احتياطية إذا لم تكن المكتبة متوفرة
+            // هذه طريقة تقريبية ولا تعطي تاريخاً دقيقاً
+            const fixedHijri = getApproximateHijriDate(selectedDate);
+            hijriDate.day = fixedHijri.day;
+            hijriDate.month = fixedHijri.month;
+            hijriDate.year = fixedHijri.year;
+            hijriDate.monthName = hijriMonths[fixedHijri.month - 1];
+        }
+    } catch (error) {
+        console.error("خطأ في حساب التاريخ الهجري:", error);
+        // استخدام تاريخ افتراضي في حالة الخطأ
+        hijriDate = { day: 1, month: 1, year: 1446, monthName: "محرم" };
+    }
+}
+
+// طريقة تقريبية لحساب التاريخ الهجري (بدون مكتبة)
+function getApproximateHijriDate(gregorianDate) {
+    // هذه طريقة تقريبية جداً وللاستخدام في حالة عدم وجود مكتبة
+    // الفرق التقريبي بين التقويمين: 622 سنة و 17 يوم
+    const startHijri = new Date(622, 6, 16); // 16 يوليو 622م هو بداية الهجرة
+    
+    const diffTime = gregorianDate - startHijri;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    // السنة الهجرية = عدد الأيام / 354.367 (متوسط طول السنة الهجرية)
+    const hijriYear = Math.floor(diffDays / 354.367) + 1;
+    
+    // الأيام المتبقية في السنة الحالية
+    const daysInCurrentYear = diffDays % 354.367;
+    
+    // تقدير الشهر (كل شهر حوالي 29.5 يوم)
+    const hijriMonth = Math.floor(daysInCurrentYear / 29.53) + 1;
+    
+    // اليوم من الشهر
+    const hijriDay = Math.floor(daysInCurrentYear % 29.53) + 1;
+    
+    return {
+        day: Math.min(Math.max(1, hijriDay), 30),
+        month: Math.min(Math.max(1, hijriMonth), 12),
+        year: Math.max(1300, Math.min(1500, hijriYear))
+    };
 }
 
 // تحديث عرض التاريخ
 function updateDateDisplay() {
-    const options = { 
+    // تحديث التاريخ الميلادي
+    const gregorianOptions = { 
         weekday: 'long', 
         year: 'numeric', 
         month: 'long', 
         day: 'numeric' 
     };
     
-    const hijriOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        calendar: 'islamic',
-        numberingSystem: 'arab'
-    };
+    const gregorianDate = selectedDate.toLocaleDateString('ar-SA', gregorianOptions);
     
-    const gregorianDate = selectedDate.toLocaleDateString('ar-SA', options);
-    const hijriDate = selectedDate.toLocaleDateString('ar-SA-u-ca-islamic', hijriOptions);
+    document.getElementById('gregorianDateText').innerHTML = gregorianDate;
     
-    document.getElementById('dateText').innerHTML = 
-        `${gregorianDate}<br><span style="font-size:12px; color:#e0f7fa">${hijriDate}</span>`;
+    // تحديث التاريخ الهجري
+    document.getElementById('hijriDateText').innerHTML = 
+        `${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`;
     
+    // تحديث عرض التاريخ في لوحة الإدارة
     document.getElementById('adminDateDisplay').innerHTML = 
         `${selectedDate.toLocaleDateString('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+}
+
+// تحديث حقول التاريخ الهجري في واجهة الإدارة
+function updateHijriFields() {
+    document.getElementById('hijriDay').value = hijriDate.day;
+    document.getElementById('hijriMonth').value = hijriDate.month;
+    document.getElementById('hijriYear').value = hijriDate.year;
 }
 
 // تحديث معلومات الفصل الدراسي المعروضة
@@ -610,6 +746,33 @@ function saveSemesterSettings() {
     alert(`تم حفظ إعدادات الفصل الدراسي: ${document.getElementById('currentSemesterInfo').textContent}`);
 }
 
+// تحديث التاريخ الهجري من حقول الإدخال
+function updateHijriDate() {
+    const day = parseInt(document.getElementById('hijriDay').value) || 1;
+    const month = parseInt(document.getElementById('hijriMonth').value) || 1;
+    const year = parseInt(document.getElementById('hijriYear').value) || 1446;
+    
+    hijriDate.day = Math.max(1, Math.min(30, day));
+    hijriDate.month = Math.max(1, Math.min(12, month));
+    hijriDate.year = Math.max(1300, Math.min(1500, year));
+    hijriDate.monthName = hijriMonths[hijriDate.month - 1];
+    
+    // حفظ التاريخ الهجري
+    localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
+    
+    updateDateDisplay();
+    alert(`تم تحديث التاريخ الهجري إلى: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
+}
+
+// الرجوع إلى التاريخ الهجري الفعلي
+function resetHijriToToday() {
+    calculateHijriFromGregorian();
+    updateHijriFields();
+    localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
+    updateDateDisplay();
+    alert(`تم الرجوع إلى التاريخ الهجري الفعلي: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
+}
+
 // عرض منتقي التاريخ
 function showDateSelector() {
     if (adminActive) {
@@ -622,7 +785,12 @@ function showDateSelector() {
 // تغيير الشهر (للسابق أو القادم)
 function changeMonth(offset) {
     selectedDate.setMonth(selectedDate.getMonth() + offset);
+    
+    // تحديث التاريخ الهجري بناءً على التاريخ الميلادي الجديد
+    calculateHijriFromGregorian();
+    
     updateDateDisplay();
+    updateHijriFields();
     saveCurrentDate();
     
     // تحميل بيانات الحضور للتاريخ الجديد
@@ -635,7 +803,12 @@ function setCustomDate() {
     const datePicker = document.getElementById('datePicker');
     if (datePicker.value) {
         selectedDate = new Date(datePicker.value);
+        
+        // تحديث التاريخ الهجري بناءً على التاريخ الميلادي الجديد
+        calculateHijriFromGregorian();
+        
         updateDateDisplay();
+        updateHijriFields();
         saveCurrentDate();
         
         // تحميل بيانات الحضور للتاريخ الجديد
@@ -647,9 +820,15 @@ function setCustomDate() {
 // الرجوع إلى تاريخ اليوم
 function resetToToday() {
     selectedDate = new Date();
+    
+    // تحديث التاريخ الهجري بناءً على التاريخ الميلادي الجديد
+    calculateHijriFromGregorian();
+    
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('datePicker').value = today;
+    
     updateDateDisplay();
+    updateHijriFields();
     saveCurrentDate();
     
     // تحميل بيانات الحضور للتاريخ الجديد
@@ -660,7 +839,8 @@ function resetToToday() {
 // حفظ التاريخ الحالي
 function saveCurrentDate() {
     localStorage.setItem('teacherTracker_selectedDate', selectedDate.toISOString());
-    alert(`تم حفظ التاريخ: ${selectedDate.toLocaleDateString('ar-SA')}`);
+    localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
+    alert(`تم حفظ التاريخ الميلادي: ${selectedDate.toLocaleDateString('ar-SA')}\nوالهجري: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
 }
 
 // إنشاء ألسنة الصفوف
@@ -740,14 +920,11 @@ function fillClassTable(className) {
 
 // تحميل بيانات الحضور المحفوظة
 function loadAttendanceData() {
-    // هذه الدالة ستقوم بتحميل بيانات الحضور المحفوظة للتاريخ المحدد
-    // في هذه النسخة المبسطة، سنقوم فقط بتهيئة البيانات الفارغة
     console.log(`تحميل بيانات الحضور للتاريخ: ${selectedDate.toLocaleDateString()}`);
 }
 
 // تحديث الجداول بالبيانات المحملة
 function updateTablesWithLoadedData() {
-    // في تطبيق حقيقي، ستقوم بتحديث حالات الحضور بناء على البيانات المحملة
     console.log(`تحديث الجداول للتاريخ: ${selectedDate.toLocaleDateString()}`);
 }
 
@@ -811,11 +988,8 @@ function toggleStar(cell) {
 
 // حفظ بيانات الحضور
 function saveAttendanceData() {
-    // في تطبيق حقيقي، ستقوم بحفظ بيانات الحضور للتاريخ المحدد
     const dateKey = selectedDate.toISOString().split('T')[0];
     console.log(`حفظ بيانات الحضور للتاريخ: ${dateKey}`);
-    
-    // تخزين مؤقت في localStorage للتجربة
     localStorage.setItem(`teacherTracker_attendance_${dateKey}`, 'بيانات الحضور المحفوظة');
 }
 
@@ -952,7 +1126,8 @@ function showStatistics() {
         الغائبون: ${absentCount / 5} طالب
         الطلاب المتميزون: ${starCount} طالب
         نسبة الحضور: ${((presentCount / (presentCount + absentCount)) * 100).toFixed(1)}%
-        التاريخ: ${selectedDate.toLocaleDateString('ar-SA')}
+        التاريخ الميلادي: ${selectedDate.toLocaleDateString('ar-SA')}
+        التاريخ الهجري: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ
         ${document.getElementById('currentSemesterInfo').textContent}
     `;
     
@@ -970,6 +1145,7 @@ function backupData() {
         studentsData: studentsData,
         selectedDate: selectedDate.toISOString(),
         semesterSettings: semesterSettings,
+        hijriDate: hijriDate,
         backupDate: new Date().toISOString()
     };
     
@@ -1006,7 +1182,9 @@ function loadBackup() {
 function exportToExcel() {
     let tablesHTML = `<h2>سجل متابعة الطلاب - المعلم: فهد الخالدي</h2>`;
     tablesHTML += `<h3>المادة: اللغة الإنجليزية - ${document.getElementById('currentSemesterInfo').textContent}</h3>`;
-    tablesHTML += `<h3>التاريخ: ${selectedDate.toLocaleDateString('ar-SA')}</h3>`;
+    tablesHTML += `<h3>المدرسة: سعيد بن العاص المتوسطة</h3>`;
+    tablesHTML += `<h3>التاريخ الميلادي: ${selectedDate.toLocaleDateString('ar-SA')}</h3>`;
+    tablesHTML += `<h3>التاريخ الهجري: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ</h3>`;
     
     for (const className in studentsData) {
         tablesHTML += `<h3>الصف ${className}</h3>`;
