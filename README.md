@@ -5,106 +5,103 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سجل متابعة الطلاب</title>
 
-<!-- مكتبة jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
-body {
-    font-family: "Tajawal", sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f7f7f7;
-}
+    body {
+        font-family: "Tajawal", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f7f7f7;
+    }
 
-header {
-    background: #6ec9ff; /* أزرق سماوي */
-    color: #fff;
-    text-align: center;
-    padding: 15px 0;
-    font-size: 20px;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
+    header {
+        background: #6ec9ff; /* الأزرق السماوي */
+        color: #fff;
+        text-align: center;
+        padding: 15px 0;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
 
-.container {
-    width: 95%;
-    margin: 10px auto;
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-}
+    .container {
+        width: 95%;
+        margin: 10px auto;
+        background: white;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-}
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
 
-th, td {
-    border: 1px solid #ccc;
-    padding: 6px;
-    text-align: center;
-}
+    th, td {
+        border: 1px solid #ccc;
+        padding: 6px;
+        text-align: center;
+    }
 
-th {
-    background: #dedede;
-    font-size: 11px;
-}
+    th {
+        background: #dedede;
+        font-size: 11px;
+    }
 
-td {
-    cursor: pointer;
-    user-select: none;
-}
+    td {
+        cursor: pointer;
+        user-select: none;
+    }
 
-.admin-panel {
-    display: none;
-    margin-top: 15px;
-    padding: 10px;
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #dcdcdc;
-}
+    .admin-panel {
+        display: none;
+        margin-top: 15px;
+        padding: 10px;
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid #dcdcdc;
+    }
 
-.input-field {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
+    .input-field {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
 
-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    background: #6ec9ff;
-    color: white;
-    font-weight: bold;
-}
+    button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        font-size: 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #6ec9ff;
+        color: white;
+        font-weight: bold;
+    }
 
-#admin-btn {
-    background: #e0e0e0;
-    color: black;
-    margin-top: 25px;
-}
+    #admin-btn {
+        background: #e0e0e0;
+        color: black;
+        margin-top: 25px;
+    }
 
-#pdf-btn {
-    background: #0099ff;
-    margin-bottom: 10px;
-}
+    #pdf-btn {
+        background: #0099ff;
+        margin-bottom: 10px;
+    }
 
-.star {
-    color: gold;
-    font-size: 16px;
-    font-weight: bold;
-    display: inline-block;
-    width: 18px;
-}
+    .star {
+        color: gold;
+        font-size: 16px;
+        font-weight: bold;
+        display: inline-block;
+        width: 18px;
+    }
 </style>
 </head>
 
@@ -129,6 +126,7 @@ button {
                 <th>⭐</th>
             </tr>
         </thead>
+
         <tbody id="table-body"></tbody>
     </table>
 
@@ -195,16 +193,16 @@ function toggle(index, field) {
     renderTable();
 }
 
-// ⭐ النجمة — تعمل فقط بعد تفعيل الإدارة
+// ⭐ النجمة — ممنوعة بدون تفعيل الإدارة
 function toggleStar(i) {
-    if (!adminEnabled) return;
+    if (!adminEnabled) return; // 🚫 ممنوع للزائر
     students[i].star = !students[i].star;
     renderTable();
 }
 
 function toggleAdminLogin() {
-    const loginDiv = document.getElementById("admin-login");
-    loginDiv.style.display = loginDiv.style.display === "none" ? "block" : "none";
+    document.getElementById("admin-login").style.display =
+        document.getElementById("admin-login").style.display === "none" ? "block" : "none";
 }
 
 function checkPassword() {
@@ -214,7 +212,6 @@ function checkPassword() {
         document.getElementById("admin-panel").style.display = "block";
         document.getElementById("admin-login").style.display = "none";
         document.getElementById("admin-pass").value = "";
-        renderTable(); // لتفعيل النجمة بعد الدخول
     }
 }
 
@@ -229,6 +226,7 @@ function addStudent() {
 function moveStudent() {
     let from = document.getElementById("move-from").value.trim();
     let to = document.getElementById("move-to").value.trim();
+
     let student = students.find(s => s.name === from);
     if (student) {
         student.name = `${from} (${to})`;
@@ -241,41 +239,12 @@ function randomAttendance() {
     renderTable();
 }
 
-// تصدير PDF فعلي
 function exportPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
-
-    doc.setFontSize(14);
-    doc.text("سجل متابعة الطلاب", 40, 40);
-
-    let rows = students.map((s, i) => [
-        i+1,
-        s.name,
-        s.attend ? "✓" : "✕",
-        s.hw ? "✓" : "✕",
-        s.proj ? "✓" : "✕",
-        s.app ? "✓" : "✕",
-        s.part ? "✓" : "✕",
-        s.star ? "⭐" : ""
-    ]);
-
-    doc.autoTable({
-        head: [["م","اسم الطالب","حضور","واجب","مشروع","تطبيق","مشاركة","⭐"]],
-        body: rows,
-        startY: 60,
-        theme: "grid",
-        headStyles: { fillColor: [110, 201, 255] }
-    });
-
-    doc.save("Attendance_Report.pdf");
+    alert("سيتم ربط زر PDF لاحقاً (جاهز للإضافة) ✔");
 }
 
 renderTable();
 </script>
-
-<!-- jsPDF AutoTable plugin -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
 </body>
 </html>
