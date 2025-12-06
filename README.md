@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -604,6 +605,17 @@ const hijriMonths = [
     "رمضان", "شوال", "ذو القعدة", "ذو الحجة"
 ];
 
+// أسماء الأشهر الميلادية بالعربية
+const gregorianMonths = [
+    "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+    "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+];
+
+// أيام الأسبوع بالعربية
+const weekDays = [
+    "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"
+];
+
 // تهيئة الصفحة
 function initPage() {
     // دائماً نبدأ بتاريخ اليوم الحقيقي
@@ -689,27 +701,51 @@ function getApproximateHijriDate(gregorianDate) {
     };
 }
 
+// تحويل الأرقام الإنجليزية إلى عربية
+function convertToArabicNumbers(num) {
+    const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return num.toString().replace(/\d/g, digit => arabicNumbers[digit]);
+}
+
+// الحصول على التاريخ الميلادي بصيغة عربية صحيحة (بدون تحويل هجري)
+function getGregorianDateString(date) {
+    const day = date.getDate();
+    const month = gregorianMonths[date.getMonth()];
+    const year = date.getFullYear();
+    const weekDay = weekDays[date.getDay()];
+    
+    const arabicDay = convertToArabicNumbers(day);
+    const arabicYear = convertToArabicNumbers(year);
+    
+    return `${weekDay}، ${arabicDay} ${month} ${arabicYear}`;
+}
+
+// الحصول على التاريخ الميلادي قصير للتقرير
+function getShortGregorianDate(date) {
+    const day = date.getDate();
+    const month = gregorianMonths[date.getMonth()];
+    const year = date.getFullYear();
+    
+    const arabicDay = convertToArabicNumbers(day);
+    const arabicYear = convertToArabicNumbers(year);
+    
+    return `${arabicDay} ${month} ${arabicYear}`;
+}
+
 // تحديث عرض التاريخ
 function updateDateDisplay() {
-    // تحديث التاريخ الميلادي
-    const gregorianOptions = { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    };
+    // تحديث التاريخ الميلادي باستخدام الصيغة الصحيحة
+    const gregorianDateString = getGregorianDateString(selectedDate);
     
-    const gregorianDate = selectedDate.toLocaleDateString('ar-SA', gregorianOptions);
-    
-    document.getElementById('gregorianDateText').innerHTML = gregorianDate;
+    document.getElementById('gregorianDateText').innerHTML = gregorianDateString;
     
     // تحديث التاريخ الهجري
-    document.getElementById('hijriDateText').innerHTML = 
-        `${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`;
+    const hijriDateString = `${convertToArabicNumbers(hijriDate.day)} ${hijriDate.monthName} ${convertToArabicNumbers(hijriDate.year)}هـ`;
+    document.getElementById('hijriDateText').innerHTML = hijriDateString;
     
     // تحديث عرض التاريخ في لوحة الإدارة
-    document.getElementById('adminDateDisplay').innerHTML = 
-        `${selectedDate.toLocaleDateString('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+    const shortGregorian = getShortGregorianDate(selectedDate);
+    document.getElementById('adminDateDisplay').innerHTML = shortGregorian;
     
     // إضافة مؤشر إذا لم يكن تاريخ اليوم
     const today = new Date();
@@ -1196,7 +1232,7 @@ function showStatistics() {
         الغائبون: ${absentCount / 5} طالب
         الطلاب المتميزون: ${starCount} طالب
         نسبة الحضور: ${((presentCount / (presentCount + absentCount)) * 100).toFixed(1)}%
-        التاريخ الميلادي: ${selectedDate.toLocaleDateString('ar-SA')}
+        التاريخ الميلادي: ${getGregorianDateString(selectedDate)}
         التاريخ الهجري: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ
         ${document.getElementById('currentSemesterInfo').textContent}
     `;
@@ -1248,13 +1284,17 @@ function loadBackup() {
     }
 }
 
-// تصدير إلى Excel
+// تصدير إلى Excel - تم التعديل لإصلاح مشكلة التاريخ
 function exportToExcel() {
+    // الحصول على التاريخ الميلادي بصيغة صحيحة (بدون تحويل هجري)
+    const gregorianDateForExcel = getShortGregorianDate(selectedDate);
+    const hijriDateForExcel = `${convertToArabicNumbers(hijriDate.day)} ${hijriDate.monthName} ${convertToArabicNumbers(hijriDate.year)}هـ`;
+    
     let tablesHTML = `<h2>سجل متابعة الطلاب - المعلم: فهد الخالدي</h2>`;
     tablesHTML += `<h3>المادة: اللغة الإنجليزية - ${document.getElementById('currentSemesterInfo').textContent}</h3>`;
     tablesHTML += `<h3>المدرسة: سعيد بن العاص المتوسطة</h3>`;
-    tablesHTML += `<h3>التاريخ الميلادي: ${selectedDate.toLocaleDateString('ar-SA')}</h3>`;
-    tablesHTML += `<h3>التاريخ الهجري: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ</h3>`;
+    tablesHTML += `<h3>التاريخ الميلادي: ${gregorianDateForExcel}</h3>`;
+    tablesHTML += `<h3>التاريخ الهجري: ${hijriDateForExcel}</h3>`;
     
     for (const className in studentsData) {
         tablesHTML += `<h3>الصف ${className}</h3>`;
