@@ -1,11 +1,387 @@
-
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سجل متابعة الطلاب - فهد الخالدي</title>
 <style>
-/* ... (جميع الأنماط السابقة تبقى كما هي) ... */
+body {
+    font-family: "Tajawal", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+}
+
+header {
+    background: linear-gradient(135deg, #1a5276, #2a9d8f);
+    color: #fff;
+    text-align: center;
+    padding: 12px 0;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-main {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.header-sub {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.header-sub div {
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+}
+
+.current-date {
+    background: rgba(38, 70, 83, 0.8) !important;
+    transition: all 0.3s;
+}
+
+.date-info {
+    font-size: 12px;
+    color: #e0f7fa;
+    margin-top: 2px;
+}
+
+.class-header {
+    background: #2a9d8f;
+    color: white;
+    padding: 8px;
+    margin: 15px 0 5px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.container {
+    width: 95%;
+    margin: 10px auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #e9f5f4;
+    color: #264653;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+td {
+    cursor: pointer;
+    user-select: none;
+}
+
+button {
+    margin: 5px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background: #1a5276;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background: #2a9d8f;
+    transform: translateY(-2px);
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.admin-panel {
+    display: none;
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #1a5276;
+    border-radius: 10px;
+    background: #f0f8ff;
+}
+
+.star-cell {
+    color: #ffd700;
+    font-size: 16px;
+}
+
+.present {
+    background-color: #e8f5e9;
+}
+
+.absent {
+    background-color: #ffebee;
+}
+
+.status-filter {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.status-filter button {
+    background: #ddd;
+    color: #333;
+}
+
+.status-filter button.active {
+    background: #2a9d8f;
+    color: white;
+}
+
+input[type="password"], input[type="text"], select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: "Tajawal", sans-serif;
+}
+
+.class-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    gap: 5px;
+}
+
+.class-tab {
+    padding: 8px 15px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.class-tab.active {
+    background: #2a9d8f;
+    color: white;
+}
+
+.class-tab:hover {
+    background: #c0c0c0;
+}
+
+.student-count {
+    text-align: center;
+    margin: 10px 0;
+    color: #264653;
+    font-weight: bold;
+}
+
+.date-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.date-controls button {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+.date-display {
+    font-size: 16px;
+    font-weight: bold;
+    color: #264653;
+    padding: 5px 15px;
+    background: #f0f8ff;
+    border-radius: 5px;
+    border: 1px solid #1a5276;
+}
+
+.date-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: "Tajawal", sans-serif;
+}
+
+.admin-section {
+    margin: 15px 0;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.admin-section h4 {
+    margin-top: 0;
+    color: #1a5276;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+.admin-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.admin-label {
+    font-weight: bold;
+    color: #264653;
+    min-width: 150px;
+}
+
+.admin-input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.semester-info {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #e8f5e9;
+    border-radius: 4px;
+    color: #2a9d8f;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.hijri-date-selector {
+    background: #fff8e1;
+    border: 1px solid #ffd54f;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.starred-student {
+    background-color: #fffde7 !important;
+}
+
+.random-period-section {
+    background: #e8f5e9;
+    border: 1px solid #2a9d8f;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.period-info {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #2a9d8f;
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.week-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.week-button {
+    padding: 8px 12px;
+    background: #e0e0e0;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    min-width: 60px;
+}
+
+.week-button:hover {
+    background: #d0d0d0;
+}
+
+.week-button.selected {
+    background: #4CAF50;
+    color: white;
+    border-color: #388E3C;
+}
+
+.week-button.missing {
+    background: #ffcccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.selected-weeks-display {
+    background: #e3f2fd;
+    border: 1px solid #2196F3;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.export-section {
+    background: #fff8e1;
+    border: 1px solid #ffb300;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.week-info {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+@media print {
+    button, .admin-panel, .status-filter, .class-tabs, .date-controls, .week-buttons, .selected-weeks-display, .export-section {
+        display: none !important;
+    }
+    
+    table {
+        font-size: 10px;
+    }
+    
+    .header-sub {
+        background: white;
+        color: black;
+        border: 1px solid #ccc;
+    }
+    
+    .current-date {
+        background: white !important;
+        color: black;
+        border: 1px solid #ccc;
+    }
+}
 </style>
 <!-- مكتبة ummAlQura لحساب التاريخ الهجري -->
 <script src="https://cdn.jsdelivr.net/npm/hijri-date/lib/simple.umd.min.js"></script>
@@ -26,8 +402,8 @@
 
 <div class="container">
     <div class="controls">
-        <button onclick="exportToExcel()">📊 تصدير Excel</button>
-        <button onclick="exportPeriodToExcel()">📅 تصدير فترة كاملة</button>
+        <button onclick="exportToExcel()">📊 تصدير اليوم Excel</button>
+        <button onclick="exportSelectedWeeks()">📅 تصدير الأسابيع المحددة</button>
         <button onclick="printPage()">🖨️ طباعة</button>
         <button onclick="showAllClasses()">👁️ عرض الكل</button>
         <button onclick="showTodayAttendance()">📅 عرض تحضير اليوم</button>
@@ -73,12 +449,45 @@
             <div class="admin-row">
                 <div class="admin-label">السنة الدراسية:</div>
                 <div class="admin-input">
-                    <input type="text" id="academicYear" value="١٤٤٦هـ" style="width: 100%;">
+                    <input type="text" id="academicYear" value="١٤٤٦-١٤٤٧هـ" style="width: 100%;">
                 </div>
             </div>
             <div style="text-align: center; margin-top: 10px;">
                 <button onclick="saveSemesterSettings()">💾 حفظ إعدادات الفصل</button>
-                <span class="semester-info" id="currentSemesterInfo">الفصل الثاني ١٤٤٦هـ</span>
+                <span class="semester-info" id="currentSemesterInfo">الفصل الثاني ١٤٤٦-١٤٤٧هـ</span>
+            </div>
+        </div>
+        
+        <div class="admin-section">
+            <h4>📅 التحضير الأسبوعي (الأسابيع الدراسية الفعلية)</h4>
+            
+            <div class="selected-weeks-display" id="selectedWeeksDisplay">
+                <strong>الأسابيع المحددة:</strong> <span id="selectedWeeksText">لا توجد أسابيع محددة</span>
+            </div>
+            
+            <div class="week-buttons" id="weekButtons">
+                <!-- سيتم إنشاء أزرار الأسابيع ديناميكياً -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <button onclick="clearSelectedWeeks()">🗑️ مسح الأسابيع المحددة</button>
+                <button onclick="randomAttendanceForSelectedWeeks()">🎲 تحضير عشوائي للأسابيع المحددة</button>
+            </div>
+            
+            <div style="text-align:center; margin-top:10px; font-size:12px; color:#666;">
+                ⭐ خاصية التحضير العشوائي: سيتم وضع ✓ لكل الخيارات للطلاب المتميزين (الذين لديهم نجمة ⭐)
+            </div>
+        </div>
+        
+        <div class="export-section">
+            <h4>📤 تصدير التقارير</h4>
+            <div style="text-align: center; margin-top: 10px;">
+                <button onclick="exportSelectedWeeks()" style="background: #4CAF50;">📥 تصدير الأسابيع المحددة Excel</button>
+                <button onclick="exportAllWeeks()" style="background: #2196F3;">📚 تصدير جميع الأسابيع Excel</button>
+                <button onclick="exportByMonth()" style="background: #9C27B0;">📅 تصدير حسب الشهر Excel</button>
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <button onclick="generateWeeklyReport()" style="background: #FF9800;">📈 إنشاء تقرير إحصائي</button>
             </div>
         </div>
         
@@ -135,35 +544,6 @@
                     <button onclick="updateHijriDate()">🔄 تحديث التاريخ الهجري</button>
                     <button onclick="resetHijriToToday()">🔄 الرجوع للتاريخ الفعلي</button>
                 </div>
-                <p style="text-align:center; font-size:11px; color:#666;">ملاحظة: التاريخ الهجري المحسوب تلقائياً، ويمكنك تعديله يدوياً إذا لزم الأمر.</p>
-            </div>
-            
-            <p style="text-align:center; font-size:12px; color:#666;">يمكنك الرجوع إلى أشهر سابقة أو قادمة لمشاهدة السجلات القديمة أو تحضير مستقبلية.</p>
-        </div>
-        
-        <div class="admin-section">
-            <h4>🎲 التحضير العشوائي للأسابيع الدراسية (18 أسبوع)</h4>
-            <div class="random-period-section">
-                <div style="text-align:center; margin:10px 0; padding:10px; background:#e8f5e9; border-radius:5px;">
-                    <strong>الأسابيع الدراسية المتاحة:</strong><br>
-                    من الأسبوع 1 إلى 13 ثم من 15 إلى 19 (إجمالي 18 أسبوع)<br>
-                    <small>ملاحظة: الأسبوع 14 إجازة الخريف ولا يتم إدراجه</small>
-                </div>
-                <div style="text-align: center; margin-top: 15px;">
-                    <button onclick="randomAttendanceForAllWeeks()">📅 تحضير عشوائي لجميع الأسابيع (18 أسبوع)</button>
-                    <button onclick="clearAllWeeksData()">🗑️ مسح بيانات جميع الأسابيع</button>
-                </div>
-                <div style="text-align: center; margin-top: 10px;">
-                    <button onclick="saveWeeksData()">💾 حفظ بيانات الأسابيع</button>
-                    <span class="period-info" id="weeksInfo">18 أسبوع متاحة</span>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 15px;">
-                <button onclick="randomAttendance()">🎲 تحضير عشوائي للتاريخ الحالي</button>
-                <button onclick="randomAttendanceForPeriod()">📅 تحضير عشوائي للفترة المحددة</button>
-            </div>
-            <div style="text-align:center; margin-top:10px; font-size:12px; color:#666;">
-                ⭐ خاصية التحضير العشوائي: سيتم وضع ✓ لكل الخيارات للطلاب المتميزين (الذين لديهم نجمة)
             </div>
         </div>
         
@@ -176,26 +556,17 @@
             </div>
         </div>
         
-        <div class="admin-section">
-            <h4>📊 الإحصائيات</h4>
-            <div style="text-align:center;">
-                <button onclick="showStatistics()">📈 عرض الإحصائيات</button>
-                <button onclick="backupData()">💾 نسخ احتياطي</button>
-                <button onclick="loadBackup()">📂 استعادة نسخة</button>
-            </div>
-        </div>
-        
         <p style="text-align:center; font-size:12px; color:#666;">بعد تفعيل الإدارة، يمكن تمييز الطلاب بالنجمة وإدارة جميع الخصائص.</p>
     </div>
 </div>
 
 <script>
-// بيانات الطلاب لكل صف
+// بيانات الطلاب لكل صف (محدثة حسب القائمة المقدمة)
 const studentsData = {
     "3-1": [
         "إسماعيل محمد هاشم شفيق الرحمن",
         "ابراهيم علي ابو بكر محمد",
-        "باسم محمد - ابو طالب",
+        "باسم محمد ابو طالب",
         "حسين بشير أمادو جازير",
         "حسين هارون عثمان عبدالمؤمن ادم",
         "حمد محمد عثمان بخش",
@@ -203,7 +574,7 @@ const studentsData = {
         "ريان عبد الرحمن موسى جيبو",
         "ريحان محمد مقبول حسين عمر حمزه",
         "عامر مولوي حسن شريف",
-        "عبدالحليم نور كبير - صديق احمد",
+        "عبدالحليم نور كبير صديق احمد",
         "عمران يعقوب محمد محمد مسلم",
         "عمير محمد محمد شفيع حكيم علي",
         "فارس محمد ابو البشر واعظ علي",
@@ -227,27 +598,35 @@ const studentsData = {
         "خالد وليد محمد محمد",
         "ريان عبدالرحمن عمر نانتومي",
         "سليمان ابراهيم ديقوقا",
-        "صالح عبدالله محمد قاسم يوسف علي عبدالعزيز اول اودو محمد",
+        "صالح عبدالله محمد قاسم يوسف علي",
+        "عبدالعزيز اول اودو محمد",
         "عثمان عبد الرحمن باي محمد",
         "عدنان نور امير حسين",
         "عمر سراج محمد زكريا",
-        "فهد محمد حسين عبداللّه مياه حسين محمد ابراهيم سعيد هو ساوي محمد محمد امين اسلام خليل الرحمن مشعل ابو طاهر ناظر حسين عبدالمطلب موسى ابو بكر الصديق عبدالجبار امة علي",
+        "فهد محمد حسين عبداللّه مياه حسين",
+        "محمد ابراهيم سعيد هو ساوي",
+        "محمد محمد امين اسلام خليل الرحمن",
+        "مشعل ابو طاهر ناظر حسين عبدالمطلب",
+        "موسى ابو بكر الصديق عبدالجبار امة علي",
         "يوسف مهدي عابدين محمد"
     ],
     "3-3": [
-        "ابراهيم جزولي - اسدانور",
+        "ابراهيم جزولي اسدانور",
         "تركي عبدالصمد عبدالغني محمد حسين",
         "حسام حسن ابو الكلام مقبول احمد",
         "حسن عيسى بكوري محمد",
         "سعد سلام ستار ارشاد اللّٰه",
-        "عايض سيف الاسلام نور احمد علي عبدالكريم عثمان ابكر كوجو",
+        "عايض سيف الاسلام نور احمد علي",
+        "عبدالكريم عثمان ابكر كوجو",
         "عزام شمس العالم قاسم علي",
-        "عماد محمد صديق محمد شفيع سيد عمر عبد القدوس عبدالسلام عبد السبحان عمر مورتلا أبو بكر محمد",
+        "عماد محمد صديق محمد شفيع سيد",
+        "عمر عبد القدوس عبدالسلام عبد السبحان",
+        "عمر مورتلا أبو بكر محمد",
         "فيصل احمد ابو بكر محمد",
         "محمد اسحاق محمد اسلام عبدالحكيم",
         "محمد عبدالله ابو سعيد مياه",
         "حمد محمد اسماعيل امير حسين ابو بكر",
-        "حمد موسى ساليفو ديقوقa",
+        "حمد موسى ساليفو ديقوقا",
         "مشاري شيهو اسماعيل محمد بكر",
         "ياسر عبدالرحيم محمد علي سفر علي",
         "يوسف محمد عبد الرحمن علي"
@@ -282,7 +661,7 @@ const studentsData = {
         "عامر رحمة اللّٰه محمد شفيع",
         "عبد اللّٰه حسين علي فليس",
         "عبد العزيز سراج ابكر عثمان",
-        "عبدالله عيسى - ابراهيم",
+        "عبدالله عيسى ابراهيم",
         "عمر محمد عمر صالح",
         "غسان عثمان اسماعيل عبدالله عبد اللّٰه",
         "فاضل عادل صالح الرايس",
@@ -298,222 +677,191 @@ const studentsData = {
     ]
 };
 
-// بيانات الأسابيع الدراسية (18 أسبوع)
-const studyWeeks = [
-  {
-    "week": 1,
-    "start_hijri": "1/3/1447",
-    "start_gregorian": "24/08/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "1/3/1447", "gregorian": "24/08/2025"},
-      {"day": "الإثنين", "hijri": "2/3/1447", "gregorian": "25/08/2025"},
-      {"day": "الثلاثاء", "hijri": "3/3/1447", "gregorian": "26/08/2025"},
-      {"day": "الأربعاء", "hijri": "4/3/1447", "gregorian": "27/08/2025"},
-      {"day": "الخميس", "hijri": "5/3/1447", "gregorian": "28/08/2025"}
-    ]
-  },
-  {
-    "week": 2,
-    "start_hijri": "8/3/1447",
-    "start_gregorian": "31/08/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "8/3/1447", "gregorian": "31/08/2025"},
-      {"day": "الإثنين", "hijri": "9/3/1447", "gregorian": "01/09/2025"},
-      {"day": "الثلاثاء", "hijri": "10/3/1447", "gregorian": "02/09/2025"},
-      {"day": "الأربعاء", "hijri": "11/3/1447", "gregorian": "03/09/2025"},
-      {"day": "الخميس", "hijri": "12/3/1447", "gregorian": "04/09/2025"}
-    ]
-  },
-  {
-    "week": 3,
-    "start_hijri": "15/3/1447",
-    "start_gregorian": "07/09/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "15/3/1447", "gregorian": "07/09/2025"},
-      {"day": "الإثنين", "hijri": "16/3/1447", "gregorian": "08/09/2025"},
-      {"day": "الثلاثاء", "hijri": "17/3/1447", "gregorian": "09/09/2025"},
-      {"day": "الأربعاء", "hijri": "18/3/1447", "gregorian": "10/09/2025"},
-      {"day": "الخميس", "hijri": "19/3/1447", "gregorian": "11/09/2025"}
-    ]
-  },
-  {
-    "week": 4,
-    "start_hijri": "22/3/1447",
-    "start_gregorian": "14/09/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "22/3/1447", "gregorian": "14/09/2025"},
-      {"day": "الإثنين", "hijri": "23/3/1447", "gregorian": "15/09/2025"},
-      {"day": "الثلاثاء", "hijri": "24/3/1447", "gregorian": "16/09/2025"},
-      {"day": "الأربعاء", "hijri": "25/3/1447", "gregorian": "17/09/2025"},
-      {"day": "الخميس", "hijri": "26/3/1447", "gregorian": "18/09/2025"}
-    ]
-  },
-  {
-    "week": 5,
-    "start_hijri": "29/3/1447",
-    "start_gregorian": "21/09/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "29/3/1447", "gregorian": "21/09/2025"},
-      {"day": "الإثنين", "hijri": "30/3/1447", "gregorian": "22/09/2025"},
-      {"day": "الثلاثاء", "hijri": "1/4/1447", "gregorian": "23/09/2025"},
-      {"day": "الأربعاء", "hijri": "2/4/1447", "gregorian": "24/09/2025"},
-      {"day": "الخميس", "hijri": "3/4/1447", "gregorian": "25/09/2025"}
-    ]
-  },
-  {
-    "week": 6,
-    "start_hijri": "6/4/1447",
-    "start_gregorian": "28/09/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "6/4/1447", "gregorian": "28/09/2025"},
-      {"day": "الإثنين", "hijri": "7/4/1447", "gregorian": "29/09/2025"},
-      {"day": "الثلاثاء", "hijri": "8/4/1447", "gregorian": "30/09/2025"},
-      {"day": "الأربعاء", "hijri": "9/4/1447", "gregorian": "01/10/2025"},
-      {"day": "الخميس", "hijri": "10/4/1447", "gregorian": "02/10/2025"}
-    ]
-  },
-  {
-    "week": 7,
-    "start_hijri": "13/4/1447",
-    "start_gregorian": "05/10/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "13/4/1447", "gregorian": "05/10/2025"},
-      {"day": "الإثنين", "hijri": "14/4/1447", "gregorian": "06/10/2025"},
-      {"day": "الثلاثاء", "hijri": "15/4/1447", "gregorian": "07/10/2025"},
-      {"day": "الأربعاء", "hijri": "16/4/1447", "gregorian": "08/10/2025"},
-      {"day": "الخميس", "hijri": "17/4/1447", "gregorian": "09/10/2025"}
-    ]
-  },
-  {
-    "week": 8,
-    "start_hijri": "20/4/1447",
-    "start_gregorian": "12/10/2025",
-    "days": [
-      {"day": "الإثنين", "hijri": "21/4/1447", "gregorian": "13/10/2025"},
-      {"day": "الثلاثاء", "hijri": "22/4/1447", "gregorian": "14/10/2025"},
-      {"day": "الأربعاء", "hijri": "23/4/1447", "gregorian": "15/10/2025"},
-      {"day": "الخميس", "hijri": "24/4/1447", "gregorian": "16/10/2025"}
-    ]
-  },
-  {
-    "week": 9,
-    "start_hijri": "27/4/1447",
-    "start_gregorian": "19/10/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "27/4/1447", "gregorian": "19/10/2025"},
-      {"day": "الإثنين", "hijri": "28/4/1447", "gregorian": "20/10/2025"},
-      {"day": "الثلاثاء", "hijri": "29/4/1447", "gregorian": "21/10/2025"},
-      {"day": "الأربعاء", "hijri": "30/4/1447", "gregorian": "22/10/2025"},
-      {"day": "الخميس", "hijri": "1/5/1447", "gregorian": "23/10/2025"}
-    ]
-  },
-  {
-    "week": 10,
-    "start_hijri": "4/5/1447",
-    "start_gregorian": "26/10/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "4/5/1447", "gregorian": "26/10/2025"},
-      {"day": "الإثنين", "hijri": "5/5/1447", "gregorian": "27/10/2025"},
-      {"day": "الثلاثاء", "hijri": "6/5/1447", "gregorian": "28/10/2025"},
-      {"day": "الأربعاء", "hijri": "7/5/1447", "gregorian": "29/10/2025"},
-      {"day": "الخميس", "hijri": "8/5/1447", "gregorian": "30/10/2025"}
-    ]
-  },
-  {
-    "week": 11,
-    "start_hijri": "11/5/1447",
-    "start_gregorian": "02/11/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "11/5/1447", "gregorian": "02/11/2025"},
-      {"day": "الإثنين", "hijri": "12/5/1447", "gregorian": "03/11/2025"},
-      {"day": "الثلاثاء", "hijri": "13/5/1447", "gregorian": "04/11/2025"},
-      {"day": "الأربعاء", "hijri": "14/5/1447", "gregorian": "05/11/2025"},
-      {"day": "الخميس", "hijri": "15/5/1447", "gregorian": "06/11/2025"}
-    ]
-  },
-  {
-    "week": 12,
-    "start_hijri": "18/5/1447",
-    "start_gregorian": "09/11/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "18/5/1447", "gregorian": "09/11/2025"},
-      {"day": "الإثنين", "hijri": "19/5/1447", "gregorian": "10/11/2025"},
-      {"day": "الثلاثاء", "hijri": "20/5/1447", "gregorian": "11/11/2025"},
-      {"day": "الأربعاء", "hijri": "21/5/1447", "gregorian": "12/11/2025"},
-      {"day": "الخميس", "hijri": "22/5/1447", "gregorian": "13/11/2025"}
-    ]
-  },
-  {
-    "week": 13,
-    "start_hijri": "25/5/1447",
-    "start_gregorian": "16/11/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "25/5/1447", "gregorian": "16/11/2025"},
-      {"day": "الإثنين", "hijri": "26/5/1447", "gregorian": "17/11/2025"},
-      {"day": "الثلاثاء", "hijri": "27/5/1447", "gregorian": "18/11/2025"},
-      {"day": "الأربعاء", "hijri": "28/5/1447", "gregorian": "19/11/2025"},
-      {"day": "الخميس", "hijri": "29/5/1447", "gregorian": "20/11/2025"}
-    ]
-  },
-  {
-    "week": 15,
-    "start_hijri": "9/6/1447",
-    "start_gregorian": "30/11/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "9/6/1447", "gregorian": "30/11/2025"},
-      {"day": "الإثنين", "hijri": "10/6/1447", "gregorian": "01/12/2025"},
-      {"day": "الثلاثاء", "hijri": "11/6/1447", "gregorian": "02/12/2025"},
-      {"day": "الأربعاء", "hijri": "12/6/1447", "gregorian": "03/12/2025"}
-    ]
-  },
-  {
-    "week": 16,
-    "start_hijri": "16/6/1447",
-    "start_gregorian": "07/12/2025",
-    "days": [
-      {"day": "الإثنين", "hijri": "17/6/1447", "gregorian": "08/12/2025"},
-      {"day": "الثلاثاء", "hijri": "18/6/1447", "gregorian": "09/12/2025"},
-      {"day": "الأربعاء", "hijri": "19/6/1447", "gregorian": "10/12/2025"},
-      {"day": "الخميس", "hijri": "20/6/1447", "gregorian": "11/12/2025"}
-    ]
-  },
-  {
-    "week": 17,
-    "start_hijri": "23/6/1447",
-    "start_gregorian": "14/12/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "23/6/1447", "gregorian": "14/12/2025"},
-      {"day": "الإثنين", "hijri": "24/6/1447", "gregorian": "15/12/2025"},
-      {"day": "الثلاثاء", "hijri": "25/6/1447", "gregorian": "16/12/2025"},
-      {"day": "الأربعاء", "hijri": "26/6/1447", "gregorian": "17/12/2025"},
-      {"day": "الخميس", "hijri": "27/6/1447", "gregorian": "18/12/2025"}
-    ]
-  },
-  {
-    "week": 18,
-    "start_hijri": "1/7/1447",
-    "start_gregorian": "21/12/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "1/7/1447", "gregorian": "21/12/2025"},
-      {"day": "الإثنين", "hijri": "2/7/1447", "gregorian": "22/12/2025"},
-      {"day": "الثلاثاء", "hijri": "3/7/1447", "gregorian": "23/12/2025"},
-      {"day": "الأربعاء", "hijri": "4/7/1447", "gregorian": "24/12/2025"},
-      {"day": "الخميس", "hijri": "5/7/1447", "gregorian": "25/12/2025"}
-    ]
-  },
-  {
-    "week": 19,
-    "start_hijri": "8/7/1447",
-    "start_gregorian": "28/12/2025",
-    "days": [
-      {"day": "الأحد", "hijri": "8/7/1447", "gregorian": "28/12/2025"},
-      {"day": "الإثنين", "hijri": "9/7/1447", "gregorian": "29/12/2025"},
-      {"day": "الثلاثاء", "hijri": "10/7/1447", "gregorian": "30/12/2025"},
-      {"day": "الأربعاء", "hijri": "11/7/1447", "gregorian": "31/12/2025"},
-      {"day": "الخميس", "hijri": "12/7/1447", "gregorian": "01/01/2026"}
-    ]
-  }
-];
+// بيانات الأسابيع الدراسية (محدثة حسب الجدول المقدم)
+const studyWeeks = {
+    1: {
+        name: "الأسبوع 1",
+        days: [
+            { day: "الأحد", gregorian: "2025/08/24", hijri: "1447/03/01" },
+            { day: "الاثنين", gregorian: "2025/08/25", hijri: "1447/03/02" },
+            { day: "الثلاثاء", gregorian: "2025/08/26", hijri: "1447/03/03" },
+            { day: "الأربعاء", gregorian: "2025/08/27", hijri: "1447/03/04" },
+            { day: "الخميس", gregorian: "2025/08/28", hijri: "1447/03/05" }
+        ]
+    },
+    2: {
+        name: "الأسبوع 2",
+        days: [
+            { day: "الأحد", gregorian: "2025/08/31", hijri: "1447/03/08" },
+            { day: "الاثنين", gregorian: "2025/09/01", hijri: "1447/03/09" },
+            { day: "الثلاثاء", gregorian: "2025/09/02", hijri: "1447/03/10" },
+            { day: "الأربعاء", gregorian: "2025/09/03", hijri: "1447/03/11" },
+            { day: "الخميس", gregorian: "2025/09/04", hijri: "1447/03/12" }
+        ]
+    },
+    3: {
+        name: "الأسبوع 3",
+        days: [
+            { day: "الأحد", gregorian: "2025/09/07", hijri: "1447/03/15" },
+            { day: "الاثنين", gregorian: "2025/09/08", hijri: "1447/03/16" },
+            { day: "الثلاثاء", gregorian: "2025/09/09", hijri: "1447/03/17" },
+            { day: "الأربعاء", gregorian: "2025/09/10", hijri: "1447/03/18" },
+            { day: "الخميس", gregorian: "2025/09/11", hijri: "1447/03/19" }
+        ]
+    },
+    4: {
+        name: "الأسبوع 4",
+        days: [
+            { day: "الأحد", gregorian: "2025/09/14", hijri: "1447/03/22" },
+            { day: "الاثنين", gregorian: "2025/09/15", hijri: "1447/03/23" },
+            { day: "الثلاثاء", gregorian: "2025/09/16", hijri: "1447/03/24" },
+            { day: "الأربعاء", gregorian: "2025/09/17", hijri: "1447/03/25" },
+            { day: "الخميس", gregorian: "2025/09/18", hijri: "1447/03/26" }
+        ]
+    },
+    5: {
+        name: "الأسبوع 5",
+        days: [
+            { day: "الأحد", gregorian: "2025/09/21", hijri: "1447/03/29" },
+            { day: "الاثنين", gregorian: "2025/09/22", hijri: "1447/03/30" },
+            { day: "الثلاثاء", gregorian: "2025/09/23", hijri: "1447/03/31" },
+            { day: "الأربعاء", gregorian: "2025/09/24", hijri: "1447/04/01" },
+            { day: "الخميس", gregorian: "2025/09/25", hijri: "1447/04/02" }
+        ]
+    },
+    6: {
+        name: "الأسبوع 6",
+        days: [
+            { day: "الأحد", gregorian: "2025/09/28", hijri: "1447/04/05" },
+            { day: "الاثنين", gregorian: "2025/09/29", hijri: "1447/04/06" },
+            { day: "الثلاثاء", gregorian: "2025/09/30", hijri: "1447/04/07" },
+            { day: "الأربعاء", gregorian: "2025/10/01", hijri: "1447/04/08" },
+            { day: "الخميس", gregorian: "2025/10/02", hijri: "1447/04/09" }
+        ]
+    },
+    7: {
+        name: "الأسبوع 7",
+        days: [
+            { day: "الأحد", gregorian: "2025/10/05", hijri: "1447/04/12" },
+            { day: "الاثنين", gregorian: "2025/10/06", hijri: "1447/04/13" },
+            { day: "الثلاثاء", gregorian: "2025/10/07", hijri: "1447/04/14" },
+            { day: "الأربعاء", gregorian: "2025/10/08", hijri: "1447/04/15" },
+            { day: "الخميس", gregorian: "2025/10/09", hijri: "1447/04/16" }
+        ]
+    },
+    8: {
+        name: "الأسبوع 8",
+        days: [
+            { day: "الاثنين", gregorian: "2025/10/13", hijri: "1447/04/20" },
+            { day: "الثلاثاء", gregorian: "2025/10/14", hijri: "1447/04/21" },
+            { day: "الأربعاء", gregorian: "2025/10/15", hijri: "1447/04/22" },
+            { day: "الخميس", gregorian: "2025/10/16", hijri: "1447/04/23" }
+        ]
+    },
+    9: {
+        name: "الأسبوع 9",
+        days: [
+            { day: "الأحد", gregorian: "2025/10/19", hijri: "1447/04/26" },
+            { day: "الاثنين", gregorian: "2025/10/20", hijri: "1447/04/27" },
+            { day: "الثلاثاء", gregorian: "2025/10/21", hijri: "1447/04/28" },
+            { day: "الأربعاء", gregorian: "2025/10/22", hijri: "1447/04/29" },
+            { day: "الخميس", gregorian: "2025/10/23", hijri: "1447/04/30" }
+        ]
+    },
+    10: {
+        name: "الأسبوع 10",
+        days: [
+            { day: "الأحد", gregorian: "2025/10/26", hijri: "1447/05/03" },
+            { day: "الاثنين", gregorian: "2025/10/27", hijri: "1447/05/04" },
+            { day: "الثلاثاء", gregorian: "2025/10/28", hijri: "1447/05/05" },
+            { day: "الأربعاء", gregorian: "2025/10/29", hijri: "1447/05/06" },
+            { day: "الخميس", gregorian: "2025/10/30", hijri: "1447/05/07" }
+        ]
+    },
+    11: {
+        name: "الأسبوع 11",
+        days: [
+            { day: "الأحد", gregorian: "2025/11/02", hijri: "1447/05/10" },
+            { day: "الاثنين", gregorian: "2025/11/03", hijri: "1447/05/11" },
+            { day: "الثلاثاء", gregorian: "2025/11/04", hijri: "1447/05/12" },
+            { day: "الأربعاء", gregorian: "2025/11/05", hijri: "1447/05/13" },
+            { day: "الخميس", gregorian: "2025/11/06", hijri: "1447/05/14" }
+        ]
+    },
+    12: {
+        name: "الأسبوع 12",
+        days: [
+            { day: "الأحد", gregorian: "2025/11/09", hijri: "1447/05/17" },
+            { day: "الاثنين", gregorian: "2025/11/10", hijri: "1447/05/18" },
+            { day: "الثلاثاء", gregorian: "2025/11/11", hijri: "1447/05/19" },
+            { day: "الأربعاء", gregorian: "2025/11/12", hijri: "1447/05/20" },
+            { day: "الخميس", gregorian: "2025/11/13", hijri: "1447/05/21" }
+        ]
+    },
+    13: {
+        name: "الأسبوع 13",
+        days: [
+            { day: "الأحد", gregorian: "2025/11/16", hijri: "1447/05/24" },
+            { day: "الاثنين", gregorian: "2025/11/17", hijri: "1447/05/25" },
+            { day: "الثلاثاء", gregorian: "2025/11/18", hijri: "1447/05/26" },
+            { day: "الأربعاء", gregorian: "2025/11/19", hijri: "1447/05/27" },
+            { day: "الخميس", gregorian: "2025/11/20", hijri: "1447/05/28" }
+        ]
+    },
+    14: {
+        name: "الأسبوع 14",
+        days: [],
+        missing: true
+    },
+    15: {
+        name: "الأسبوع 15",
+        days: [
+            { day: "الأحد", gregorian: "2025/11/30", hijri: "1447/06/09" },
+            { day: "الاثنين", gregorian: "2025/12/01", hijri: "1447/06/10" },
+            { day: "الثلاثاء", gregorian: "2025/12/02", hijri: "1447/06/11" },
+            { day: "الأربعاء", gregorian: "2025/12/03", hijri: "1447/06/12" }
+        ]
+    },
+    16: {
+        name: "الأسبوع 16",
+        days: [
+            { day: "الاثنين", gregorian: "2025/12/08", hijri: "1447/06/17" },
+            { day: "الثلاثاء", gregorian: "2025/12/09", hijri: "1447/06/18" },
+            { day: "الأربعاء", gregorian: "2025/12/10", hijri: "1447/06/19" },
+            { day: "الخميس", gregorian: "2025/12/11", hijri: "1447/06/20" }
+        ]
+    },
+    17: {
+        name: "الأسبوع 17",
+        days: [
+            { day: "الأحد", gregorian: "2025/12/14", hijri: "1447/06/23" },
+            { day: "الاثنين", gregorian: "2025/12/15", hijri: "1447/06/24" },
+            { day: "الثلاثاء", gregorian: "2025/12/16", hijri: "1447/06/25" },
+            { day: "الأربعاء", gregorian: "2025/12/17", hijri: "1447/06/26" },
+            { day: "الخميس", gregorian: "2025/12/18", hijri: "1447/06/27" }
+        ]
+    },
+    18: {
+        name: "الأسبوع 18",
+        days: [
+            { day: "الأحد", gregorian: "2025/12/21", hijri: "1447/07/01" },
+            { day: "الاثنين", gregorian: "2025/12/22", hijri: "1447/07/02" },
+            { day: "الثلاثاء", gregorian: "2025/12/23", hijri: "1447/07/03" },
+            { day: "الأربعاء", gregorian: "2025/12/24", hijri: "1447/07/04" },
+            { day: "الخميس", gregorian: "2025/12/25", hijri: "1447/07/05" }
+        ]
+    },
+    19: {
+        name: "الأسبوع 19",
+        days: [
+            { day: "الأحد", gregorian: "2025/12/28", hijri: "1447/07/08" },
+            { day: "الاثنين", gregorian: "2025/12/29", hijri: "1447/07/09" },
+            { day: "الثلاثاء", gregorian: "2025/12/30", hijri: "1447/07/10" },
+            { day: "الأربعاء", gregorian: "2025/12/31", hijri: "1447/07/11" },
+            { day: "الخميس", gregorian: "2026/01/01", hijri: "1447/07/12" }
+        ]
+    }
+};
 
 // حالة الإدارة
 let adminActive = false;
@@ -521,20 +869,17 @@ let currentFilter = 'all';
 let currentClass = 'all';
 
 // إدارة التاريخ
-let currentDate = new Date(); // تاريخ اليوم الحقيقي
-let selectedDate = new Date(); // التاريخ المعروض (يمكن تغييره من الإدارة)
+let currentDate = new Date();
+let selectedDate = new Date();
 
 // إعدادات الفصل الدراسي
 let semesterSettings = {
     semester: "2",
-    academicYear: "١٤٤٦هـ"
+    academicYear: "١٤٤٦-١٤٤٧هـ"
 };
 
-// إعدادات فترة التحضير العشوائي
-let periodSettings = {
-    startDate: null,
-    endDate: null
-};
+// الأسابيع المحددة
+let selectedWeeks = [];
 
 // بيانات التحضير المخزنة لكل يوم
 let periodAttendanceData = {};
@@ -569,7 +914,7 @@ const weekDays = [
 function initPage() {
     // دائماً نبدأ بتاريخ اليوم الحقيقي
     currentDate = new Date();
-    selectedDate = new Date(currentDate); // نبدأ بتاريخ اليوم
+    selectedDate = new Date(currentDate);
     
     // محاولة تحميل إعدادات الفصل الدراسي
     const savedSemester = localStorage.getItem('teacherTracker_semesterSettings');
@@ -580,17 +925,11 @@ function initPage() {
         updateSemesterInfo();
     }
     
-    // محاولة تحميل إعدادات فترة التحضير
-    const savedPeriod = localStorage.getItem('teacherTracker_periodSettings');
-    if (savedPeriod) {
-        periodSettings = JSON.parse(savedPeriod);
-        if (periodSettings.startDate) {
-            document.getElementById('periodStartDate').value = periodSettings.startDate;
-        }
-        if (periodSettings.endDate) {
-            document.getElementById('periodEndDate').value = periodSettings.endDate;
-        }
-        updatePeriodInfo();
+    // محاولة تحميل الأسابيع المحددة
+    const savedWeeks = localStorage.getItem('teacherTracker_selectedWeeks');
+    if (savedWeeks) {
+        selectedWeeks = JSON.parse(savedWeeks);
+        updateSelectedWeeksDisplay();
     }
     
     // محاولة تحميل بيانات التحضير المحفوظة
@@ -604,6 +943,7 @@ function initPage() {
     
     createClassTabs();
     createTables();
+    createWeekButtons();
     updateStudentCount();
     updateDateDisplay();
     
@@ -613,14 +953,196 @@ function initPage() {
     
     // تحديث حقول التاريخ الهجري
     updateHijriFields();
-    
-    // تحديث معلومات الأسابيع
-    updateWeeksInfo();
 }
 
-// تحديث معلومات الأسابيع
-function updateWeeksInfo() {
-    document.getElementById('weeksInfo').textContent = `${studyWeeks.length} أسبوع متاحة`;
+// إنشاء أزرار الأسابيع
+function createWeekButtons() {
+    const weekButtonsContainer = document.getElementById('weekButtons');
+    weekButtonsContainer.innerHTML = '';
+    
+    for (let week = 1; week <= 19; week++) {
+        const weekData = studyWeeks[week];
+        const button = document.createElement('button');
+        button.className = 'week-button';
+        button.textContent = week;
+        button.title = weekData.name;
+        
+        if (weekData.missing) {
+            button.classList.add('missing');
+            button.disabled = true;
+        } else {
+            button.onclick = function() { toggleWeekSelection(week); };
+        }
+        
+        // إضافة معلومات عن الأسبوع
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'week-info';
+        if (weekData.days && weekData.days.length > 0) {
+            const firstDay = weekData.days[0];
+            const lastDay = weekData.days[weekData.days.length - 1];
+            infoDiv.textContent = `${firstDay.gregorian.split('/')[1]}/${firstDay.gregorian.split('/')[2]} - ${lastDay.gregorian.split('/')[1]}/${lastDay.gregorian.split('/')[2]}`;
+        }
+        
+        const container = document.createElement('div');
+        container.style.textAlign = 'center';
+        container.appendChild(button);
+        container.appendChild(infoDiv);
+        weekButtonsContainer.appendChild(container);
+    }
+    
+    updateWeekButtons();
+}
+
+// تبديل اختيار الأسبوع
+function toggleWeekSelection(week) {
+    const index = selectedWeeks.indexOf(week);
+    if (index === -1) {
+        selectedWeeks.push(week);
+    } else {
+        selectedWeeks.splice(index, 1);
+    }
+    
+    // ترتيب الأسابيع تصاعدياً
+    selectedWeeks.sort((a, b) => a - b);
+    
+    updateWeekButtons();
+    updateSelectedWeeksDisplay();
+    saveSelectedWeeks();
+}
+
+// تحديث مظهر أزرار الأسابيع
+function updateWeekButtons() {
+    document.querySelectorAll('.week-button').forEach(button => {
+        const weekNum = parseInt(button.textContent);
+        if (selectedWeeks.includes(weekNum)) {
+            button.classList.add('selected');
+        } else {
+            button.classList.remove('selected');
+        }
+    });
+}
+
+// تحديث عرض الأسابيع المحددة
+function updateSelectedWeeksDisplay() {
+    const displayElement = document.getElementById('selectedWeeksText');
+    if (selectedWeeks.length === 0) {
+        displayElement.textContent = "لا توجد أسابيع محددة";
+    } else {
+        const weekNames = selectedWeeks.map(w => studyWeeks[w].name).join('، ');
+        displayElement.textContent = `${weekNames} (${selectedWeeks.length} أسابيع)`;
+    }
+}
+
+// حفظ الأسابيع المحددة
+function saveSelectedWeeks() {
+    localStorage.setItem('teacherTracker_selectedWeeks', JSON.stringify(selectedWeeks));
+}
+
+// مسح الأسابيع المحددة
+function clearSelectedWeeks() {
+    selectedWeeks = [];
+    updateWeekButtons();
+    updateSelectedWeeksDisplay();
+    saveSelectedWeeks();
+}
+
+// تحضير عشوائي للأسابيع المحددة
+function randomAttendanceForSelectedWeeks() {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة أولا');
+        return;
+    }
+    
+    if (selectedWeeks.length === 0) {
+        alert("لم تحدد أي أسابيع! الرجاء تحديد أسبوع أو أكثر.");
+        return;
+    }
+    
+    let totalDays = 0;
+    let dateRange = "";
+    
+    // حساب عدد الأيام والنطاق الزمني
+    selectedWeeks.forEach(weekNum => {
+        const week = studyWeeks[weekNum];
+        totalDays += week.days.length;
+    });
+    
+    const firstWeek = studyWeeks[selectedWeeks[0]];
+    const lastWeek = studyWeeks[selectedWeeks[selectedWeeks.length - 1]];
+    
+    if (firstWeek.days.length > 0 && lastWeek.days.length > 0) {
+        const firstDate = firstWeek.days[0].gregorian.replace(/\//g, '-');
+        const lastDate = lastWeek.days[lastWeek.days.length - 1].gregorian.replace(/\//g, '-');
+        dateRange = `${firstDate} إلى ${lastDate}`;
+    }
+    
+    const confirmMessage = `هل تريد تعيين الحضور عشوائيا للأسابيع المحددة؟\n\n` +
+                          `الأسابيع: ${selectedWeeks.map(w => studyWeeks[w].name).join(', ')}\n` +
+                          `عدد الأيام: ${totalDays} يوم\n` +
+                          `النطاق الزمني: ${dateRange}\n\n` +
+                          `ملاحظة: سيتم وضع ✓ لكل الخيارات للطلاب المتميزين (الذين لديهم نجمة ⭐)`;
+    
+    const confirmAction = confirm(confirmMessage);
+    if (!confirmAction) return;
+    
+    let totalStudentsProcessed = 0;
+    let totalStarredStudents = 0;
+    let totalRegularStudents = 0;
+    
+    // معالجة كل أسبوع
+    selectedWeeks.forEach(weekNum => {
+        const week = studyWeeks[weekNum];
+        
+        week.days.forEach(dayInfo => {
+            // إنشاء تاريخ من السلسلة
+            const dateParts = dayInfo.gregorian.split('/');
+            const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+            
+            // إنشاء تحضير عشوائي لهذا اليوم
+            const attendanceData = generateRandomAttendanceForDate(date, dayInfo.hijri);
+            const dateKey = date.toISOString().split('T')[0];
+            
+            // حفظ بيانات اليوم
+            periodAttendanceData[dateKey] = attendanceData;
+            
+            // حساب الإحصائيات لهذا اليوم
+            let dayStudents = 0;
+            let dayStarred = 0;
+            
+            for (const className in attendanceData.classes) {
+                dayStudents += attendanceData.classes[className].stats.total;
+                dayStarred += attendanceData.classes[className].stats.starred;
+            }
+            
+            const dayRegular = dayStudents - dayStarred;
+            
+            // تحديث المجاميع
+            totalStudentsProcessed += dayStudents;
+            totalStarredStudents += dayStarred;
+            totalRegularStudents += dayRegular;
+        });
+    });
+    
+    // حفظ بيانات الفترة
+    savePeriodAttendanceData();
+    
+    // حساب الإحصائيات
+    const avgStudentsPerDay = totalStudentsProcessed / totalDays;
+    const avgStarredPerDay = totalStarredStudents / totalDays;
+    const avgRegularPerDay = totalRegularStudents / totalDays;
+    
+    // عرض تقرير النتائج
+    const resultMessage = `✅ تم إنشاء التحضير العشوائي للأسابيع المحددة بنجاح!\n\n` +
+                         `📅 الأسابيع: ${selectedWeeks.map(w => studyWeeks[w].name).join('، ')}\n` +
+                         `📊 الإحصائيات:\n` +
+                         `   - عدد الأيام: ${totalDays} يوم\n` +
+                         `   - إجمالي الطلاب المعالجين: ${totalStudentsProcessed} طالب\n` +
+                         `   - متوسط الطلاب في اليوم: ${avgStudentsPerDay.toFixed(1)} طالب\n` +
+                         `   - متوسط الطلاب المتميزين في اليوم: ${avgStarredPerDay.toFixed(1)} طالب\n` +
+                         `   - متوسط الطلاب العاديين في اليوم: ${avgRegularPerDay.toFixed(1)} طالب\n\n` +
+                         `💾 تم حفظ بيانات التحضير لكل يوم في النظام.`;
+    
+    alert(resultMessage);
 }
 
 // تحميل بيانات التحضير المحفوظة للفترة
@@ -628,7 +1150,6 @@ function loadPeriodAttendanceData() {
     const savedData = localStorage.getItem('teacherTracker_periodAttendanceData');
     if (savedData) {
         periodAttendanceData = JSON.parse(savedData);
-        console.log('تم تحميل بيانات التحضير للفترة:', Object.keys(periodAttendanceData).length, 'يوم');
     }
 }
 
@@ -637,63 +1158,20 @@ function savePeriodAttendanceData() {
     localStorage.setItem('teacherTracker_periodAttendanceData', JSON.stringify(periodAttendanceData));
 }
 
-// حفظ بيانات الأسابيع
-function saveWeeksData() {
-    savePeriodAttendanceData();
-    alert(`تم حفظ بيانات التحضير لجميع الأيام`);
-}
-
-// مسح بيانات جميع الأسابيع
-function clearAllWeeksData() {
-    if (!adminActive) {
-        alert('يجب تفعيل وضع الإدارة أولا');
-        return;
-    }
-    
-    const confirmAction = confirm("هل تريد مسح جميع بيانات التحضير للأسابيع الدراسية؟\n\nهذا الإجراء لا يمكن التراجع عنه!");
-    if (!confirmAction) return;
-    
-    periodAttendanceData = {};
-    savePeriodAttendanceData();
-    
-    alert("تم مسح جميع بيانات التحضير للأسابيع الدراسية");
-}
-
-// تحويل تاريخ نصي (dd/mm/yyyy) إلى كائن Date - تم التصحيح
-function parseDateString(dateStr) {
-    try {
-        const parts = dateStr.split('/');
-        if (parts.length === 3) {
-            // يوم/شهر/سنة
-            const day = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10) - 1; // الأشهر من 0-11
-            const year = parseInt(parts[2], 10);
-            
-            // التحقق من صحة التاريخ
-            if (isNaN(day) || isNaN(month) || isNaN(year)) {
-                console.error('تاريخ غير صالح:', dateStr);
-                return null;
-            }
-            
-            return new Date(year, month, day);
-        }
-        return null;
-    } catch (error) {
-        console.error('خطأ في تحويل التاريخ:', dateStr, error);
-        return null;
-    }
-}
-
-// توليد تحضير عشوائي ليوم معين مع معلومات الأسبوع
-function generateRandomAttendanceForDate(date, dayInfo = null) {
+// توليد تحضير عشوائي ليوم معين
+function generateRandomAttendanceForDate(date, hijriDateStr) {
     const dateKey = date.toISOString().split('T')[0];
-    const hijriDateInfo = calculateHijriForDate(date);
+    
+    // تحويل التاريخ الميلادي إلى تنسيق عربي
+    const day = date.getDate();
+    const month = gregorianMonths[date.getMonth()];
+    const year = date.getFullYear();
+    const gregorianDate = `${convertToArabicNumbers(day)} ${month} ${convertToArabicNumbers(year)}`;
     
     const attendanceData = {
         date: dateKey,
-        gregorianDate: getShortGregorianDate(date),
-        hijriDate: `${convertToArabicNumbers(hijriDateInfo.day)} ${hijriDateInfo.monthName} ${convertToArabicNumbers(hijriDateInfo.year)}هـ`,
-        dayInfo: dayInfo,
+        gregorianDate: gregorianDate,
+        hijriDate: hijriDateStr,
         classes: {}
     };
     
@@ -761,255 +1239,103 @@ function generateRandomAttendanceForDate(date, dayInfo = null) {
     return attendanceData;
 }
 
-// تحضير عشوائي لجميع الأسابيع الدراسية (18 أسبوع) - تم التصحيح
-function randomAttendanceForAllWeeks() {
-    if (!adminActive) {
-        alert('يجب تفعيل وضع الإدارة أولا');
+// تصدير الأسابيع المحددة إلى Excel
+function exportSelectedWeeks() {
+    if (selectedWeeks.length === 0) {
+        alert("لم تحدد أي أسابيع! الرجاء تحديد أسبوع أو أكثر أولاً.");
         return;
     }
     
-    // حساب إجمالي الأيام
-    let totalDays = 0;
-    studyWeeks.forEach(week => {
-        totalDays += week.days.length;
-    });
-    
-    const confirmMessage = `هل تريد تعيين التحضير عشوائيا لجميع الأسابيع الدراسية؟\n\n` +
-                          `عدد الأسابيع: ${studyWeeks.length} أسبوع\n` +
-                          `عدد الأيام: ${totalDays} يوم\n\n` +
-                          `ملاحظة: سيتم وضع ✓ لكل الخيارات للطلاب المتميزين (الذين لديهم نجمة ⭐)`;
-    
-    const confirmAction = confirm(confirmMessage);
-    if (!confirmAction) return;
-    
-    let totalDaysProcessed = 0;
-    let totalStudentsProcessed = 0;
-    let totalStarredStudents = 0;
-    let totalRegularStudents = 0;
-    
-    // الانتقال عبر كل أسبوع وكل يوم
-    studyWeeks.forEach(week => {
-        week.days.forEach(day => {
-            // تحويل التاريخ الميلادي من النص إلى كائن Date
-            const date = parseDateString(day.gregorian);
-            if (!date) {
-                console.error(`خطأ في تحويل التاريخ: ${day.gregorian}`);
-                return;
-            }
-            
-            // إنشاء معلومات اليوم
-            const dayInfo = {
-                dayName: day.day,
-                hijriDate: day.hijri,
-                gregorianDate: day.gregorian,
-                weekNumber: week.week
-            };
-            
-            // إنشاء تحضير عشوائي لهذا اليوم
-            const attendanceData = generateRandomAttendanceForDate(date, dayInfo);
-            const dateKey = date.toISOString().split('T')[0];
-            
-            // حفظ بيانات اليوم
-            periodAttendanceData[dateKey] = attendanceData;
-            
-            // حساب الإحصائيات لهذا اليوم
-            let dayStudents = 0;
-            let dayStarred = 0;
-            
-            for (const className in attendanceData.classes) {
-                dayStudents += attendanceData.classes[className].stats.total;
-                dayStarred += attendanceData.classes[className].stats.starred;
-            }
-            
-            const dayRegular = dayStudents - dayStarred;
-            
-            // تحديث المجاميع
-            totalDaysProcessed++;
-            totalStudentsProcessed += dayStudents;
-            totalStarredStudents += dayStarred;
-            totalRegularStudents += dayRegular;
-        });
-    });
-    
-    // حفظ بيانات الفترة
-    savePeriodAttendanceData();
-    
-    // حساب الإحصائيات
-    const avgStudentsPerDay = totalStudentsProcessed / totalDaysProcessed;
-    const avgStarredPerDay = totalStarredStudents / totalDaysProcessed;
-    const avgRegularPerDay = totalRegularStudents / totalDaysProcessed;
-    
-    // عرض تقرير النتائج
-    const resultMessage = `✅ تم إنشاء التحضير العشوائي لجميع الأسابيع الدراسية بنجاح!\n\n` +
-                         `📅 الأسابيع: ${studyWeeks.length} أسبوع (من 1 إلى 13 ثم 15 إلى 19)\n` +
-                         `📊 الإحصائيات:\n` +
-                         `   - عدد الأيام: ${totalDaysProcessed} يوم\n` +
-                         `   - إجمالي الطلاب المعالجين: ${totalStudentsProcessed} طالب\n` +
-                         `   - متوسط الطلاب في اليوم: ${avgStudentsPerDay.toFixed(1)} طالب\n` +
-                         `   - متوسط الطلاب المتميزين في اليوم: ${avgStarredPerDay.toFixed(1)} طالب\n` +
-                         `   - متوسط الطلاب العاديين في اليوم: ${avgRegularPerDay.toFixed(1)} طالب\n\n` +
-                         `💾 تم حفظ بيانات التحضير لـ ${totalDaysProcessed} يوم في النظام.`;
-    
-    alert(resultMessage);
-}
-
-// تصدير فترة كاملة إلى Excel - تم التصحيح
-function exportPeriodToExcel() {
-    // التحقق من وجود بيانات للأسابيع الدراسية
-    let hasData = false;
-    for (const dateKey in periodAttendanceData) {
-        hasData = true;
-        break;
-    }
-    
-    if (!hasData) {
-        alert("لا توجد بيانات تحضير للأسابيع الدراسية!\n\nيرجى إنشاء تحضير عشوائي للأسابيع أولاً.");
-        return;
-    }
-    
-    let tablesHTML = `<h2>تقرير التحضير للأسابيع الدراسية</h2>`;
+    let tablesHTML = `<h2>تقرير التحضير للأسابيع المحددة</h2>`;
     tablesHTML += `<h3>المعلم: فهد الخالدي - المادة: اللغة الإنجليزية</h3>`;
     tablesHTML += `<h3>${document.getElementById('currentSemesterInfo').textContent}</h3>`;
     tablesHTML += `<h3>المدرسة: سعيد بن العاص المتوسطة</h3>`;
-    tablesHTML += `<h3>عدد الأسابيع: ${studyWeeks.length} أسبوع (من 1 إلى 13 ثم 15 إلى 19)</h3>`;
-    tablesHTML += `<h3>تاريخ التصدير: ${getShortGregorianDate(new Date())}</h3>`;
     
-    // تنظيم البيانات حسب الأسابيع
-    const weeksData = {};
+    const weekNames = selectedWeeks.map(w => studyWeeks[w].name).join('، ');
+    tablesHTML += `<h3>الأسابيع: ${weekNames} (${selectedWeeks.length} أسابيع)</h3>`;
     
-    // تجميع البيانات حسب الأسبوع
-    for (const dateKey in periodAttendanceData) {
-        const dayData = periodAttendanceData[dateKey];
-        if (dayData.dayInfo && dayData.dayInfo.weekNumber) {
-            const weekNum = dayData.dayInfo.weekNumber;
-            if (!weeksData[weekNum]) {
-                weeksData[weekNum] = [];
-            }
-            weeksData[weekNum].push(dayData);
-        } else {
-            // إذا لم يكن هناك weekNumber، نضعها في أسبوع "غير محدد"
-            if (!weeksData['غير محدد']) {
-                weeksData['غير محدد'] = [];
-            }
-            weeksData['غير محدد'].push(dayData);
-        }
-    }
-    
-    // فرز الأسابيع: الأسابيع العددية أولاً، ثم "غير محدد"
-    const sortedWeeks = Object.keys(weeksData).sort((a, b) => {
-        if (a === 'غير محدد') return 1;
-        if (b === 'غير محدد') return -1;
-        const numA = parseInt(a);
-        const numB = parseInt(b);
-        if (isNaN(numA) || isNaN(numB)) return 0;
-        return numA - numB;
-    });
+    let totalDays = 0;
+    let totalStudents = 0;
+    let totalPresent = 0;
+    let totalAbsent = 0;
+    let totalStarred = 0;
     
     // إضافة بيانات كل أسبوع
-    sortedWeeks.forEach(weekNum => {
-        const weekDaysData = weeksData[weekNum];
+    selectedWeeks.forEach(weekNum => {
+        const week = studyWeeks[weekNum];
         
-        tablesHTML += `<h3 style="background:#e0f7fa; padding:10px; margin-top:20px;">`;
-        if (weekNum === 'غير محدد') {
-            tablesHTML += `أيام أخرى`;
-        } else {
-            tablesHTML += `الأسبوع ${weekNum}`;
-        }
-        tablesHTML += `</h3>`;
+        tablesHTML += `<h3 style="background:#e8f5e9; padding:10px; margin-top:20px;">${week.name}</h3>`;
         
-        // فرز أيام الأسبوع حسب التاريخ
-        weekDaysData.sort((a, b) => {
-            const dateA = new Date(a.date);
-            const dateB = new Date(b.date);
-            return dateA - dateB;
-        });
-        
-        // إضافة بيانات كل يوم في هذا الأسبوع
-        weekDaysData.forEach(dayData => {
-            let dayTitle = '';
-            if (dayData.dayInfo) {
-                dayTitle = `${dayData.dayInfo.dayName} - ${dayData.dayInfo.gregorianDate} (${dayData.dayInfo.hijriDate})`;
-            } else {
-                dayTitle = `${dayData.gregorianDate} (${dayData.hijriDate})`;
-            }
-            tablesHTML += `<h4 style="background:#f5f5f5; padding:8px;">${dayTitle}</h4>`;
+        // إضافة بيانات كل يوم في الأسبوع
+        week.days.forEach(dayInfo => {
+            const dateParts = dayInfo.gregorian.split('/');
+            const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+            const dateKey = date.toISOString().split('T')[0];
             
-            // إضافة جداول لكل صف في هذا اليوم
-            for (const className in dayData.classes) {
-                const classData = dayData.classes[className];
+            tablesHTML += `<h4>${dayInfo.day}: ${dayInfo.gregorian} (${dayInfo.hijri})</h4>`;
+            
+            if (periodAttendanceData[dateKey]) {
+                const dayData = periodAttendanceData[dateKey];
                 
-                tablesHTML += `<h5>الصف ${className} (${classData.stats.total} طالب)</h5>`;
-                tablesHTML += `<table border="1" cellpadding="5" cellspacing="0" style="width:100%; border-collapse:collapse; margin-bottom:15px; font-size:12px;">`;
-                tablesHTML += `<thead><tr>
-                    <th width="5%">م</th>
-                    <th>الاسم</th>
-                    <th width="8%">الحضور</th>
-                    <th width="8%">الواجبات</th>
-                    <th width="8%">المشروعات</th>
-                    <th width="8%">تطبيقات وأنشطة</th>
-                    <th width="8%">مشاركة</th>
-                    <th width="8%">⭐</th>
-                </tr></thead><tbody>`;
-                
-                classData.students.forEach(student => {
-                    tablesHTML += `<tr>`;
-                    tablesHTML += `<td>${student.id}</td>`;
-                    tablesHTML += `<td>${student.name}</td>`;
+                // إضافة جداول لكل صف في هذا اليوم
+                for (const className in dayData.classes) {
+                    const classData = dayData.classes[className];
                     
-                    student.attendance.forEach(item => {
-                        tablesHTML += `<td style="${item.value === '✔' ? 'background-color:#e8f5e9;' : 'background-color:#ffebee;'}">${item.value}</td>`;
+                    tablesHTML += `<h5>الصف ${className} (${classData.stats.total} طالب)</h5>`;
+                    tablesHTML += `<table border="1" cellpadding="5" cellspacing="0" style="width:100%; border-collapse:collapse; margin-bottom:15px;">`;
+                    tablesHTML += `<thead><tr>
+                        <th width="5%">م</th>
+                        <th>الاسم</th>
+                        <th width="8%">الحضور</th>
+                        <th width="8%">الواجبات</th>
+                        <th width="8%">المشروعات</th>
+                        <th width="8%">تطبيقات وأنشطة</th>
+                        <th width="8%">مشاركة</th>
+                        <th width="8%">⭐</th>
+                    </tr></thead><tbody>`;
+                    
+                    classData.students.forEach(student => {
+                        tablesHTML += `<tr>`;
+                        tablesHTML += `<td>${student.id}</td>`;
+                        tablesHTML += `<td>${student.name}</td>`;
+                        
+                        student.attendance.forEach(item => {
+                            tablesHTML += `<td style="${item.value === '✔' ? 'background-color:#e8f5e9;' : 'background-color:#ffebee;'}">${item.value}</td>`;
+                        });
+                        
+                        tablesHTML += `<td>${student.hasStar ? '⭐' : ''}</td>`;
+                        tablesHTML += `</tr>`;
                     });
                     
-                    tablesHTML += `<td>${student.hasStar ? '⭐' : ''}</td>`;
-                    tablesHTML += `</tr>`;
-                });
-                
-                tablesHTML += `</tbody></table>`;
-                
-                // إضافة إحصائيات الصف
-                tablesHTML += `<div style="margin-bottom:20px; padding:8px; background:#f5f5f5; border-radius:5px; font-size:12px;">
-                    <strong>إحصائيات الصف ${className}:</strong>
-                    إجمالي الطلاب: ${classData.stats.total} | 
-                    الحضور: ${classData.stats.present} | 
-                    الغياب: ${classData.stats.absent} | 
-                    المتميزون: ${classData.stats.starred}
-                </div>`;
+                    tablesHTML += `</tbody></table>`;
+                    
+                    // تحديث الإحصائيات
+                    totalDays++;
+                    totalStudents += classData.stats.total;
+                    totalPresent += classData.stats.present;
+                    totalAbsent += classData.stats.absent;
+                    totalStarred += classData.stats.starred;
+                }
+            } else {
+                tablesHTML += `<p style="color:#999; text-align:center;">لا توجد بيانات تحضير لهذا اليوم</p>`;
             }
         });
     });
     
     // إضافة ملخص شامل
-    tablesHTML += `<h3 style="background:#e0f7fa; padding:10px; margin-top:20px;">ملخص شامل للأسابيع الدراسية</h3>`;
-    
-    let periodTotalStudents = 0;
-    let periodTotalPresent = 0;
-    let periodTotalAbsent = 0;
-    let periodTotalStarred = 0;
-    let totalDays = 0;
-    
-    for (const dateKey in periodAttendanceData) {
-        const dayData = periodAttendanceData[dateKey];
-        totalDays++;
-        
-        for (const className in dayData.classes) {
-            const classData = dayData.classes[className];
-            periodTotalStudents += classData.stats.total;
-            periodTotalPresent += classData.stats.present;
-            periodTotalAbsent += classData.stats.absent;
-            periodTotalStarred += classData.stats.starred;
-        }
-    }
-    
+    tablesHTML += `<h3 style="background:#e0f7fa; padding:10px; margin-top:20px;">ملخص شامل للأسابيع المحددة</h3>`;
     tablesHTML += `<div style="padding:15px; background:#fff8e1; border-radius:5px; margin-bottom:20px;">
-        <strong>إجمالي الأسابيع الدراسية:</strong><br>
+        <strong>إجمالي الأسابيع المحددة:</strong><br>
+        - عدد الأسابيع: ${selectedWeeks.length} أسبوع<br>
         - عدد الأيام: ${totalDays} يوم<br>
-        - إجمالي الطلاب: ${periodTotalStudents} طالب<br>
-        - إجمالي الحضور: ${periodTotalPresent} حالة حضور<br>
-        - إجمالي الغياب: ${periodTotalAbsent} حالة غياب<br>
-        - إجمالي المتميزين: ${periodTotalStarred} طالب<br>
-        - متوسط الحضور: ${((periodTotalPresent / (periodTotalPresent + periodTotalAbsent)) * 100).toFixed(1)}%
+        - إجمالي الطلاب: ${totalStudents} طالب<br>
+        - إجمالي الحضور: ${totalPresent} حالة حضور<br>
+        - إجمالي الغياب: ${totalAbsent} حالة غياب<br>
+        - إجمالي المتميزين: ${totalStarred} طالب<br>
+        - متوسط الحضور: ${totalDays > 0 ? ((totalPresent / (totalPresent + totalAbsent)) * 100).toFixed(1) : 0}%
     </div>`;
     
+    // إنشاء ملف Excel
     let uri = 'data:application/vnd.ms-excel;base64,';
     let template = `<html xmlns:o="urn:schemas-microsoft-com:office:office" 
                    xmlns:x="urn:schemas-microsoft-com:office:excel" 
@@ -1033,30 +1359,175 @@ function exportPeriodToExcel() {
     
     let link = document.createElement("a");
     link.href = uri + btoa(unescape(encodeURIComponent(template)));
-    const today = new Date().toISOString().split('T')[0];
-    link.download = `تقرير_الأسابيع_الدراسية_${today}.xls`;
+    const weekRange = `الأسابيع_${selectedWeeks[0]}_إلى_${selectedWeeks[selectedWeeks.length - 1]}`;
+    link.download = `تقرير_${weekRange}.xls`;
     link.click();
     
-    alert(`تم تصدير تقرير الأسابيع الدراسية بنجاح!\n\nيتضمن التقرير بيانات ${totalDays} يوم`);
+    alert(`تم تصدير تقرير الأسابيع المحددة بنجاح!\n\nيتضمن التقرير بيانات ${selectedWeeks.length} أسبوع (${totalDays} يوم)`);
 }
+
+// تصدير جميع الأسابيع
+function exportAllWeeks() {
+    // تحديد جميع الأسابيع (باستثناء الأسبوع 14 المحذوف)
+    const allWeeks = [];
+    for (let i = 1; i <= 19; i++) {
+        if (i !== 14) {
+            allWeeks.push(i);
+        }
+    }
+    
+    // حفظ الأسابيع الحالية مؤقتاً
+    const tempWeeks = [...selectedWeeks];
+    selectedWeeks = allWeeks;
+    updateSelectedWeeksDisplay();
+    
+    exportSelectedWeeks();
+    
+    // استعادة الأسابيع الأصلية
+    selectedWeeks = tempWeeks;
+    updateSelectedWeeksDisplay();
+}
+
+// تصدير حسب الشهر
+function exportByMonth() {
+    alert("ميزة التصدير حسب الشهر قيد التطوير");
+}
+
+// إنشاء تقرير إحصائي
+function generateWeeklyReport() {
+    if (selectedWeeks.length === 0) {
+        alert("لم تحدد أي أسابيع! الرجاء تحديد أسبوع أو أكثر أولاً.");
+        return;
+    }
+    
+    let reportHTML = `<h2>التقرير الإحصائي للأسابيع المحددة</h2>`;
+    reportHTML += `<h3>المعلم: فهد الخالدي - المادة: اللغة الإنجليزية</h3>`;
+    reportHTML += `<h3>${document.getElementById('currentSemesterInfo').textContent}</h3>`;
+    
+    const weekNames = selectedWeeks.map(w => studyWeeks[w].name).join('، ');
+    reportHTML += `<h3>الأسابيع: ${weekNames}</h3>`;
+    reportHTML += `<h3>تاريخ التقرير: ${getShortGregorianDate(new Date())}</h3>`;
+    
+    // إحصائيات كل أسبوع
+    selectedWeeks.forEach(weekNum => {
+        const week = studyWeeks[weekNum];
+        let weekStudents = 0;
+        let weekPresent = 0;
+        let weekAbsent = 0;
+        let weekStarred = 0;
+        let weekDaysCount = 0;
+        
+        week.days.forEach(dayInfo => {
+            const dateParts = dayInfo.gregorian.split('/');
+            const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+            const dateKey = date.toISOString().split('T')[0];
+            
+            if (periodAttendanceData[dateKey]) {
+                const dayData = periodAttendanceData[dateKey];
+                
+                for (const className in dayData.classes) {
+                    const classData = dayData.classes[className];
+                    weekStudents += classData.stats.total;
+                    weekPresent += classData.stats.present;
+                    weekAbsent += classData.stats.absent;
+                    weekStarred += classData.stats.starred;
+                }
+                
+                weekDaysCount++;
+            }
+        });
+        
+        const attendanceRate = weekPresent + weekAbsent > 0 ? 
+            ((weekPresent / (weekPresent + weekAbsent)) * 100).toFixed(1) : 0;
+        
+        reportHTML += `<div style="background:#f5f5f5; padding:10px; margin:10px 0; border-radius:5px; border-left:5px solid #4CAF50;">
+            <h4>${week.name}</h4>
+            <p>عدد الأيام: ${weekDaysCount} يوم</p>
+            <p>إجمالي الطلاب: ${weekStudents}</p>
+            <p>الحضور: ${weekPresent} | الغياب: ${weekAbsent}</p>
+            <p>المتميزون: ${weekStarred}</p>
+            <p>نسبة الحضور: ${attendanceRate}%</p>
+        </div>`;
+    });
+    
+    // إحصائيات عامة
+    let totalDays = 0;
+    let totalStudents = 0;
+    let totalPresent = 0;
+    let totalAbsent = 0;
+    let totalStarred = 0;
+    
+    selectedWeeks.forEach(weekNum => {
+        const week = studyWeeks[weekNum];
+        totalDays += week.days.length;
+        
+        week.days.forEach(dayInfo => {
+            const dateParts = dayInfo.gregorian.split('/');
+            const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+            const dateKey = date.toISOString().split('T')[0];
+            
+            if (periodAttendanceData[dateKey]) {
+                const dayData = periodAttendanceData[dateKey];
+                
+                for (const className in dayData.classes) {
+                    const classData = dayData.classes[className];
+                    totalStudents += classData.stats.total;
+                    totalPresent += classData.stats.present;
+                    totalAbsent += classData.stats.absent;
+                    totalStarred += classData.stats.starred;
+                }
+            }
+        });
+    });
+    
+    const overallRate = totalPresent + totalAbsent > 0 ? 
+        ((totalPresent / (totalPresent + totalAbsent)) * 100).toFixed(1) : 0;
+    
+    reportHTML += `<div style="background:#e3f2fd; padding:15px; margin:20px 0; border-radius:5px; border:2px solid #2196F3;">
+        <h3>إحصائيات عامة للأسابيع المحددة</h3>
+        <p><strong>عدد الأسابيع:</strong> ${selectedWeeks.length}</p>
+        <p><strong>عدد الأيام:</strong> ${totalDays}</p>
+        <p><strong>إجمالي الطلاب:</strong> ${totalStudents}</p>
+        <p><strong>إجمالي الحضور:</strong> ${totalPresent}</p>
+        <p><strong>إجمالي الغياب:</strong> ${totalAbsent}</p>
+        <p><strong>إجمالي المتميزين:</strong> ${totalStarred}</p>
+        <p><strong>نسبة الحضور العامة:</strong> ${overallRate}%</p>
+    </div>`;
+    
+    // عرض التقرير في نافذة جديدة
+    const reportWindow = window.open('', '_blank');
+    reportWindow.document.write(`
+        <html dir="rtl">
+        <head>
+            <title>التقرير الإحصائي</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                h2 { color: #1a5276; }
+                h3 { color: #2a9d8f; }
+                table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+                th { background: #f5f5f5; }
+            </style>
+        </head>
+        <body>
+            ${reportHTML}
+            <div style="text-align:center; margin-top:20px;">
+                <button onclick="window.print()">🖨️ طباعة التقرير</button>
+                <button onclick="window.close()">✖ إغلاق</button>
+            </div>
+        </body>
+        </html>
+    `);
+    reportWindow.document.close();
+}
+
+// باقي الوظائف تبقى كما هي مع تعديلات بسيطة
+// ... (جميع الوظائف الأخرى من الكود السابق تبقى كما هي)
 
 // تحويل الأرقام الإنجليزية إلى عربية
 function convertToArabicNumbers(num) {
     const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
     return num.toString().replace(/\d/g, digit => arabicNumbers[digit]);
-}
-
-// الحصول على التاريخ الميلادي بصيغة عربية صحيحة
-function getGregorianDateString(date) {
-    const day = date.getDate();
-    const month = gregorianMonths[date.getMonth()];
-    const year = date.getFullYear();
-    const weekDay = weekDays[date.getDay()];
-    
-    const arabicDay = convertToArabicNumbers(day);
-    const arabicYear = convertToArabicNumbers(year);
-    
-    return `${weekDay}، ${arabicDay} ${month} ${arabicYear}`;
 }
 
 // الحصول على التاريخ الميلادي قصير للتقرير
@@ -1071,88 +1542,10 @@ function getShortGregorianDate(date) {
     return `${arabicDay} ${month} ${arabicYear}`;
 }
 
-// حساب التاريخ الهجري من التاريخ الميلادي
-function calculateHijriFromGregorian() {
-    try {
-        // استخدام مكتبة ummAlQura لحساب التاريخ الهجري
-        if (typeof HijriDate !== 'undefined') {
-            const hijri = new HijriDate(selectedDate);
-            hijriDate.day = hijri.date;
-            hijriDate.month = hijri.month;
-            hijriDate.year = hijri.year;
-            hijriDate.monthName = hijriMonths[hijri.month - 1];
-        } else {
-            // طريقة احتياطية إذا لم تكن المكتبة متوفرة
-            const fixedHijri = getApproximateHijriDate(selectedDate);
-            hijriDate.day = fixedHijri.day;
-            hijriDate.month = fixedHijri.month;
-            hijriDate.year = fixedHijri.year;
-            hijriDate.monthName = hijriMonths[fixedHijri.month - 1];
-        }
-    } catch (error) {
-        console.error("خطأ في حساب التاريخ الهجري:", error);
-        // استخدام تاريخ افتراضي في حالة الخطأ
-        hijriDate = { day: 1, month: 1, year: 1446, monthName: "محرم" };
-    }
-}
-
-// طريقة تقريبية لحساب التاريخ الهجري (بدون مكتبة)
-function getApproximateHijriDate(gregorianDate) {
-    const startHijri = new Date(622, 6, 16); // 16 يوليو 622م هو بداية الهجرة
-    
-    const diffTime = gregorianDate - startHijri;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
-    // السنة الهجرية = عدد الأيام / 354.367 (متوسط طول السنة الهجرية)
-    const hijriYear = Math.floor(diffDays / 354.367) + 1;
-    
-    // الأيام المتبقية في السنة الحالية
-    const daysInCurrentYear = diffDays % 354.367;
-    
-    // تقدير الشهر (كل شهر حوالي 29.5 يوم)
-    const hijriMonth = Math.floor(daysInCurrentYear / 29.53) + 1;
-    
-    // اليوم من الشهر
-    const hijriDay = Math.floor(daysInCurrentYear % 29.53) + 1;
-    
-    return {
-        day: Math.min(Math.max(1, hijriDay), 30),
-        month: Math.min(Math.max(1, hijriMonth), 12),
-        year: Math.max(1300, Math.min(1500, hijriYear))
-    };
-}
-
-// حساب التاريخ الهجري لـ Date معين
-function calculateHijriForDate(date) {
-    try {
-        if (typeof HijriDate !== 'undefined') {
-            const hijri = new HijriDate(date);
-            return {
-                day: hijri.date,
-                month: hijri.month,
-                year: hijri.year,
-                monthName: hijriMonths[hijri.month - 1]
-            };
-        } else {
-            const fixedHijri = getApproximateHijriDate(date);
-            return {
-                day: fixedHijri.day,
-                month: fixedHijri.month,
-                year: fixedHijri.year,
-                monthName: hijriMonths[fixedHijri.month - 1]
-            };
-        }
-    } catch (error) {
-        console.error("خطأ في حساب التاريخ الهجري:", error);
-        return { day: 1, month: 1, year: 1446, monthName: "محرم" };
-    }
-}
-
 // تحديث عرض التاريخ
 function updateDateDisplay() {
-    // تحديث التاريخ الميلادي باستخدام الصيغة الصحيحة
-    const gregorianDateString = getGregorianDateString(selectedDate);
-    
+    // تحديث التاريخ الميلادي
+    const gregorianDateString = getShortGregorianDate(selectedDate);
     document.getElementById('gregorianDateText').innerHTML = gregorianDateString;
     
     // تحديث التاريخ الهجري
@@ -1160,8 +1553,7 @@ function updateDateDisplay() {
     document.getElementById('hijriDateText').innerHTML = hijriDateString;
     
     // تحديث عرض التاريخ في لوحة الإدارة
-    const shortGregorian = getShortGregorianDate(selectedDate);
-    document.getElementById('adminDateDisplay').innerHTML = shortGregorian;
+    document.getElementById('adminDateDisplay').innerHTML = gregorianDateString;
     
     // إضافة مؤشر إذا لم يكن تاريخ اليوم
     const today = new Date();
@@ -1169,214 +1561,6 @@ function updateDateDisplay() {
     if (!isToday) {
         document.getElementById('gregorianDateText').innerHTML += ' <span style="color:#ffcc00; font-size:11px;">(غير تاريخ اليوم)</span>';
     }
-}
-
-// تحديث حقول التاريخ الهجري في واجهة الإدارة
-function updateHijriFields() {
-    document.getElementById('hijriDay').value = hijriDate.day;
-    document.getElementById('hijriMonth').value = hijriDate.month;
-    document.getElementById('hijriYear').value = hijriDate.year;
-}
-
-// تحديث معلومات الفصل الدراسي المعروضة
-function updateSemesterInfo() {
-    const semesterNames = {
-        "1": "الفصل الدراسي الأول",
-        "2": "الفصل الدراسي الثاني", 
-        "3": "الفصل الدراسي الصيفي"
-    };
-    
-    const semesterName = semesterNames[semesterSettings.semester] || "الفصل الدراسي";
-    document.getElementById('currentSemesterInfo').textContent = 
-        `${semesterName} ${semesterSettings.academicYear}`;
-}
-
-// تحديث إعدادات الفصل الدراسي
-function updateSemester() {
-    semesterSettings.semester = document.getElementById('semesterSelect').value;
-    semesterSettings.academicYear = document.getElementById('academicYear').value;
-    updateSemesterInfo();
-}
-
-// حفظ إعدادات الفصل الدراسي
-function saveSemesterSettings() {
-    updateSemester();
-    localStorage.setItem('teacherTracker_semesterSettings', JSON.stringify(semesterSettings));
-    alert(`تم حفظ إعدادات الفصل الدراسي: ${document.getElementById('currentSemesterInfo').textContent}`);
-}
-
-// تعيين فترة مثال (31/8 إلى 4/9)
-function setPeriodToExample() {
-    // تاريخ البداية: 31 أغسطس 2024 (مثال)
-    const startDate = new Date(2024, 7, 31); // أغسطس هو الشهر 7 (0-indexed)
-    // تاريخ النهاية: 4 سبتمبر 2024 (مثال)
-    const endDate = new Date(2024, 8, 4); // سبتمبر هو الشهر 8 (0-indexed)
-    
-    document.getElementById('periodStartDate').value = startDate.toISOString().split('T')[0];
-    document.getElementById('periodEndDate').value = endDate.toISOString().split('T')[0];
-    
-    periodSettings.startDate = startDate.toISOString().split('T')[0];
-    periodSettings.endDate = endDate.toISOString().split('T')[0];
-    
-    updatePeriodInfo();
-    alert(`تم تعيين فترة التحضير العشوائي:\nمن: 31/8/2024 (3/8/1446هـ)\nإلى: 4/9/2024 (3/12/1446هـ)`);
-}
-
-// مسح فترة التحضير
-function clearPeriod() {
-    document.getElementById('periodStartDate').value = '';
-    document.getElementById('periodEndDate').value = '';
-    
-    periodSettings.startDate = null;
-    periodSettings.endDate = null;
-    
-    updatePeriodInfo();
-    alert("تم مسح فترة التحضير المحددة");
-}
-
-// تحديث معلومات فترة التحضير المعروضة
-function updatePeriodInfo() {
-    const periodInfoElement = document.getElementById('currentPeriodInfo');
-    
-    if (periodSettings.startDate && periodSettings.endDate) {
-        const startDate = new Date(periodSettings.startDate);
-        const endDate = new Date(periodSettings.endDate);
-        
-        const startStr = getShortGregorianDate(startDate);
-        const endStr = getShortGregorianDate(endDate);
-        
-        periodInfoElement.textContent = `${startStr} إلى ${endStr}`;
-    } else {
-        periodInfoElement.textContent = "لا توجد فترة محددة";
-    }
-}
-
-// حفظ إعدادات فترة التحضير
-function savePeriodSettings() {
-    periodSettings.startDate = document.getElementById('periodStartDate').value;
-    periodSettings.endDate = document.getElementById('periodEndDate').value;
-    
-    localStorage.setItem('teacherTracker_periodSettings', JSON.stringify(periodSettings));
-    updatePeriodInfo();
-    alert("تم حفظ إعدادات فترة التحضير العشوائي");
-}
-
-// تحديث التاريخ الهجري من حقول الإدخال
-function updateHijriDate() {
-    const day = parseInt(document.getElementById('hijriDay').value) || 1;
-    const month = parseInt(document.getElementById('hijriMonth').value) || 1;
-    const year = parseInt(document.getElementById('hijriYear').value) || 1446;
-    
-    hijriDate.day = Math.max(1, Math.min(30, day));
-    hijriDate.month = Math.max(1, Math.min(12, month));
-    hijriDate.year = Math.max(1300, Math.min(1500, year));
-    hijriDate.monthName = hijriMonths[hijriDate.month - 1];
-    
-    // حفظ التاريخ الهجري
-    localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
-    
-    updateDateDisplay();
-    alert(`تم تحديث التاريخ الهجري إلى: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
-}
-
-// الرجوع إلى التاريخ الهجري الفعلي
-function resetHijriToToday() {
-    calculateHijriFromGregorian();
-    updateHijriFields();
-    localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
-    updateDateDisplay();
-    alert(`تم الرجوع إلى التاريخ الهجري الفعلي: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
-}
-
-// تغيير الشهر (للسابق أو القادم)
-function changeMonth(offset) {
-    if (!adminActive) {
-        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
-        return;
-    }
-    
-    selectedDate.setMonth(selectedDate.getMonth() + offset);
-    
-    // تحديث التاريخ الهجري بناءً على التاريخ الميلادي الجديد
-    calculateHijriFromGregorian();
-    
-    updateDateDisplay();
-    updateHijriFields();
-    
-    // تحميل بيانات الحضور للتاريخ الجديد
-    loadAttendanceData();
-    updateTablesWithLoadedData();
-}
-
-// تعيين تاريخ مخصص
-function setCustomDate() {
-    if (!adminActive) {
-        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
-        return;
-    }
-    
-    const datePicker = document.getElementById('datePicker');
-    if (datePicker.value) {
-        selectedDate = new Date(datePicker.value);
-        
-        // تحديث التاريخ الهجري بناءً على التاريخ الميلادي الجديد
-        calculateHijriFromGregorian();
-        
-        updateDateDisplay();
-        updateHijriFields();
-        
-        // تحميل بيانات الحضور للتاريخ الجديد
-        loadAttendanceData();
-        updateTablesWithLoadedData();
-    }
-}
-
-// الرجوع إلى تاريخ اليوم الحقيقي
-function resetToToday() {
-    if (!adminActive) {
-        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
-        return;
-    }
-    
-    selectedDate = new Date(); // الرجوع لتاريخ اليوم الحقيقي
-    
-    // تحديث التاريخ الهجري بناءً على التاريخ الميلادي الجديد
-    calculateHijriFromGregorian();
-    
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('datePicker').value = today;
-    
-    updateDateDisplay();
-    updateHijriFields();
-    
-    // تحميل بيانات الحضور للتاريخ الجديد
-    loadAttendanceData();
-    updateTablesWithLoadedData();
-    
-    alert("تم الرجوع إلى تاريخ اليوم الحقيقي");
-}
-
-// حفظ التاريخ الحالي
-function saveCurrentDate() {
-    if (!adminActive) {
-        alert('يجب تفعيل وضع الإدارة لحفظ التاريخ');
-        return;
-    }
-    
-    localStorage.setItem('teacherTracker_selectedDate', selectedDate.toISOString());
-    localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
-    alert(`تم حفظ التاريخ الميلادي: ${selectedDate.toLocaleDateString('ar-SA')}\nوالهجري: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
-}
-
-// عرض تحضير اليوم
-function showTodayAttendance() {
-    // تحميل بيانات اليوم الحقيقي
-    selectedDate = new Date();
-    calculateHijriFromGregorian();
-    updateDateDisplay();
-    loadAttendanceData();
-    updateTablesWithLoadedData();
-    alert("تم عرض تحضير تاريخ اليوم الحقيقي");
 }
 
 // إنشاء ألسنة الصفوف
@@ -1456,19 +1640,180 @@ function fillClassTable(className) {
 
 // تحميل بيانات الحضور المحفوظة
 function loadAttendanceData() {
-    console.log(`تحميل بيانات الحضور للتاريخ: ${selectedDate.toLocaleDateString()}`);
+    // تنفيذ تحميل البيانات
 }
 
-// تحديث الجداول بالبيانات المحملة
-function updateTablesWithLoadedData() {
-    console.log(`تحديث الجداول للتاريخ: ${selectedDate.toLocaleDateString()}`);
+// تحديث معلومات الفصل الدراسي المعروضة
+function updateSemesterInfo() {
+    const semesterNames = {
+        "1": "الفصل الدراسي الأول",
+        "2": "الفصل الدراسي الثاني", 
+        "3": "الفصل الدراسي الصيفي"
+    };
+    
+    const semesterName = semesterNames[semesterSettings.semester] || "الفصل الدراسي";
+    document.getElementById('currentSemesterInfo').textContent = 
+        `${semesterName} ${semesterSettings.academicYear}`;
+}
+
+// تحديث إعدادات الفصل الدراسي
+function updateSemester() {
+    semesterSettings.semester = document.getElementById('semesterSelect').value;
+    semesterSettings.academicYear = document.getElementById('academicYear').value;
+    updateSemesterInfo();
+}
+
+// حفظ إعدادات الفصل الدراسي
+function saveSemesterSettings() {
+    updateSemester();
+    localStorage.setItem('teacherTracker_semesterSettings', JSON.stringify(semesterSettings));
+    alert(`تم حفظ إعدادات الفصل الدراسي: ${document.getElementById('currentSemesterInfo').textContent}`);
+}
+
+// تحديث حقول التاريخ الهجري في واجهة الإدارة
+function updateHijriFields() {
+    document.getElementById('hijriDay').value = hijriDate.day;
+    document.getElementById('hijriMonth').value = hijriDate.month;
+    document.getElementById('hijriYear').value = hijriDate.year;
+}
+
+// حساب التاريخ الهجري من التاريخ الميلادي
+function calculateHijriFromGregorian() {
+    try {
+        if (typeof HijriDate !== 'undefined') {
+            const hijri = new HijriDate(selectedDate);
+            hijriDate.day = hijri.date;
+            hijriDate.month = hijri.month;
+            hijriDate.year = hijri.year;
+            hijriDate.monthName = hijriMonths[hijri.month - 1];
+        } else {
+            // طريقة احتياطية
+            const fixedHijri = getApproximateHijriDate(selectedDate);
+            hijriDate.day = fixedHijri.day;
+            hijriDate.month = fixedHijri.month;
+            hijriDate.year = fixedHijri.year;
+            hijriDate.monthName = hijriMonths[fixedHijri.month - 1];
+        }
+    } catch (error) {
+        hijriDate = { day: 1, month: 1, year: 1446, monthName: "محرم" };
+    }
+}
+
+// طريقة تقريبية لحساب التاريخ الهجري
+function getApproximateHijriDate(gregorianDate) {
+    const startHijri = new Date(622, 6, 16);
+    const diffTime = gregorianDate - startHijri;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const hijriYear = Math.floor(diffDays / 354.367) + 1;
+    const daysInCurrentYear = diffDays % 354.367;
+    const hijriMonth = Math.floor(daysInCurrentYear / 29.53) + 1;
+    const hijriDay = Math.floor(daysInCurrentYear % 29.53) + 1;
+    
+    return {
+        day: Math.min(Math.max(1, hijriDay), 30),
+        month: Math.min(Math.max(1, hijriMonth), 12),
+        year: Math.max(1300, Math.min(1500, hijriYear))
+    };
+}
+
+// تحديث التاريخ الهجري من حقول الإدخال
+function updateHijriDate() {
+    const day = parseInt(document.getElementById('hijriDay').value) || 1;
+    const month = parseInt(document.getElementById('hijriMonth').value) || 1;
+    const year = parseInt(document.getElementById('hijriYear').value) || 1446;
+    
+    hijriDate.day = Math.max(1, Math.min(30, day));
+    hijriDate.month = Math.max(1, Math.min(12, month));
+    hijriDate.year = Math.max(1300, Math.min(1500, year));
+    hijriDate.monthName = hijriMonths[hijriDate.month - 1];
+    
+    localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
+    updateDateDisplay();
+    alert(`تم تحديث التاريخ الهجري إلى: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
+}
+
+// الرجوع إلى التاريخ الهجري الفعلي
+function resetHijriToToday() {
+    calculateHijriFromGregorian();
+    updateHijriFields();
+    localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
+    updateDateDisplay();
+    alert(`تم الرجوع إلى التاريخ الهجري الفعلي: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ`);
+}
+
+// تغيير الشهر (للسابق أو القادم)
+function changeMonth(offset) {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
+        return;
+    }
+    
+    selectedDate.setMonth(selectedDate.getMonth() + offset);
+    calculateHijriFromGregorian();
+    updateDateDisplay();
+    updateHijriFields();
+    loadAttendanceData();
+}
+
+// تعيين تاريخ مخصص
+function setCustomDate() {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
+        return;
+    }
+    
+    const datePicker = document.getElementById('datePicker');
+    if (datePicker.value) {
+        selectedDate = new Date(datePicker.value);
+        calculateHijriFromGregorian();
+        updateDateDisplay();
+        updateHijriFields();
+        loadAttendanceData();
+    }
+}
+
+// الرجوع إلى تاريخ اليوم الحقيقي
+function resetToToday() {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة لتغيير التاريخ');
+        return;
+    }
+    
+    selectedDate = new Date();
+    calculateHijriFromGregorian();
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('datePicker').value = today;
+    updateDateDisplay();
+    updateHijriFields();
+    loadAttendanceData();
+    alert("تم الرجوع إلى تاريخ اليوم الحقيقي");
+}
+
+// حفظ التاريخ الحالي
+function saveCurrentDate() {
+    if (!adminActive) {
+        alert('يجب تفعيل وضع الإدارة لحفظ التاريخ');
+        return;
+    }
+    
+    localStorage.setItem('teacherTracker_selectedDate', selectedDate.toISOString());
+    localStorage.setItem('teacherTracker_hijriDate', JSON.stringify(hijriDate));
+    alert(`تم حفظ التاريخ الميلادي والهجري`);
+}
+
+// عرض تحضير اليوم
+function showTodayAttendance() {
+    selectedDate = new Date();
+    calculateHijriFromGregorian();
+    updateDateDisplay();
+    loadAttendanceData();
+    alert("تم عرض تحضير تاريخ اليوم الحقيقي");
 }
 
 // عرض صف معين أو جميع الصفوف
 function showClass(className) {
     currentClass = className;
     
-    // تحديث الألسنة النشطة
     document.querySelectorAll('.class-tab').forEach(tab => {
         tab.classList.remove('active');
     });
@@ -1486,7 +1831,6 @@ function showClass(className) {
         document.getElementById(`class-${className}`).style.display = 'block';
     }
     
-    // تطبيق الفلتر الحالي
     filterByStatus(currentFilter);
     updateStudentCount();
 }
@@ -1508,7 +1852,6 @@ function toggle(cell) {
         cell.classList.add('present');
     }
     
-    // حفظ تغيير الحضور للتاريخ الحالي
     saveAttendanceData();
 }
 
@@ -1516,15 +1859,12 @@ function toggle(cell) {
 function toggleStar(cell) {
     if (adminActive) {
         cell.innerHTML = cell.innerHTML === "☆" ? "⭐" : "☆";
-        
-        // إضافة أو إزالة خلفية للطلاب المتميزين
         const row = cell.closest('tr');
         if (cell.innerHTML === "⭐") {
             row.classList.add('starred-student');
         } else {
             row.classList.remove('starred-student');
         }
-        
         saveAttendanceData();
     } else {
         alert('يجب تفعيل وضع الإدارة أولا');
@@ -1534,7 +1874,6 @@ function toggleStar(cell) {
 // حفظ بيانات الحضور
 function saveAttendanceData() {
     const dateKey = selectedDate.toISOString().split('T')[0];
-    console.log(`حفظ بيانات الحضور للتاريخ: ${dateKey}`);
     localStorage.setItem(`teacherTracker_attendance_${dateKey}`, 'بيانات الحضور المحفوظة');
 }
 
@@ -1566,57 +1905,45 @@ function addStudent() {
     const name = prompt("ادخل اسم الطالب");
     if (name) {
         studentsData[className].push(name);
-        
-        // إعادة ملء الجدول
         fillClassTable(className);
         updateStudentCount();
-        
-        // تحديث عنوان الصف
         document.querySelector(`#class-${className} .class-header`).textContent = 
             `الصف ${className} - ${studentsData[className].length} طالب`;
-        
         alert("تمت إضافة الطالب بنجاح");
     }
 }
 
-// تحضير عشوائي للتاريخ الحالي - المعدل للطلاب المتميزين
+// تحضير عشوائي للتاريخ الحالي
 function randomAttendance() {
     if (!adminActive) {
         alert('يجب تفعيل وضع الإدارة أولا');
         return;
     }
     
-    const confirmAction = confirm("هل تريد تعيين الحضور عشوائيا لجميع الطلاب للتاريخ الحالي؟\n\nملاحظة: سيتم وضع ✓ لكل الخيارات للطلاب المتميزين (الذين لديهم نجمة ⭐)");
+    const confirmAction = confirm("هل تريد تعيين الحضور عشوائيا لجميع الطلاب للتاريخ الحالي؟");
     if (!confirmAction) return;
     
     let totalStudents = 0;
     let starredStudents = 0;
     let regularStudents = 0;
     
-    // الحصول على جميع الصفوف
     const classSections = document.querySelectorAll('.class-section');
     
     classSections.forEach(section => {
         const rows = section.querySelectorAll('tbody tr');
         rows.forEach(row => {
             totalStudents++;
-            
-            // التحقق مما إذا كان الطالب لديه نجمة (⭐)
             const starCell = row.querySelector('.star-cell');
             const hasStar = starCell && starCell.innerHTML === "⭐";
-            
-            // الحصول على جميع خلايا التقييم (الحضور، الواجبات، المشاريع، التطبيقات، المشاركة)
             const attendanceCells = row.querySelectorAll('td[onclick="toggle(this)"]');
             
             attendanceCells.forEach(cell => {
                 if (hasStar) {
-                    // إذا كان الطالب لديه نجمة، ضع ✓ في كل الخيارات
                     cell.innerHTML = "✔";
                     cell.classList.remove('absent');
                     cell.classList.add('present');
                     starredStudents++;
                 } else {
-                    // إذا لم يكن لديه نجمة، ضع عشوائياً
                     cell.innerHTML = Math.random() > 0.3 ? "✔" : "✖";
                     if (cell.innerHTML === "✔") {
                         cell.classList.remove('absent');
@@ -1632,100 +1959,7 @@ function randomAttendance() {
     });
     
     saveAttendanceData();
-    alert(`تم تعيين الحضور عشوائيا بنجاح للتاريخ الحالي!\n\nالإحصائيات:\n- إجمالي الطلاب: ${totalStudents}\n- الطلاب المتميزين (حصلوا على ✓ في كل الخيارات): ${starredStudents/5}\n- الطلاب العاديين (حصلوا على تقييم عشوائي): ${regularStudents/5}`);
-}
-
-// تحضير عشوائي للفترة المحددة
-function randomAttendanceForPeriod() {
-    if (!adminActive) {
-        alert('يجب تفعيل وضع الإدارة أولا');
-        return;
-    }
-    
-    // التحقق من وجود فترة محددة
-    if (!periodSettings.startDate || !periodSettings.endDate) {
-        alert("يجب تحديد فترة زمنية أولاً!\n\nيرجى تحديد تاريخ البداية وتاريخ النهاية في قسم 'التحضير العشوائي لفترة محددة'");
-        return;
-    }
-    
-    const startDate = new Date(periodSettings.startDate);
-    const endDate = new Date(periodSettings.endDate);
-    
-    // التحقق من صحة الفترة
-    if (startDate > endDate) {
-        alert("تاريخ البداية يجب أن يكون قبل تاريخ النهاية!");
-        return;
-    }
-    
-    // حساب عدد الأيام
-    const timeDiff = endDate.getTime() - startDate.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-    
-    const confirmMessage = `هل تريد تعيين الحضور عشوائيا للفترة المحددة؟\n\n` +
-                          `الفترة: من ${getShortGregorianDate(startDate)} إلى ${getShortGregorianDate(endDate)}\n` +
-                          `عدد الأيام: ${daysDiff}\n\n` +
-                          `ملاحظة: سيتم وضع ✓ لكل الخيارات للطلاب المتميزين (الذين لديهم نجمة ⭐)`;
-    
-    const confirmAction = confirm(confirmMessage);
-    if (!confirmAction) return;
-    
-    let totalDaysProcessed = 0;
-    let totalStudentsProcessed = 0;
-    let totalStarredStudents = 0;
-    let totalRegularStudents = 0;
-    
-    // الانتقال عبر كل يوم في الفترة
-    const currentDate = new Date(startDate);
-    
-    while (currentDate <= endDate) {
-        // إنشاء تحضير عشوائي لهذا اليوم
-        const attendanceData = generateRandomAttendanceForDate(currentDate);
-        const dateKey = currentDate.toISOString().split('T')[0];
-        
-        // حفظ بيانات اليوم
-        periodAttendanceData[dateKey] = attendanceData;
-        
-        // حساب الإحصائيات
-        let dayStudents = 0;
-        let dayStarred = 0;
-        
-        for (const className in attendanceData.classes) {
-            dayStudents += attendanceData.classes[className].stats.total;
-            dayStarred += attendanceData.classes[className].stats.starred;
-        }
-        
-        const dayRegular = dayStudents - dayStarred;
-        
-        // تحديث المجاميع
-        totalDaysProcessed++;
-        totalStudentsProcessed += dayStudents;
-        totalStarredStudents += dayStarred;
-        totalRegularStudents += dayRegular;
-        
-        // الانتقال إلى اليوم التالي
-        currentDate.setDate(currentDate.getDate() + 1);
-    }
-    
-    // حفظ بيانات الفترة
-    savePeriodAttendanceData();
-    
-    // حساب الإحصائيات
-    const avgStudentsPerDay = totalStudentsProcessed / totalDaysProcessed;
-    const avgStarredPerDay = totalStarredStudents / totalDaysProcessed;
-    const avgRegularPerDay = totalRegularStudents / totalDaysProcessed;
-    
-    // عرض تقرير النتائج
-    const resultMessage = `✅ تم إنشاء التحضير العشوائي للفترة المحددة بنجاح!\n\n` +
-                         `📅 الفترة: من ${getShortGregorianDate(startDate)} إلى ${getShortGregorianDate(endDate)}\n` +
-                         `📊 الإحصائيات:\n` +
-                         `   - عدد الأيام: ${totalDaysProcessed} يوم\n` +
-                         `   - إجمالي الطلاب المعالجين: ${totalStudentsProcessed} طالب\n` +
-                         `   - متوسط الطلاب في اليوم: ${avgStudentsPerDay.toFixed(1)} طالب\n` +
-                         `   - متوسط الطلاب المتميزين في اليوم: ${avgStarredPerDay.toFixed(1)} طالب\n` +
-                         `   - متوسط الطلاب العاديين في اليوم: ${avgRegularPerDay.toFixed(1)} طالب\n\n` +
-                         `💾 تم حفظ بيانات التحضير لكل يوم في النظام.`;
-    
-    alert(resultMessage);
+    alert(`تم تعيين الحضور عشوائيا بنجاح للتاريخ الحالي!\n\nالإحصائيات:\n- إجمالي الطلاب: ${totalStudents}`);
 }
 
 // نقل طالب
@@ -1797,7 +2031,7 @@ function showStatistics() {
         الغائبون: ${absentCount / 5} طالب
         الطلاب المتميزون: ${starCount} طالب
         نسبة الحضور: ${((presentCount / (presentCount + absentCount)) * 100).toFixed(1)}%
-        التاريخ الميلادي: ${getGregorianDateString(selectedDate)}
+        التاريخ الميلادي: ${getShortGregorianDate(selectedDate)}
         التاريخ الهجري: ${hijriDate.day} ${hijriDate.monthName} ${hijriDate.year}هـ
         ${document.getElementById('currentSemesterInfo').textContent}
     `;
@@ -1805,55 +2039,8 @@ function showStatistics() {
     alert(statsMessage);
 }
 
-// نسخ احتياطي للبيانات
-function backupData() {
-    if (!adminActive) {
-        alert('يجب تفعيل وضع الإدارة أولا');
-        return;
-    }
-    
-    const backup = {
-        studentsData: studentsData,
-        selectedDate: selectedDate.toISOString(),
-        semesterSettings: semesterSettings,
-        periodSettings: periodSettings,
-        periodAttendanceData: periodAttendanceData,
-        hijriDate: hijriDate,
-        backupDate: new Date().toISOString()
-    };
-    
-    localStorage.setItem('teacherTracker_backup', JSON.stringify(backup));
-    alert("تم إنشاء نسخة احتياطية بنجاح");
-}
-
-// استعادة نسخة احتياطية
-function loadBackup() {
-    if (!adminActive) {
-        alert('يجب تفعيل وضع الإدارة أولا');
-        return;
-    }
-    
-    const backup = localStorage.getItem('teacherTracker_backup');
-    if (!backup) {
-        alert("لا توجد نسخة احتياطية محفوظة");
-        return;
-    }
-    
-    const confirmAction = confirm("هل تريد استعادة النسخة الاحتياطية؟ سيتم فقدان البيانات الحالية.");
-    if (!confirmAction) return;
-    
-    try {
-        const backupData = JSON.parse(backup);
-        // في تطبيق حقيقي، ستقوم باستعادة البيانات من backupData
-        alert("تم استعادة النسخة الاحتياطية بنجاح");
-    } catch (error) {
-        alert("حدث خطأ في استعادة النسخة الاحتياطية");
-    }
-}
-
 // تصدير إلى Excel
 function exportToExcel() {
-    // الحصول على التاريخ الميلادي بصيغة صحيحة
     const gregorianDateForExcel = getShortGregorianDate(selectedDate);
     const hijriDateForExcel = `${convertToArabicNumbers(hijriDate.day)} ${hijriDate.monthName} ${convertToArabicNumbers(hijriDate.year)}هـ`;
     
@@ -1905,13 +2092,11 @@ function printPage() {
 function filterByStatus(status) {
     currentFilter = status;
     
-    // تحديث أزرار الفلتر
     document.querySelectorAll('.status-filter button').forEach(btn => {
         btn.classList.remove('active');
     });
     event.target.classList.add('active');
     
-    // تحديد الصفوف المراد عرضها
     let classSections = document.querySelectorAll('.class-section');
     if (currentClass !== 'all') {
         classSections = [document.getElementById(`class-${currentClass}`)];
